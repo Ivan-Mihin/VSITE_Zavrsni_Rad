@@ -1,6 +1,9 @@
 #pragma once
 #include <vector>
-#include "BoardInformation.h"
+
+const int WIDTH = 12;
+const int HEIGHT = 25;
+const int FRAMERATE = 60;
 
 class Board
 {

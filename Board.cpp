@@ -1,4 +1,4 @@
-#include "Board.h"
+#include "board.h"
 
 Board::Board() : width(WIDTH), height(HEIGHT)
 {

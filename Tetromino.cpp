@@ -1,4 +1,4 @@
-#include "Tetromino.h"
+#include "tetromino.h"
 
 // Tetromino Class Implementation
 void Tetromino::setShape(TetrominoShape shape) 
