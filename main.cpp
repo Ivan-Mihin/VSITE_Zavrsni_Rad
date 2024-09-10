@@ -1,7 +1,10 @@
 #include <iostream>
+#include <string>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/Audio.hpp>
+
+#include "tetromino.h"
 
 using namespace sf;
 using namespace std;
@@ -12,7 +15,7 @@ int main()
 
     while (window.isOpen())
     {
-        sf::Event event;
+        Event event;
         while (window.pollEvent(event))
         {
             if (event.type == Event::Closed)

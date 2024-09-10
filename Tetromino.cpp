@@ -1,6 +1,5 @@
 #include "tetromino.h"
 
-// Tetromino Class Implementation
 void Tetromino::setShape(TetrominoShape shape) 
 {
     this->shape = shape;
@@ -9,6 +8,11 @@ void Tetromino::setShape(TetrominoShape shape)
 void Tetromino::setShapeMatrix(const std::vector<std::vector<int>>& shapeMatrix) 
 {
     this->shapeMatrix = shapeMatrix;
+}
+
+void Tetromino::setColor(TetrominoColor color)
+{
+    this->color = color;
 }
 
 TetrominoShape Tetromino::getShape() const 
@@ -21,19 +25,11 @@ std::vector<std::vector<int>> Tetromino::getShapeMatrix() const
     return shapeMatrix;
 }
 
-void Tetromino::print() const 
+TetrominoColor Tetromino::getColor() const
 {
-    for (const auto& row : shapeMatrix) 
-    {
-        for (int cell : row) 
-        {
-            std::cout << (cell ? "#" : " ");
-        }
-        std::cout << std::endl;
-    }
+    return color;
 }
 
-// TetrominoBuilder Class Implementation
 void TetrominoBuilder::createNewTetromino() 
 {
     tetromino = new Tetromino();
@@ -49,7 +45,6 @@ void IShapeBuilder::setShape()
     tetromino->setShape(TetrominoShape::Shape_I);
 }
 
-// IShapeBuilder Implementation
 void IShapeBuilder::buildShapeMatrix() 
 {
     tetromino->setShapeMatrix({
@@ -60,12 +55,16 @@ void IShapeBuilder::buildShapeMatrix()
         });
 }
 
-void JShapeBuilder::setShape() 
+void IShapeBuilder::setColor()
 {
-    tetromino->setShape(TetrominoShape::Shape_L);
+    tetromino->setColor(TetrominoColor::Red);
 }
 
-// JShapeBuilder Implementation
+void JShapeBuilder::setShape() 
+{
+    tetromino->setShape(TetrominoShape::Shape_J);
+}
+
 void JShapeBuilder::buildShapeMatrix() 
 {
     tetromino->setShapeMatrix({
@@ -75,12 +74,16 @@ void JShapeBuilder::buildShapeMatrix()
         });
 }
 
+void JShapeBuilder::setColor()
+{
+    tetromino->setColor(TetrominoColor::Orange);
+}
+
 void LShapeBuilder::setShape() 
 {
     tetromino->setShape(TetrominoShape::Shape_L);
 }
 
-// LShapeBuilder Implementation
 void LShapeBuilder::buildShapeMatrix() 
 {
     tetromino->setShapeMatrix({
@@ -90,12 +93,16 @@ void LShapeBuilder::buildShapeMatrix()
         });
 }
 
+void LShapeBuilder::setColor()
+{
+    tetromino->setColor(TetrominoColor::Yellow);
+}
+
 void OShapeBuilder::setShape() 
 {
     tetromino->setShape(TetrominoShape::Shape_O);
 }
 
-// OShapeBuilder Implementation
 void OShapeBuilder::buildShapeMatrix() 
 {
     tetromino->setShapeMatrix({
@@ -104,12 +111,16 @@ void OShapeBuilder::buildShapeMatrix()
         });
 }
 
+void OShapeBuilder::setColor()
+{
+    tetromino->setColor(TetrominoColor::Green);
+}
+
 void SShapeBuilder::setShape() 
 {
     tetromino->setShape(TetrominoShape::Shape_S);
 }
 
-// SShapeBuilder Implementation
 void SShapeBuilder::buildShapeMatrix() 
 {
     tetromino->setShapeMatrix({
@@ -119,12 +130,16 @@ void SShapeBuilder::buildShapeMatrix()
         });
 }
 
+void SShapeBuilder::setColor()
+{
+    tetromino->setColor(TetrominoColor::Cyan);
+}
+
 void TShapeBuilder::setShape() 
 {
     tetromino->setShape(TetrominoShape::Shape_T);
 }
 
-// TShapeBuilder Implementation
 void TShapeBuilder::buildShapeMatrix() 
 {
     tetromino->setShapeMatrix({
@@ -134,12 +149,16 @@ void TShapeBuilder::buildShapeMatrix()
         });
 }
 
+void TShapeBuilder::setColor()
+{
+    tetromino->setColor(TetrominoColor::Blue);
+}
+
 void ZShapeBuilder::setShape() 
 {
     tetromino->setShape(TetrominoShape::Shape_Z);
 }
 
-// ZShapeBuilder Implementation
 void ZShapeBuilder::buildShapeMatrix() 
 {
     tetromino->setShapeMatrix({
@@ -149,11 +168,16 @@ void ZShapeBuilder::buildShapeMatrix()
         });
 }
 
-// TetrominoDirector Implementation
+void ZShapeBuilder::setColor()
+{
+    tetromino->setColor(TetrominoColor::Purple);
+}
+
 Tetromino* TetrominoDirector::createTetromino(TetrominoBuilder& builder) 
 {
     builder.createNewTetromino();
     builder.setShape();
     builder.buildShapeMatrix();
+    builder.setColor();
     return builder.getTetromino();
 }

@@ -3,7 +3,6 @@
 #include <vector>
 #include <iostream>
 
-// Enum for Tetromino Types
 enum class TetrominoShape
 {
     Shape_I,
@@ -15,31 +14,39 @@ enum class TetrominoShape
     Shape_Z
 };
 
-// Class to represent the Tetromino piece
+enum class TetrominoColor
+{
+    Red,
+    Orange,
+    Yellow,
+    Green,
+    Cyan,
+    Blue,
+    Purple,
+    Grey
+};
+
 class Tetromino {
 private:
     TetrominoShape shape;
-    std::vector<std::vector<int>> shapeMatrix;    
+    std::vector<std::vector<int>> shapeMatrix;
+    TetrominoColor color;
 
 public:
-    Tetromino();
-    ~Tetromino();
-
     TetrominoShape getShape() const;
     std::vector<std::vector<int>> getShapeMatrix() const;
+    TetrominoColor getColor() const;
 
     void setShape(TetrominoShape shape);
     void setShapeMatrix(const std::vector<std::vector<int>>& shapeMatrix);
-    void print() const; // To display the tetromino for testing/debugging purposes
+    void setColor(TetrominoColor color);
 };
 
-// Abstract Builder for Tetrominos
 class TetrominoBuilder {
 protected:
     Tetromino* tetromino;
 
 public:
-    TetrominoBuilder();
     virtual ~TetrominoBuilder() = default;
 
     void createNewTetromino();
@@ -47,80 +54,65 @@ public:
 
     virtual void setShape() = 0;
     virtual void buildShapeMatrix() = 0;
+    virtual void setColor() = 0;
 };
 
-// Concrete Builders for each type of Tetromino
 class IShapeBuilder : public TetrominoBuilder 
 {
 public:
-    IShapeBuilder();
-    ~IShapeBuilder();
-
     void setShape() override;
     void buildShapeMatrix() override; 
+    void setColor() override;
 };
 
 class JShapeBuilder : public TetrominoBuilder 
 {
 public:
-    JShapeBuilder();
-    ~JShapeBuilder();
-
     void setShape() override;
     void buildShapeMatrix() override;
+    void setColor() override;
 };
 
 class LShapeBuilder : public TetrominoBuilder 
 {
 public:
-    LShapeBuilder();
-    ~LShapeBuilder();
-
     void setShape() override;
     void buildShapeMatrix() override;
+    void setColor() override;
 };
 
 class OShapeBuilder : public TetrominoBuilder 
 {
 public:
-    OShapeBuilder();
-    ~OShapeBuilder();
-
     void setShape() override;
     void buildShapeMatrix() override;
+    void setColor() override;
 };
 
 class SShapeBuilder : public TetrominoBuilder 
 {
 public:
-    SShapeBuilder();
-    ~SShapeBuilder();
-
     void setShape() override;
     void buildShapeMatrix() override;
+    void setColor() override;
 };
 
 class TShapeBuilder : public TetrominoBuilder 
 {
 public:
-    TShapeBuilder();
-    ~TShapeBuilder();
-
     void setShape() override;
     void buildShapeMatrix() override;
+    void setColor() override;
 };
 
 class ZShapeBuilder : public TetrominoBuilder 
 {
 public:
-    ZShapeBuilder();
-    ~ZShapeBuilder();
-
     void setShape() override;
     void buildShapeMatrix() override;
+    void setColor() override;
 };
 
-// Director Class
 class TetrominoDirector 
 {
 public:
