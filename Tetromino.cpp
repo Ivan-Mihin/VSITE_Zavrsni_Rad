@@ -181,3 +181,57 @@ Tetromino* TetrominoDirector::createTetromino(TetrominoBuilder& builder)
     builder.setColor();
     return builder.getTetromino();
 }
+
+Tetromino* TetrominoDirector::createRandomTetromino() 
+{
+    Tetromino* tetromino = nullptr;
+    int randomNumber = rand() % 7;
+
+    switch (randomNumber) 
+    {
+        case 0: 
+        {
+            IShapeBuilder iBuilder;
+            tetromino = createTetromino(iBuilder);
+            break;
+        }
+        case 1: 
+        {
+            JShapeBuilder jBuilder;
+            tetromino = createTetromino(jBuilder);
+            break;
+        }
+        case 2: 
+        {
+            LShapeBuilder lBuilder;
+            tetromino = createTetromino(lBuilder);
+            break;
+        }
+        case 3: 
+        {
+            OShapeBuilder oBuilder;
+            tetromino = createTetromino(oBuilder);
+            break;
+        }
+        case 4: 
+        {
+            SShapeBuilder sBuilder;
+            tetromino = createTetromino(sBuilder);
+            break;
+        }
+        case 5: 
+        {
+            TShapeBuilder tBuilder;
+            tetromino = createTetromino(tBuilder);
+            break;
+        }
+        case 6: 
+        {
+            ZShapeBuilder zBuilder;
+            tetromino = createTetromino(zBuilder);
+            break;
+        }
+    }
+
+    return tetromino;
+}

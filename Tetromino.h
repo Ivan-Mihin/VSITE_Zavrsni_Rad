@@ -117,4 +117,5 @@ class TetrominoDirector
 {
 public:
     Tetromino* createTetromino(TetrominoBuilder& builder);
+    Tetromino* createRandomTetromino();
 };
