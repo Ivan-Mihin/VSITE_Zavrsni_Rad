@@ -36,7 +36,8 @@ std::vector<std::vector<int>> Tetromino::getShapeMatrix() const
     return shapeMatrix;
 }
 
-std::vector<Square> Tetromino::getSquares() const {
+std::vector<Square>& Tetromino::getSquares()
+{
     return squares;
 }
 

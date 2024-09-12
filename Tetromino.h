@@ -53,7 +53,7 @@ private:
 public:
     TetrominoShape getShape() const;
     std::vector<std::vector<int>> getShapeMatrix() const;
-    std::vector<Square> getSquares() const;
+    std::vector<Square>& getSquares();
     TetrominoColor getColor() const;
 
     void setShape(TetrominoShape shape);
