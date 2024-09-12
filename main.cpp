@@ -36,7 +36,7 @@ int main()
     boardTexture.loadFromFile("Resources/Sprites/board.png");
     Sprite boardSprite(boardTexture);
 
-    // create falling tetromino
+    // Create falling tetromino
     TetrominoDirector director;
     Tetromino* fallingTetromino = director.createRandomTetromino();
 

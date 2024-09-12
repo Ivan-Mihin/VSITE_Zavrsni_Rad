@@ -26,23 +26,38 @@ enum class TetrominoColor
     Grey
 };
 
-class Tetromino {
+class Square
+{
+private:
+    int x;
+    int y;
+
+public:
+    Square(int x, int y);
+};
+
+class Tetromino 
+{
 private:
     TetrominoShape shape;
     std::vector<std::vector<int>> shapeMatrix;
+    std::vector<Square> squares;
     TetrominoColor color;
 
 public:
     TetrominoShape getShape() const;
     std::vector<std::vector<int>> getShapeMatrix() const;
+    std::vector<Square> getSquares() const;
     TetrominoColor getColor() const;
 
     void setShape(TetrominoShape shape);
     void setShapeMatrix(const std::vector<std::vector<int>>& shapeMatrix);
+    void setSquares(const std::vector<Square>& squares);
     void setColor(TetrominoColor color);
 };
 
-class TetrominoBuilder {
+class TetrominoBuilder 
+{
 protected:
     Tetromino* tetromino;
 
@@ -51,6 +66,7 @@ public:
 
     void createNewTetromino();
     Tetromino* getTetromino();
+    void buildSquares();
 
     virtual void setShape() = 0;
     virtual void buildShapeMatrix() = 0;

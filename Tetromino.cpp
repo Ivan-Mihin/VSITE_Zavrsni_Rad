@@ -1,5 +1,30 @@
 #include "tetromino.h"
 
+Square::Square(int x, int y)
+{
+    this->x = x;
+    this->y = y;
+}
+
+TetrominoShape Tetromino::getShape() const
+{
+    return shape;
+}
+
+std::vector<std::vector<int>> Tetromino::getShapeMatrix() const
+{
+    return shapeMatrix;
+}
+
+std::vector<Square> Tetromino::getSquares() const {
+    return squares;
+}
+
+TetrominoColor Tetromino::getColor() const
+{
+    return color;
+}
+
 void Tetromino::setShape(TetrominoShape shape) 
 {
     this->shape = shape;
@@ -10,24 +35,13 @@ void Tetromino::setShapeMatrix(const std::vector<std::vector<int>>& shapeMatrix)
     this->shapeMatrix = shapeMatrix;
 }
 
+void Tetromino::setSquares(const std::vector<Square>& squares) {
+    this->squares = squares;
+}
+
 void Tetromino::setColor(TetrominoColor color)
 {
     this->color = color;
-}
-
-TetrominoShape Tetromino::getShape() const 
-{
-    return shape;
-}
-
-std::vector<std::vector<int>> Tetromino::getShapeMatrix() const 
-{
-    return shapeMatrix;
-}
-
-TetrominoColor Tetromino::getColor() const
-{
-    return color;
 }
 
 void TetrominoBuilder::createNewTetromino() 
@@ -38,6 +52,25 @@ void TetrominoBuilder::createNewTetromino()
 Tetromino* TetrominoBuilder::getTetromino() 
 {
     return tetromino;
+}
+
+void TetrominoBuilder::buildSquares() 
+{
+    std::vector<Square> squares;
+    std::vector<std::vector<int>> shapeMatrix = tetromino->getShapeMatrix();
+
+    for (int i = 0; i < shapeMatrix.size(); ++i) 
+    {
+        for (int j = 0; j < shapeMatrix[i].size(); ++j) 
+        {
+            if (shapeMatrix[i][j] == 1) 
+            {
+                squares.push_back(Square(j, i));
+            }
+        }
+    }
+
+    tetromino->setSquares(squares);
 }
 
 void IShapeBuilder::setShape() 
@@ -193,42 +226,49 @@ Tetromino* TetrominoDirector::createRandomTetromino()
         {
             IShapeBuilder iBuilder;
             tetromino = createTetromino(iBuilder);
+            iBuilder.buildSquares();
             break;
         }
         case 1: 
         {
             JShapeBuilder jBuilder;
             tetromino = createTetromino(jBuilder);
+            jBuilder.buildSquares();
             break;
         }
         case 2: 
         {
             LShapeBuilder lBuilder;
             tetromino = createTetromino(lBuilder);
+            lBuilder.buildSquares();
             break;
         }
         case 3: 
         {
             OShapeBuilder oBuilder;
             tetromino = createTetromino(oBuilder);
+            oBuilder.buildSquares();
             break;
         }
         case 4: 
         {
             SShapeBuilder sBuilder;
             tetromino = createTetromino(sBuilder);
+            sBuilder.buildSquares();
             break;
         }
         case 5: 
         {
             TShapeBuilder tBuilder;
             tetromino = createTetromino(tBuilder);
+            tBuilder.buildSquares();
             break;
         }
         case 6: 
         {
             ZShapeBuilder zBuilder;
             tetromino = createTetromino(zBuilder);
+            zBuilder.buildSquares();
             break;
         }
     }
