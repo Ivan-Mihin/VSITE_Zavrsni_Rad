@@ -140,13 +140,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="board.cpp" />
-    <ClCompile Include="command.cpp" />
+    <ClCompile Include="user_input.cpp" />
+    <ClCompile Include="game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="tetromino.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="board.h" />
-    <ClInclude Include="command.h" />
+    <ClInclude Include="user_input.h" />
+    <ClInclude Include="game.h" />
+    <ClInclude Include="state.h" />
+    <ClInclude Include="state_game_over.h" />
+    <ClInclude Include="state_menu.h" />
+    <ClInclude Include="state_paused.h" />
+    <ClInclude Include="state_playing.h" />
     <ClInclude Include="tetromino.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

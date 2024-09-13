@@ -5,7 +5,7 @@
 #include <SFML/Audio.hpp>
 
 #include "board.h"
-#include "command.h"
+#include "user_input.h"
 #include "tetromino.h"
 
 using namespace sf;
