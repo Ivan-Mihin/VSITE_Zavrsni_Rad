@@ -1,9 +1,9 @@
 #include "game.h"
-#include "state_menu.h"
+#include "state_main_menu.h"
 
 Game::Game() : window(VideoMode(800, 800), "Tetris!")
 {
-    changeState(new MenuState());
+    changeState(new MainMenuState());
 }
 
 Game* Game::instance = nullptr;
