@@ -5,6 +5,7 @@
 #include <SFML/Audio.hpp>
 
 #include "board.h"
+#include "command.h"
 #include "tetromino.h"
 
 using namespace sf;
@@ -43,11 +44,11 @@ int main()
     TetrominoDirector director;
     Tetromino* fallingTetromino = director.createRandomTetromino();
 
-    bool gameInFocus = true;
-    bool keyLeftNotYetPressed = true;
-    bool keyRightNotYetPressed = true;
-    bool moveLeft = false;
-    bool moveRight = false;
+    CommandMoveLeft moveLeftCmd(fallingTetromino);
+    CommandMoveRight moveRightCmd(fallingTetromino);
+
+    // Create the InputHandler
+    InputHandler inputHandler(&moveLeftCmd, &moveRightCmd);
 
     vector<Tetromino*> inventory;
 
@@ -61,52 +62,10 @@ int main()
         Event event;
         while (window.pollEvent(event))
         {
-            if (event.type == Event::GainedFocus) gameInFocus = true;
-            if (event.type == Event::LostFocus) gameInFocus = false;
-
-            if (gameInFocus && event.type == Event::KeyReleased) 
-            {
-                if (event.key.code == Keyboard::Left) keyLeftNotYetPressed = true;
-                if (event.key.code == Keyboard::Right) keyRightNotYetPressed = true;
-            }
+            inputHandler.handleInput(event);
 
             if (event.type == Event::Closed)
                 window.close();
-        }
-
-        if (gameInFocus) 
-        {
-            if (Keyboard::isKeyPressed(Keyboard::Left) && keyLeftNotYetPressed) 
-            {
-                keyLeftNotYetPressed = false;
-                moveLeft = true;
-            }
-
-            if (Keyboard::isKeyPressed(Keyboard::Right) && keyRightNotYetPressed)
-            {
-                keyRightNotYetPressed = false;
-                moveRight = true;
-            }
-
-            if (moveLeft)
-            {
-                for (int i = 0; i < 4; i++)
-                {
-                    fallingTetromino->getSquares()[i].setX(fallingTetromino->getSquares()[i].getX() - 1);
-                }
-
-                moveLeft = false;
-            }
-
-            if (moveRight) 
-            {
-                for (int i = 0; i < 4; i++) 
-                {
-                    fallingTetromino->getSquares()[i].setX(fallingTetromino->getSquares()[i].getX() + 1);
-                }
-
-                moveRight = false;
-            }   
         }
 
         window.clear(Color::Black);
@@ -167,6 +126,11 @@ int main()
     }
 
     delete fallingTetromino;
+
+    for (int i = 0; i < inventory.size(); i++)
+    {
+        delete inventory[i];
+    }
 
     return 0;
 }

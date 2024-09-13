@@ -65,6 +65,22 @@ void Tetromino::setColor(TetrominoColor color)
     this->color = color;
 }
 
+void Tetromino::moveLeft() 
+{
+    for (int i = 0; i < 4; i++)
+    {
+        squares[i].setX(squares[i].getX() - 1);
+    }
+}
+
+void Tetromino::moveRight() 
+{
+    for (int i = 0; i < 4; i++) 
+    {
+        squares[i].setX(squares[i].getX() + 1);
+    }
+}
+
 void TetrominoBuilder::createNewTetromino() 
 {
     tetromino = new Tetromino();
