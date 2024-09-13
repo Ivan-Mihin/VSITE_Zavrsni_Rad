@@ -1,5 +1,5 @@
 #include <SFML/Window.hpp>
-#include "command.h"
+#include "user_input.h"
 
 void CommandMoveLeft::execute()
 {
