@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="board.cpp" />
+    <ClCompile Include="main_menu.cpp" />
     <ClCompile Include="user_input.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="main.cpp" />
@@ -151,7 +152,7 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="state.h" />
     <ClInclude Include="state_game_over.h" />
-    <ClInclude Include="state_menu.h" />
+    <ClInclude Include="state_main_menu.h" />
     <ClInclude Include="state_paused.h" />
     <ClInclude Include="state_playing.h" />
     <ClInclude Include="tetromino.h" />
