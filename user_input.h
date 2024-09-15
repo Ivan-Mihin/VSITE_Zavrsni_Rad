@@ -1,4 +1,5 @@
 #pragma once
+#include <SFML/Graphics.hpp>
 #include "tetromino.h"
 
 class Command 
@@ -25,6 +26,23 @@ private:
 
 public:
     CommandMoveRight(Tetromino* t) : tetromino(*t) {}
+    void execute() override;
+};
+
+class CommandStartGame : public Command
+{
+public:
+    CommandStartGame(){}
+    void execute() override;
+};
+
+class CommandExitGame : public Command
+{
+private:
+    sf::RenderWindow* window;
+
+public:
+    CommandExitGame(sf::RenderWindow* window) : window(window) {}
     void execute() override;
 };
 
