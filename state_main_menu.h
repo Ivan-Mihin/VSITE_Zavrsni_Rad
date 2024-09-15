@@ -1,28 +1,30 @@
 #pragma once
-
 #include <SFML/Graphics.hpp>
-
 #include "state.h"
-#include "state_playing.h"
-
-using namespace sf;
+#include "user_input.h"
 
 class MainMenuState : public State 
 {
 private:
-    Font font;
-    Text startText;
-    FloatRect startTextBounds;
-    Clock clock;
-    Texture mainMenuBackground;
-    Texture tetrisLogo;
-    Sprite mainMenuBackgroundSprite;
-    Sprite tetrisLogoSprite;
+    sf::Font font;
+    sf::Text startText;
+    sf::FloatRect startTextBounds;
+
+    sf::Clock clock;
+
+    sf::Texture mainMenuBackground;
+    sf::Sprite mainMenuBackgroundSprite;
+
+    sf::Texture tetrisLogo;
+    sf::Sprite tetrisLogoSprite;
+
+    CommandStartGame* commandStartGame;
+    CommandExitGame* commandExitGame;
 
 public:
-    MainMenuState();
+    MainMenuState(CommandStartGame* commandStartGame, CommandExitGame* commandExitGame);
 
-    void handleInput(RenderWindow& window) override;
+    void handleInput(sf::Event& event) override;
     void update(float deltaTime) override;
-    void render(RenderWindow& window) override;
+    void render(sf::RenderWindow& window) override;
 };

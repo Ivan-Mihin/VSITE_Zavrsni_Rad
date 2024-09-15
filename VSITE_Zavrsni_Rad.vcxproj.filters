@@ -21,7 +21,7 @@
     <ClCompile Include="tetromino.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="board.cpp">
+    <ClCompile Include="tetris.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="user_input.cpp">
@@ -30,7 +30,10 @@
     <ClCompile Include="game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main_menu.cpp">
+    <ClCompile Include="state_main_menu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="state_playing.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -38,7 +41,7 @@
     <ClInclude Include="tetromino.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="board.h">
+    <ClInclude Include="tetris.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="user_input.h">

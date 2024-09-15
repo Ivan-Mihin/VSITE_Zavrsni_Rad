@@ -139,15 +139,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="board.cpp" />
-    <ClCompile Include="main_menu.cpp" />
+    <ClCompile Include="state_playing.cpp" />
+    <ClCompile Include="tetris.cpp" />
+    <ClCompile Include="state_main_menu.cpp" />
     <ClCompile Include="user_input.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="tetromino.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="board.h" />
+    <ClInclude Include="tetris.h" />
     <ClInclude Include="user_input.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="state.h" />

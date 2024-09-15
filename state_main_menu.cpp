@@ -1,11 +1,7 @@
-#include <cmath>
-#include <SFML/Window.hpp>
-
 #include "game.h"
 #include "state_main_menu.h"
-#include "state_playing.h"
 
-MainMenuState::MainMenuState() 
+MainMenuState::MainMenuState(CommandStartGame* commandStartGame, CommandExitGame* commandExitGame) : commandStartGame(commandStartGame) , commandExitGame(commandExitGame)
 {
     font.loadFromFile("Resources/Fonts/BaiJamjuree-Regular.ttf");
 
@@ -26,11 +22,18 @@ MainMenuState::MainMenuState()
     startText.setPosition(400, 600);
 }
 
-void MainMenuState::handleInput(sf::RenderWindow& window)
+void MainMenuState::handleInput(sf::Event& event)
 {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) 
+    if (event.type == sf::Event::KeyPressed)
     {
-        //Game::getInstance().changeState(new PlayingState());
+        if (event.key.code == sf::Keyboard::Enter)
+        {
+            commandStartGame->execute();
+        }
+        else if (event.key.code == sf::Keyboard::Escape)
+        {
+            commandExitGame->execute();
+        }
     }
 }
 

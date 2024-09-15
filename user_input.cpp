@@ -1,4 +1,6 @@
 #include <SFML/Window.hpp>
+#include "game.h"
+#include "state_playing.h"
 #include "user_input.h"
 
 void CommandMoveLeft::execute()
@@ -9,6 +11,16 @@ void CommandMoveLeft::execute()
 void CommandMoveRight::execute()
 {
     tetromino.moveRight();
+}
+
+void CommandExitGame::execute()
+{
+    window->close();
+}
+
+void CommandStartGame::execute()
+{
+    Game::getInstance().changeState(new PlayingState());
 }
 
 void InputHandler::handleInput(sf::Event& event) 

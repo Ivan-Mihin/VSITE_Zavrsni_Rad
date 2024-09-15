@@ -1,7 +1,5 @@
 #pragma once
-
 #include <vector>
-#include <iostream>
 
 enum class TetrominoShape
 {
@@ -60,7 +58,6 @@ public:
     void setShapeMatrix(const std::vector<std::vector<int>>& shapeMatrix);
     void setSquares(const std::vector<Square>& squares);
     void setColor(TetrominoColor color);
-
     void moveLeft();
     void moveRight();
 };

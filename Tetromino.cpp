@@ -56,7 +56,8 @@ void Tetromino::setShapeMatrix(const std::vector<std::vector<int>>& shapeMatrix)
     this->shapeMatrix = shapeMatrix;
 }
 
-void Tetromino::setSquares(const std::vector<Square>& squares) {
+void Tetromino::setSquares(const std::vector<Square>& squares) 
+{
     this->squares = squares;
 }
 
