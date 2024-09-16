@@ -1,8 +1,9 @@
 #include "tetris.h"
+#include "user_input.h"
 
 void Tetris::initialize()
 {
-	board.assign(BOARD_HEIGHT, std::vector<int>(BOARD_WIDTH, 0));
+	board.assign(BOARD_ROWS, std::vector<int>(BOARD_COLUMNS, 0));
 
 	fallingTetromino = director.createRandomTetromino();
 
@@ -13,7 +14,7 @@ void Tetris::initialize()
 
     commandMoveLeft = new CommandMoveLeft(fallingTetromino);
     commandMoveRight = new CommandMoveRight(fallingTetromino);
-    inputHandler = new InputHandler(commandMoveLeft, commandMoveRight);
+    commandMoveDown = new CommandMoveDown(fallingTetromino);
 
     tetrominoTexture.loadFromFile("Resources/Sprites/tetromino.png");
     tetrominoSprite.setTexture(tetrominoTexture);
@@ -26,16 +27,124 @@ void Tetris::initialize()
     boardFrame.setPosition(210, 15);
     boardFrame.setSize(sf::Vector2f(380, 770));
     boardFrame.setFillColor(sf::Color::White);
+
+    setTetrominoStartingPosition(board, fallingTetromino->getShapeMatrix(), 0, 4);
+
+    clock.restart();
+    fallInterval = 0.5f;
+}
+
+void Tetris::setTetrominoStartingPosition(std::vector<std::vector<int>> grid, std::vector<std::vector<int>> shapeMatrix, int startRow, int startColumn)
+{
+    std::vector<Square> squares;
+
+    for (int i = 0; i < fallingTetromino->getShapeMatrix().size(); ++i)
+    {
+        for (int j = 0; j < fallingTetromino->getShapeMatrix()[i].size(); ++j)
+        {
+            if (fallingTetromino->getShapeMatrix()[i][j] == 1)
+            {
+                if (fallingTetromino->getShape() == TetrominoShape::Shape_O)
+                {
+                    squares.push_back(Square(j + startColumn + 1, i + startRow));
+                }
+                else
+                {
+                    squares.push_back(Square(j + startColumn, i + startRow));
+                }
+            }
+        }
+    }
+
+    fallingTetromino->setSquares(squares);
+}
+
+bool Tetris::isValidPosition(std::vector<Square> nextPosition)
+{
+    for (int i = 0; i < 4; i++)
+    {
+        if (nextPosition[i].getX() < 0 || nextPosition[i].getX() >= BOARD_COLUMNS || nextPosition[i].getY() >= BOARD_ROWS)
+        {
+            return false;
+        }
+        else if (board[nextPosition[i].getY()][nextPosition[i].getX()])
+        {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 void Tetris::handleInput(sf::Event event)
 {
-    inputHandler->handleInput(event);
+    if (event.type == sf::Event::KeyPressed)
+    {
+        switch (event.key.code)
+        {
+        case sf::Keyboard::Left:
+        {
+            std::vector<Square> nextPosition;
+            nextPosition = fallingTetromino->getSquares();
+
+            for (int i = 0; i < 4; i++)
+            {
+                nextPosition[i].setX(fallingTetromino->getSquares()[i].getX() - 1);
+            }
+
+            if (isValidPosition(nextPosition))
+            {
+                commandMoveLeft->execute();
+            }
+
+            break;
+        }
+        case sf::Keyboard::Right:
+        {
+            std::vector<Square> nextPosition;
+            nextPosition = fallingTetromino->getSquares();
+
+            for (int i = 0; i < 4; i++)
+            {
+                nextPosition[i].setX(fallingTetromino->getSquares()[i].getX() + 1);
+            }
+
+            if (isValidPosition(nextPosition))
+            {
+                commandMoveRight->execute();
+            }
+
+            break;
+        }
+        default:
+            break;
+        }
+    }
 }
 
 void Tetris::update(float deltaTime)
 {
+    if (clock.getElapsedTime().asSeconds() >= fallInterval)
+    {
+        std::vector<Square> nextPosition;
+        nextPosition = fallingTetromino->getSquares();
 
+        for (int i = 0; i < 4; i++)
+        {
+            nextPosition[i].setY(fallingTetromino->getSquares()[i].getY() + 1);
+        }
+
+        if (isValidPosition(nextPosition))
+        {
+            commandMoveDown->execute();
+        }
+        else
+        {
+
+        }
+
+        clock.restart();
+    }
 }
 
 void Tetris::render(sf::RenderWindow& window)

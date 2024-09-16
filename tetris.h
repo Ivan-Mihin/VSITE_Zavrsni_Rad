@@ -7,9 +7,8 @@
 class Tetris
 {
 private:
-	static const int BOARD_WIDTH = 12;
-	static const int BOARD_HEIGHT = 25;
-	static const int FRAMERATE = 60;
+	static const int BOARD_ROWS = 25;
+	static const int BOARD_COLUMNS = 12;
 	static const int TEXTURE_SIZE = 30;
 
 	std::vector<std::vector<int>> board;
@@ -26,17 +25,16 @@ private:
 	sf::RectangleShape boardFrame;
 
 	sf::Clock clock;
+	float fallInterval;
 
 	CommandMoveLeft* commandMoveLeft;
 	CommandMoveRight* commandMoveRight;
-	InputHandler* inputHandler;
+	CommandMoveDown* commandMoveDown;
 	
 public:
 	void initialize();
-	bool isValidMove(Tetromino* fallingTetromino, std::vector<std::vector<int>> newPosition);
-	void lockPiece();
-	void clearLines();
-	bool isGameOver();
+	void setTetrominoStartingPosition(std::vector<std::vector<int>> grid, std::vector<std::vector<int>> shapeMatrix, int startRow, int startColumn);
+	bool isValidPosition(std::vector<Square> nextPosition);
 
 	void handleInput(sf::Event event);
 	void update(float deltaTime);
