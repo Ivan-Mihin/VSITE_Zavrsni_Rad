@@ -1,5 +1,4 @@
 #include "tetris.h"
-#include "user_input.h"
 
 void Tetris::initialize()
 {
@@ -29,7 +28,6 @@ void Tetris::initialize()
     boardFrame.setPosition(210, 15);
     boardFrame.setSize(sf::Vector2f(380, 770));
     boardFrame.setFillColor(sf::Color::White);
-
 
     clock.restart();
     fallInterval = 0.5f;
@@ -113,6 +111,28 @@ void Tetris::resetFallingTetromino()
     commandMoveDown = new CommandMoveDown(fallingTetromino);
 }
 
+void Tetris::hardDrop()
+{
+    std::vector<Square> nextPosition = fallingTetromino->getSquares();
+
+    while (true)
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            nextPosition[i].setY(fallingTetromino->getSquares()[i].getY() + 1);
+        }
+
+        if (isValidPosition(nextPosition))
+        {
+            fallingTetromino->setSquares(nextPosition);
+        }
+        else
+        {
+            break;
+        }
+    }
+}
+
 void Tetris::handleInput(sf::Event event)
 {
     if (event.type == sf::Event::KeyPressed)
@@ -150,6 +170,15 @@ void Tetris::handleInput(sf::Event event)
             {
                 commandMoveRight->execute();
             }
+
+            break;
+        }
+        case sf::Keyboard::Down:
+        {
+            hardDrop();
+            lockTetromino();
+            clearFullLines();
+            resetFallingTetromino();
 
             break;
         }

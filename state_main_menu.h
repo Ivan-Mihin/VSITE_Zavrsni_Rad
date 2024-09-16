@@ -1,7 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "state.h"
-#include "user_input.h"
+#include "command.h"
 
 class MainMenuState : public State 
 {

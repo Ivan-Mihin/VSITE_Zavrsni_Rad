@@ -24,7 +24,7 @@
     <ClCompile Include="tetris.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="user_input.cpp">
+    <ClCompile Include="command.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="game.cpp">
@@ -44,7 +44,7 @@
     <ClInclude Include="tetris.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="user_input.h">
+    <ClInclude Include="command.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="state.h">

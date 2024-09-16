@@ -2,7 +2,7 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
 #include "tetromino.h"
-#include "user_input.h"
+#include "command.h"
 
 class Tetris
 {
@@ -42,6 +42,7 @@ public:
 	void lockTetromino();
 	void clearFullLines();
 	void resetFallingTetromino();
+	void hardDrop();
 
 	void handleInput(sf::Event event);
 	void update(float deltaTime);

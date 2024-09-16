@@ -1,4 +1,3 @@
-#include "game.h"
 #include "state_main_menu.h"
 
 MainMenuState::MainMenuState(CommandStartGame* commandStartGame, CommandExitGame* commandExitGame) : commandStartGame(commandStartGame) , commandExitGame(commandExitGame)

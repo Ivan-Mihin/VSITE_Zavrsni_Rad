@@ -142,14 +142,14 @@
     <ClCompile Include="state_playing.cpp" />
     <ClCompile Include="tetris.cpp" />
     <ClCompile Include="state_main_menu.cpp" />
-    <ClCompile Include="user_input.cpp" />
+    <ClCompile Include="command.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="tetromino.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tetris.h" />
-    <ClInclude Include="user_input.h" />
+    <ClInclude Include="command.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="state.h" />
     <ClInclude Include="state_game_over.h" />

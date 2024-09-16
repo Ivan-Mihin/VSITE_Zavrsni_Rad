@@ -1,7 +1,7 @@
 #include <SFML/Window.hpp>
 #include "game.h"
 #include "state_playing.h"
-#include "user_input.h"
+#include "command.h"
 
 void CommandMoveLeft::execute()
 {

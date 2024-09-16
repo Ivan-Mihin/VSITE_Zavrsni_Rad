@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "command.h"
 #include "state.h"
 #include "tetris.h"
 

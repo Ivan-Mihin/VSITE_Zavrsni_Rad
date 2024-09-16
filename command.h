@@ -15,7 +15,7 @@ private:
     Tetromino& tetromino;
 
 public:
-    CommandMoveLeft(Tetromino* t) : tetromino(*t) {}
+    CommandMoveLeft(Tetromino* tetromino) : tetromino(*tetromino) {}
     void execute() override;
 };
 
@@ -25,7 +25,7 @@ private:
     Tetromino& tetromino;
 
 public:
-    CommandMoveRight(Tetromino* t) : tetromino(*t) {}
+    CommandMoveRight(Tetromino* tetromino) : tetromino(*tetromino) {}
     void execute() override;
 };
 
@@ -35,7 +35,7 @@ private:
     Tetromino& tetromino;
 
 public:
-    CommandMoveDown(Tetromino* t) : tetromino(*t) {}
+    CommandMoveDown(Tetromino* tetromino) : tetromino(*tetromino) {}
     void execute() override;
 };
 
