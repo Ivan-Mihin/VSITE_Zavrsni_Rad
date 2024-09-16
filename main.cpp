@@ -9,10 +9,3 @@ int main()
 
     return 0;
 }
-
-//delete fallingTetromino;
-
-//for (int i = 0; i < inventory.size(); i++)
-//{
-//    delete inventory[i];
-//}

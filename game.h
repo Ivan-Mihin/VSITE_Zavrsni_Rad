@@ -12,6 +12,7 @@ private:
     static Game* instance;
     std::stack<State*> states;
     sf::RenderWindow window;
+
     CommandStartGame* commandStartGame;
     CommandExitGame* commandExitGame;
 

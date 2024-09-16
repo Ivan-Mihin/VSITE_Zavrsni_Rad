@@ -7,9 +7,10 @@ class PlayingState : public State
 {
 private:
     Tetris tetrisGame;
+    CommandExitGame* commandExitGame;
 
 public:
-    PlayingState();
+    PlayingState(CommandExitGame* commandExitGame);
 
     void handleInput(sf::Event& event) override;
     void update(float deltaTime) override;

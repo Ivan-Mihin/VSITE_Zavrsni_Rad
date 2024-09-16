@@ -25,5 +25,5 @@ void CommandExitGame::execute()
 
 void CommandStartGame::execute()
 {
-    Game::getInstance().changeState(new PlayingState());
+    Game::getInstance().changeState(new PlayingState(new CommandExitGame(&Game::getInstance().getWindow())));
 }

@@ -1,6 +1,6 @@
     #include "state_playing.h"
 
-PlayingState::PlayingState()
+PlayingState::PlayingState(CommandExitGame* commandExitGame) : commandExitGame(commandExitGame)
 {
     tetrisGame.initialize();
 }
@@ -12,6 +12,10 @@ void PlayingState::handleInput(sf::Event& event)
         if (event.key.code == sf::Keyboard::Enter)
         {
             //Game::getInstance().changeState(new PausedState());
+        }
+        else if (event.key.code == sf::Keyboard::Escape)
+        {
+            commandExitGame->execute();
         }
     }
 
