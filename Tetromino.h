@@ -60,6 +60,7 @@ public:
     void setColor(TetrominoColor color);
     void moveLeft();
     void moveRight();
+    void moveDown();
 };
 
 class TetrominoBuilder 

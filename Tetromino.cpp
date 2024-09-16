@@ -82,6 +82,14 @@ void Tetromino::moveRight()
     }
 }
 
+void Tetromino::moveDown()
+{
+    for (int i = 0; i < 4; i++)
+    {
+        squares[i].setY(squares[i].getY() + 1);
+    }
+}
+
 void TetrominoBuilder::createNewTetromino() 
 {
     tetromino = new Tetromino();

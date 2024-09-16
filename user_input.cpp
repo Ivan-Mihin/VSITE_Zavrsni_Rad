@@ -13,6 +13,11 @@ void CommandMoveRight::execute()
     tetromino.moveRight();
 }
 
+void CommandMoveDown::execute()
+{
+    tetromino.moveDown();
+}
+
 void CommandExitGame::execute()
 {
     window->close();
@@ -21,26 +26,4 @@ void CommandExitGame::execute()
 void CommandStartGame::execute()
 {
     Game::getInstance().changeState(new PlayingState());
-}
-
-void InputHandler::handleInput(sf::Event& event) 
-{
-    if (event.type == sf::Event::KeyPressed) 
-    {
-        switch (event.key.code) 
-        {
-        case sf::Keyboard::Left:
-        {
-            moveLeft->execute();
-            break;
-        }
-        case sf::Keyboard::Right:
-        {
-            moveRight->execute();
-            break;
-        }
-        default:
-            break;
-        }
-    }
 }

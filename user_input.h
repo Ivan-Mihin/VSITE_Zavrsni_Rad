@@ -29,6 +29,16 @@ public:
     void execute() override;
 };
 
+class CommandMoveDown : public Command
+{
+private:
+    Tetromino& tetromino;
+
+public:
+    CommandMoveDown(Tetromino* t) : tetromino(*t) {}
+    void execute() override;
+};
+
 class CommandStartGame : public Command
 {
 public:
@@ -44,16 +54,4 @@ private:
 public:
     CommandExitGame(sf::RenderWindow* window) : window(window) {}
     void execute() override;
-};
-
-class InputHandler 
-{
-private:
-    Command* moveLeft;
-    Command* moveRight;
-
-public:
-    InputHandler(Command* ml, Command* mr) : moveLeft(ml), moveRight(mr) {}
-
-    void handleInput(sf::Event& event);
 };
