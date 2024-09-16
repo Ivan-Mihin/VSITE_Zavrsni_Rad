@@ -3,25 +3,25 @@
 
 enum class TetrominoShape
 {
-    Shape_I,
-    Shape_J,
-    Shape_L,
-    Shape_O,
-    Shape_S,
-    Shape_T,
-    Shape_Z
+    Shape_I = 1,
+    Shape_J = 2,
+    Shape_L = 3,
+    Shape_O = 4,
+    Shape_S = 5,
+    Shape_T = 6,
+    Shape_Z = 7
 };
 
 enum class TetrominoColor
 {
-    Red,
-    Orange,
-    Yellow,
-    Green,
-    Cyan,
-    Blue,
-    Purple,
-    Grey
+    Grey = 0,
+    Red = 1,
+    Orange = 2,
+    Yellow = 3,
+    Green = 4,
+    Cyan = 5,
+    Blue = 6,
+    Purple = 7
 };
 
 class Square

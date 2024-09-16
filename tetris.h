@@ -27,14 +27,21 @@ private:
 	sf::Clock clock;
 	float fallInterval;
 
+	sf::Clock lockDelayTimer;
+	bool tetrominoCanLock;
+	float lockDelayDuration;
+
 	CommandMoveLeft* commandMoveLeft;
 	CommandMoveRight* commandMoveRight;
 	CommandMoveDown* commandMoveDown;
 	
 public:
 	void initialize();
-	void setTetrominoStartingPosition(std::vector<std::vector<int>> grid, std::vector<std::vector<int>> shapeMatrix, int startRow, int startColumn);
+	void setTetrominoStartingPosition(int startRow, int startColumn);
 	bool isValidPosition(std::vector<Square> nextPosition);
+	void lockTetromino();
+	void clearFullLines();
+	void resetFallingTetromino();
 
 	void handleInput(sf::Event event);
 	void update(float deltaTime);

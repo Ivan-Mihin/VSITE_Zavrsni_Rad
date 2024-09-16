@@ -12,6 +12,8 @@ void Tetris::initialize()
 		inventory.push_back(director.createRandomTetromino());
 	}
 
+    setTetrominoStartingPosition(0, 4);
+
     commandMoveLeft = new CommandMoveLeft(fallingTetromino);
     commandMoveRight = new CommandMoveRight(fallingTetromino);
     commandMoveDown = new CommandMoveDown(fallingTetromino);
@@ -28,13 +30,15 @@ void Tetris::initialize()
     boardFrame.setSize(sf::Vector2f(380, 770));
     boardFrame.setFillColor(sf::Color::White);
 
-    setTetrominoStartingPosition(board, fallingTetromino->getShapeMatrix(), 0, 4);
 
     clock.restart();
     fallInterval = 0.5f;
+
+    tetrominoCanLock = false;
+    lockDelayDuration = 1.0f;
 }
 
-void Tetris::setTetrominoStartingPosition(std::vector<std::vector<int>> grid, std::vector<std::vector<int>> shapeMatrix, int startRow, int startColumn)
+void Tetris::setTetrominoStartingPosition(int startRow, int startColumn)
 {
     std::vector<Square> squares;
 
@@ -74,6 +78,39 @@ bool Tetris::isValidPosition(std::vector<Square> nextPosition)
     }
 
     return true;
+}
+
+void Tetris::lockTetromino()
+{
+    for (int i = 0; i < fallingTetromino->getSquares().size(); ++i) 
+    {
+        int x = fallingTetromino->getSquares()[i].getX();
+        int y = fallingTetromino->getSquares()[i].getY();
+
+        board[y][x] = static_cast<int>(fallingTetromino->getColor());
+    }
+}
+
+void Tetris::clearFullLines()
+{
+
+}
+
+void Tetris::resetFallingTetromino()
+{
+    delete fallingTetromino;
+    delete commandMoveLeft;
+    delete commandMoveRight;
+    delete commandMoveDown;
+
+    fallingTetromino = inventory[0];
+    inventory.erase(inventory.begin());
+    inventory.push_back(director.createRandomTetromino());
+    setTetrominoStartingPosition(0, 4);
+
+    commandMoveLeft = new CommandMoveLeft(fallingTetromino);
+    commandMoveRight = new CommandMoveRight(fallingTetromino);
+    commandMoveDown = new CommandMoveDown(fallingTetromino);
 }
 
 void Tetris::handleInput(sf::Event event)
@@ -137,10 +174,26 @@ void Tetris::update(float deltaTime)
         if (isValidPosition(nextPosition))
         {
             commandMoveDown->execute();
+
+            tetrominoCanLock = false;
+            lockDelayTimer.restart();
         }
         else
         {
-
+            if (!tetrominoCanLock) 
+            {
+                tetrominoCanLock = true;
+                lockDelayTimer.restart();
+            }
+            else 
+            {
+                if (lockDelayTimer.getElapsedTime().asSeconds() >= lockDelayDuration) 
+                {
+                    lockTetromino();
+                    clearFullLines();
+                    resetFallingTetromino();
+                }
+            }
         }
 
         clock.restart();
@@ -189,6 +242,28 @@ void Tetris::render(sf::RenderWindow& window)
                     tetrominoSprite.setPosition(590 + offsetFromBoardX + TEXTURE_SIZE * x, 114 + offsetFromBoardY + (90 * index) + TEXTURE_SIZE * y);
                     window.draw(tetrominoSprite);
                 }
+            }
+        }
+    }
+
+    // Draw Placed Pieces
+    for (int i = 0; i < BOARD_ROWS; ++i) 
+    {
+        for (int j = 0; j < BOARD_COLUMNS; ++j) 
+        {
+            // Only draw non-empty cells
+            if (board[i][j] != 0) {
+                // Create a rectangle for each block
+                sf::RectangleShape block(sf::Vector2f(TEXTURE_SIZE, TEXTURE_SIZE));
+
+                // Set the block's position on the screen
+                tetrominoSprite.setPosition(220 + j * TEXTURE_SIZE, 25 + i * TEXTURE_SIZE);
+
+                // Set the block's color based on the value in the board
+                tetrominoSprite.setTextureRect(sf::IntRect(board[i][j] * TEXTURE_SIZE, 0, TEXTURE_SIZE, TEXTURE_SIZE));
+                
+                // Draw the block
+                window.draw(tetrominoSprite);
             }
         }
     }
