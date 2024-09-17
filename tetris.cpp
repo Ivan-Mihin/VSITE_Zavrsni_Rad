@@ -31,7 +31,7 @@ void Tetris::initialize()
     boardFrame.setFillColor(sf::Color::White);
 
     clock.restart();
-    fallInterval = 0.5f;
+    fallInterval = 1.5f;
 
     tetrominoCanLock = false;
     lockDelayDuration = 1.0f;
@@ -178,7 +178,16 @@ void Tetris::handleInput(sf::Event event)
         }
         case sf::Keyboard::Up:
         {
-            commandRotate->execute();
+            Tetromino* temporaryTetromino = new Tetromino(*fallingTetromino);
+            CommandRotate* temporaryCommandRotate = new CommandRotate(temporaryTetromino);
+
+            temporaryCommandRotate->execute();
+
+            if (isValidPosition(temporaryTetromino->getSquares()))
+            {
+                fallingTetromino->setShapeMatrix(temporaryTetromino->getShapeMatrix());
+                fallingTetromino->setSquares(temporaryTetromino->getSquares());
+            }
 
             break;
         }

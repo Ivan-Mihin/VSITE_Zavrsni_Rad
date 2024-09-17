@@ -53,6 +53,9 @@ private:
     std::vector<Square> rotateSquaresPositions(std::vector<std::vector<Square>> temporarySquaresMatrix);
 
 public:
+    Tetromino() {}
+    Tetromino(const Tetromino& tetrominoCopy);
+
     TetrominoShape getShape() const;
     std::vector<std::vector<int>> getShapeMatrix() const;
     std::vector<Square>& getSquares();

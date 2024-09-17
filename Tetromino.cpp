@@ -28,7 +28,7 @@ void Square::setY(int y)
 
 std::vector<std::vector<Square>> Tetromino::setTemporarySquaresMatrix()
 {
-    std::vector<std::vector<Square>> temporarySquaresMatrix(shapeMatrix.size(), std::vector<Square>(shapeMatrix[0].size(), Square(0, 0)));
+    std::vector<std::vector<Square>> temporarySquaresMatrix(shapeMatrix.size(), std::vector<Square>(shapeMatrix[0].size(), Square(99, 99)));
     int index = 0;
 
     for (int row = 0; row < shapeMatrix.size(); ++row)
@@ -45,27 +45,27 @@ std::vector<std::vector<Square>> Tetromino::setTemporarySquaresMatrix()
         }
     }
 
-    int minX;
-    int minY;
+    int minX = 0;
+    int minY = 0;
 
     if (shape == TetrominoShape::Shape_I)
     {
-        if (temporarySquaresMatrix[1][1].getX() != 0 && temporarySquaresMatrix[1][1].getY() != 0)
+        if (temporarySquaresMatrix[1][1].getX() != 99 && temporarySquaresMatrix[1][1].getY() != 99)
         {
             minX = temporarySquaresMatrix[1][1].getX() - 1;
             minY = temporarySquaresMatrix[1][1].getY() - 1;
         }
-        else if (temporarySquaresMatrix[1][2].getX() != 0 && temporarySquaresMatrix[1][2].getY() != 0)
+        else if (temporarySquaresMatrix[1][2].getX() != 99 && temporarySquaresMatrix[1][2].getY() != 99)
         {
             minX = temporarySquaresMatrix[1][2].getX() - 2;
             minY = temporarySquaresMatrix[1][2].getY() - 1;
         }
-        else if (temporarySquaresMatrix[2][2].getX() != 0 && temporarySquaresMatrix[2][2].getY() != 0)
+        else if (temporarySquaresMatrix[2][2].getX() != 99 && temporarySquaresMatrix[2][2].getY() != 99)
         {
             minX = temporarySquaresMatrix[2][2].getX() - 2;
             minY = temporarySquaresMatrix[2][2].getY() - 2;
         }
-        else if (temporarySquaresMatrix[2][1].getX() != 0 && temporarySquaresMatrix[2][1].getY() != 0)
+        else if (temporarySquaresMatrix[2][1].getX() != 99 && temporarySquaresMatrix[2][1].getY() != 99)
         {
             minX = temporarySquaresMatrix[2][1].getX() - 1;
             minY = temporarySquaresMatrix[2][1].getY() - 2;
@@ -81,7 +81,7 @@ std::vector<std::vector<Square>> Tetromino::setTemporarySquaresMatrix()
     {
         for (int col = 0; col < shapeMatrix.size(); ++col)
         {
-            if (temporarySquaresMatrix[row][col].getX() == 0 && temporarySquaresMatrix[row][col].getY() == 0)
+            if (temporarySquaresMatrix[row][col].getX() == 99 && temporarySquaresMatrix[row][col].getY() == 99)
             {
                 temporarySquaresMatrix[row][col].setX(minX + col);
                 temporarySquaresMatrix[row][col].setY(minY + row);
@@ -199,6 +199,14 @@ void Tetromino::rotate()
     std::vector<std::vector<Square>> temporarySquaresMatrix = setTemporarySquaresMatrix();
     setShapeMatrix(rotateShapeMatrix());
     setSquares(rotateSquaresPositions(temporarySquaresMatrix));
+}
+
+Tetromino::Tetromino(const Tetromino& tetrominoCopy)
+{
+    shape = tetrominoCopy.shape;
+    shapeMatrix = tetrominoCopy.shapeMatrix;
+    squares = tetrominoCopy.squares;
+    color = tetrominoCopy.color;
 }
 
 void TetrominoBuilder::createNewTetromino() 
