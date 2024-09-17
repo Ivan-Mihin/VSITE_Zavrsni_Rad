@@ -89,7 +89,30 @@ void Tetris::lockTetromino()
 
 void Tetris::clearFullLines()
 {
+    for (int row = 0; row < BOARD_ROWS; ++row)
+    {
+        bool isFull = true;
 
+        for (int col = 0; col < BOARD_COLUMNS; ++col)
+        {
+            if (board[row][col] == 0)
+            {
+                isFull = false;
+                break;
+            }
+        }
+
+        if (isFull)
+        {
+            for (int r = row; r > 0; --r)
+            {
+                board[r] = board[r - 1];
+            }
+
+            board[0] = std::vector<int>(BOARD_COLUMNS, 0);
+            --row;
+        }
+    }
 }
 
 void Tetris::resetFallingTetromino()
