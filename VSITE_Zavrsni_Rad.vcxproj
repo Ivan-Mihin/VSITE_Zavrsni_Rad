@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="state_game_over.cpp" />
     <ClCompile Include="state_playing.cpp" />
     <ClCompile Include="tetris.cpp" />
     <ClCompile Include="state_main_menu.cpp" />

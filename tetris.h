@@ -32,8 +32,12 @@ private:
 	float lockDelayDuration;
 
 	CommandMoveDown* commandMoveDown;
+
 	
 public:
+
+	bool isGameOver = false;
+
 	void initialize();
 	void setTetrominoStartingPosition(int startRow, int startColumn);
 	bool isValidPosition(std::vector<Square> nextPosition);
@@ -41,6 +45,7 @@ public:
 	void clearFullLines();
 	void resetFallingTetromino();
 	void hardDrop();
+	bool gameOver();
 
 	void handleInput(sf::Event event);
 	void update(float deltaTime);

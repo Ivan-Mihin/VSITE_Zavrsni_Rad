@@ -1,5 +1,6 @@
 #include <SFML/Window.hpp>
 #include "game.h"
+#include "state_game_over.h"
 #include "state_playing.h"
 #include "command.h"
 
@@ -30,5 +31,10 @@ void CommandExitGame::execute()
 
 void CommandStartGame::execute()
 {
-    Game::getInstance().changeState(new PlayingState(new CommandExitGame(&Game::getInstance().getWindow())));
+    Game::getInstance().changeState(new PlayingState(new CommandExitGame(&Game::getInstance().getWindow()), new CommandEndGame()));
+}
+
+void CommandEndGame::execute()
+{
+    Game::getInstance().changeState(new GameOverState(new CommandStartGame(), new CommandExitGame(&Game::getInstance().getWindow())));
 }

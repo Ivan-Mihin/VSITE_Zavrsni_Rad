@@ -1,6 +1,6 @@
-    #include "state_playing.h"
+#include "state_playing.h"
 
-PlayingState::PlayingState(CommandExitGame* commandExitGame) : commandExitGame(commandExitGame)
+PlayingState::PlayingState(CommandExitGame* commandExitGame, CommandEndGame* commandEndGame) : commandExitGame(commandExitGame) , commandEndGame(commandEndGame)
 {
     tetrisGame.initialize();
 }
@@ -25,6 +25,11 @@ void PlayingState::handleInput(sf::Event& event)
 void PlayingState::update(float deltaTime)
 {
     tetrisGame.update(deltaTime);
+
+    if (tetrisGame.isGameOver)
+    {
+        commandEndGame->execute();
+    }
 }
 
 void PlayingState::render(sf::RenderWindow& window)

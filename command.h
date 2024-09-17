@@ -56,6 +56,13 @@ public:
     void execute() override;
 };
 
+class CommandEndGame : public Command
+{
+public:
+    CommandEndGame() {}
+    void execute() override;
+};
+
 class CommandExitGame : public Command
 {
 private:

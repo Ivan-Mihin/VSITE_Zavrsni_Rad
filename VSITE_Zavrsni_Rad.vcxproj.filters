@@ -36,6 +36,9 @@
     <ClCompile Include="state_playing.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="state_game_over.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tetromino.h">

@@ -150,6 +150,19 @@ void Tetris::hardDrop()
     }
 }
 
+bool Tetris::gameOver()
+{
+    for (int i = 0; i < 4; i++)
+    {
+        if (board[fallingTetromino->getSquares()[i].getY()][fallingTetromino->getSquares()[i].getX()])
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 void Tetris::handleInput(sf::Event event)
 {
     if (event.type == sf::Event::KeyPressed)
@@ -218,6 +231,8 @@ void Tetris::handleInput(sf::Event event)
         case sf::Keyboard::Down:
         {
             hardDrop();
+            isGameOver = gameOver();
+
             lockTetromino();
             clearFullLines();
             resetFallingTetromino();
@@ -246,7 +261,6 @@ void Tetris::update(float deltaTime)
 
         if (isValidPosition(nextPosition))
         {
-            Tetromino* temporaryTetromino = fallingTetromino;
             commandMoveDown->execute();
 
             tetrominoCanLock = false;
@@ -254,6 +268,8 @@ void Tetris::update(float deltaTime)
         }
         else
         {
+            isGameOver = gameOver();
+
             if (!tetrominoCanLock) 
             {
                 tetrominoCanLock = true;
