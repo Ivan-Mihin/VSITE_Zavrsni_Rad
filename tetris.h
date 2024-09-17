@@ -34,6 +34,7 @@ private:
 	CommandMoveLeft* commandMoveLeft;
 	CommandMoveRight* commandMoveRight;
 	CommandMoveDown* commandMoveDown;
+	CommandRotate* commandRotate;
 	
 public:
 	void initialize();

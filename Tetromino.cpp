@@ -26,6 +26,81 @@ void Square::setY(int y)
     this->y = y; 
 }
 
+std::vector<std::vector<Square>> Tetromino::setTemporarySquaresMatrix()
+{
+    std::vector<std::vector<Square>> temporarySquaresMatrix(shapeMatrix.size(), std::vector<Square>(shapeMatrix[0].size(), Square(0, 0)));
+    int index = 0;
+
+    for (int row = 0; row < shapeMatrix.size(); ++row)
+    {
+        for (int col = 0; col < shapeMatrix.size(); ++col)
+        {
+            if (shapeMatrix[row][col])
+            {
+                temporarySquaresMatrix[row][col].setX(squares[index].getX());
+                temporarySquaresMatrix[row][col].setY(squares[index].getY());
+
+                index++;
+            }
+        }
+    }
+
+    int minX = temporarySquaresMatrix[1][1].getX() - 1;
+    int minY = temporarySquaresMatrix[1][1].getY() - 1;
+
+    for (int row = 0; row < shapeMatrix.size(); ++row)
+    {
+        for (int col = 0; col < shapeMatrix.size(); ++col)
+        {
+            if (temporarySquaresMatrix[row][col].getX() == 0 && temporarySquaresMatrix[row][col].getY() == 0)
+            {
+                temporarySquaresMatrix[row][col].setX(minX + col);
+                temporarySquaresMatrix[row][col].setY(minY + row);
+            }
+        }
+    }
+
+    return temporarySquaresMatrix;
+}
+
+std::vector<std::vector<int>> Tetromino::rotateShapeMatrix() 
+{
+    std::vector<std::vector<int>> rotatedMatrix(shapeMatrix.size(), std::vector<int>(shapeMatrix.size()));
+
+    for (int i = 0; i < shapeMatrix.size(); i++) 
+    {
+        for (int j = 0; j < shapeMatrix[i].size(); j++)
+        {
+            rotatedMatrix[j][i] = shapeMatrix[i][j];
+        }
+    }
+
+    for (int i = 0; i < rotatedMatrix.size(); ++i)
+    {
+        reverse(rotatedMatrix[i].begin(), rotatedMatrix[i].end());
+    }
+   
+    return rotatedMatrix;
+}
+
+std::vector<Square> Tetromino::rotateSquaresPositions(std::vector<std::vector<Square>> temporarySquaresMatrix)
+{
+    std::vector<Square> rotatedSquares;
+
+    for (int row = 0; row < shapeMatrix.size(); ++row)
+    {
+        for (int col = 0; col < shapeMatrix.size(); ++col)
+        {
+            if (shapeMatrix[row][col])
+            {
+                rotatedSquares.push_back(Square(temporarySquaresMatrix[row][col].getX(), temporarySquaresMatrix[row][col].getY()));
+            }
+        }
+    }
+
+    return rotatedSquares;
+}
+
 TetrominoShape Tetromino::getShape() const
 {
     return shape;
@@ -88,6 +163,13 @@ void Tetromino::moveDown()
     {
         squares[i].setY(squares[i].getY() + 1);
     }
+}
+
+void Tetromino::rotate()
+{
+    std::vector<std::vector<Square>> temporarySquaresMatrix = setTemporarySquaresMatrix();
+    setShapeMatrix(rotateShapeMatrix());
+    setSquares(rotateSquaresPositions(temporarySquaresMatrix));
 }
 
 void TetrominoBuilder::createNewTetromino() 

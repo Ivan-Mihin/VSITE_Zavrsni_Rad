@@ -18,6 +18,11 @@ void CommandMoveDown::execute()
     tetromino.moveDown();
 }
 
+void CommandRotate::execute()
+{
+    tetromino.rotate();
+}
+
 void CommandExitGame::execute()
 {
     window->close();

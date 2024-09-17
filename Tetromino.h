@@ -48,6 +48,10 @@ private:
     std::vector<Square> squares;
     TetrominoColor color;
 
+    std::vector<std::vector<Square>> setTemporarySquaresMatrix();
+    std::vector<std::vector<int>> rotateShapeMatrix();
+    std::vector<Square> rotateSquaresPositions(std::vector<std::vector<Square>> temporarySquaresMatrix);
+
 public:
     TetrominoShape getShape() const;
     std::vector<std::vector<int>> getShapeMatrix() const;
@@ -62,6 +66,7 @@ public:
     void moveLeft();
     void moveRight();
     void moveDown();
+    void rotate();
 };
 
 class TetrominoBuilder 

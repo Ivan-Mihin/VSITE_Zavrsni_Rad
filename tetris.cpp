@@ -16,6 +16,7 @@ void Tetris::initialize()
     commandMoveLeft = new CommandMoveLeft(fallingTetromino);
     commandMoveRight = new CommandMoveRight(fallingTetromino);
     commandMoveDown = new CommandMoveDown(fallingTetromino);
+    commandRotate = new CommandRotate(fallingTetromino);
 
     tetrominoTexture.loadFromFile("Resources/Sprites/tetromino.png");
     tetrominoSprite.setTexture(tetrominoTexture);
@@ -100,6 +101,7 @@ void Tetris::resetFallingTetromino()
     delete commandMoveLeft;
     delete commandMoveRight;
     delete commandMoveDown;
+    delete commandRotate;
 
     fallingTetromino = inventory[0];
     inventory.erase(inventory.begin());
@@ -109,6 +111,7 @@ void Tetris::resetFallingTetromino()
     commandMoveLeft = new CommandMoveLeft(fallingTetromino);
     commandMoveRight = new CommandMoveRight(fallingTetromino);
     commandMoveDown = new CommandMoveDown(fallingTetromino);
+    commandRotate = new CommandRotate(fallingTetromino);
 }
 
 void Tetris::hardDrop()
@@ -173,6 +176,12 @@ void Tetris::handleInput(sf::Event event)
 
             break;
         }
+        case sf::Keyboard::Up:
+        {
+            commandRotate->execute();
+
+            break;
+        }
         case sf::Keyboard::Down:
         {
             hardDrop();
@@ -183,7 +192,9 @@ void Tetris::handleInput(sf::Event event)
             break;
         }
         default:
+        {
             break;
+        }
         }
     }
 }
@@ -202,6 +213,7 @@ void Tetris::update(float deltaTime)
 
         if (isValidPosition(nextPosition))
         {
+            Tetromino* temporaryTetromino = fallingTetromino;
             commandMoveDown->execute();
 
             tetrominoCanLock = false;

@@ -39,6 +39,16 @@ public:
     void execute() override;
 };
 
+class CommandRotate : public Command
+{
+private:
+    Tetromino& tetromino;
+
+public:
+    CommandRotate(Tetromino* tetromino) : tetromino(*tetromino) {}
+    void execute() override;
+};
+
 class CommandStartGame : public Command
 {
 public:
