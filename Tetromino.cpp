@@ -45,8 +45,37 @@ std::vector<std::vector<Square>> Tetromino::setTemporarySquaresMatrix()
         }
     }
 
-    int minX = temporarySquaresMatrix[1][1].getX() - 1;
-    int minY = temporarySquaresMatrix[1][1].getY() - 1;
+    int minX;
+    int minY;
+
+    if (shape == TetrominoShape::Shape_I)
+    {
+        if (temporarySquaresMatrix[1][1].getX() != 0 && temporarySquaresMatrix[1][1].getY() != 0)
+        {
+            minX = temporarySquaresMatrix[1][1].getX() - 1;
+            minY = temporarySquaresMatrix[1][1].getY() - 1;
+        }
+        else if (temporarySquaresMatrix[1][2].getX() != 0 && temporarySquaresMatrix[1][2].getY() != 0)
+        {
+            minX = temporarySquaresMatrix[1][2].getX() - 2;
+            minY = temporarySquaresMatrix[1][2].getY() - 1;
+        }
+        else if (temporarySquaresMatrix[2][2].getX() != 0 && temporarySquaresMatrix[2][2].getY() != 0)
+        {
+            minX = temporarySquaresMatrix[2][2].getX() - 2;
+            minY = temporarySquaresMatrix[2][2].getY() - 2;
+        }
+        else if (temporarySquaresMatrix[2][1].getX() != 0 && temporarySquaresMatrix[2][1].getY() != 0)
+        {
+            minX = temporarySquaresMatrix[2][1].getX() - 1;
+            minY = temporarySquaresMatrix[2][1].getY() - 2;
+        }
+    }
+    else 
+    {
+        minX = temporarySquaresMatrix[1][1].getX() - 1;
+        minY = temporarySquaresMatrix[1][1].getY() - 1;
+    }
 
     for (int row = 0; row < shapeMatrix.size(); ++row)
     {
