@@ -13,10 +13,7 @@ void Tetris::initialize()
 
     setTetrominoStartingPosition(0, 4);
 
-    commandMoveLeft = new CommandMoveLeft(fallingTetromino);
-    commandMoveRight = new CommandMoveRight(fallingTetromino);
     commandMoveDown = new CommandMoveDown(fallingTetromino);
-    commandRotate = new CommandRotate(fallingTetromino);
 
     tetrominoTexture.loadFromFile("Resources/Sprites/tetromino.png");
     tetrominoSprite.setTexture(tetrominoTexture);
@@ -31,7 +28,7 @@ void Tetris::initialize()
     boardFrame.setFillColor(sf::Color::White);
 
     clock.restart();
-    fallInterval = 1.5f;
+    fallInterval = 0.5f;
 
     tetrominoCanLock = false;
     lockDelayDuration = 1.0f;
@@ -98,20 +95,14 @@ void Tetris::clearFullLines()
 void Tetris::resetFallingTetromino()
 {
     delete fallingTetromino;
-    delete commandMoveLeft;
-    delete commandMoveRight;
     delete commandMoveDown;
-    delete commandRotate;
 
     fallingTetromino = inventory[0];
     inventory.erase(inventory.begin());
     inventory.push_back(director.createRandomTetromino());
     setTetrominoStartingPosition(0, 4);
 
-    commandMoveLeft = new CommandMoveLeft(fallingTetromino);
-    commandMoveRight = new CommandMoveRight(fallingTetromino);
     commandMoveDown = new CommandMoveDown(fallingTetromino);
-    commandRotate = new CommandRotate(fallingTetromino);
 }
 
 void Tetris::hardDrop()
@@ -144,6 +135,7 @@ void Tetris::handleInput(sf::Event event)
         {
         case sf::Keyboard::Left:
         {
+            CommandMoveLeft* commandMoveLeft = new CommandMoveLeft(fallingTetromino);
             std::vector<Square> nextPosition;
             nextPosition = fallingTetromino->getSquares();
 
@@ -157,10 +149,14 @@ void Tetris::handleInput(sf::Event event)
                 commandMoveLeft->execute();
             }
 
+            delete commandMoveLeft;
+
             break;
         }
         case sf::Keyboard::Right:
         {
+            CommandMoveRight* commandMoveRight = new CommandMoveRight(fallingTetromino);
+
             std::vector<Square> nextPosition;
             nextPosition = fallingTetromino->getSquares();
 
@@ -173,6 +169,8 @@ void Tetris::handleInput(sf::Event event)
             {
                 commandMoveRight->execute();
             }
+
+            delete commandMoveRight;
 
             break;
         }
@@ -188,6 +186,9 @@ void Tetris::handleInput(sf::Event event)
                 fallingTetromino->setShapeMatrix(temporaryTetromino->getShapeMatrix());
                 fallingTetromino->setSquares(temporaryTetromino->getSquares());
             }
+
+            delete temporaryTetromino;
+            delete temporaryCommandRotate;
 
             break;
         }

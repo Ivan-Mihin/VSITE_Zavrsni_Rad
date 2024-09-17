@@ -31,10 +31,7 @@ private:
 	bool tetrominoCanLock;
 	float lockDelayDuration;
 
-	CommandMoveLeft* commandMoveLeft;
-	CommandMoveRight* commandMoveRight;
 	CommandMoveDown* commandMoveDown;
-	CommandRotate* commandRotate;
 	
 public:
 	void initialize();
