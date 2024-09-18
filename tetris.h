@@ -17,10 +17,14 @@ private:
 
 	TetrominoDirector director;
 	Tetromino* fallingTetromino;
+	Tetromino* ghostTetromino;
 	std::vector<Tetromino*> inventory;
 
 	sf::Texture tetrominoTexture;
 	sf::Sprite tetrominoSprite;
+
+	sf::Texture ghostTetrominoTexture;
+	sf::Sprite ghostTetrominoSprite;
 
 	sf::Texture boardTexture;
 	sf::Sprite boardSprite;
@@ -42,7 +46,7 @@ public:
 	bool gameOver;
 
 	void initialize();
-	void setTetrominoStartingPosition(int startRow, int startColumn);
+	void setTetrominoStartingPosition(Tetromino* tetromino, int startRow, int startColumn);
 	bool isValidPosition(std::vector<Square> nextPosition);
 	void lockTetromino();
 	void clearFullLines();
