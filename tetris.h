@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <SFML/Graphics.hpp>
+#include "audio.h"
 #include "tetromino.h"
 #include "command.h"
 #include "score_manager.h"
@@ -41,6 +42,8 @@ private:
 
 	ScoreManager scoreManager;
 	ScoreDisplay scoreDisplay;
+
+	Audio audio;
 
 public:
 	bool gameOver;

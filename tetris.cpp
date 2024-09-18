@@ -2,6 +2,10 @@
 
 void Tetris::initialize()
 {
+    audio.getSfxTetrisThemeSong().setLoop(true);
+    audio.getSfxTetrisThemeSong().setVolume(15);
+    audio.getSfxTetrisThemeSong().play();
+
 	board.assign(BOARD_ROWS, std::vector<int>(BOARD_COLUMNS, 0));
 
 	fallingTetromino = director.createRandomTetromino();
@@ -11,7 +15,7 @@ void Tetris::initialize()
 	{
 		inventory.push_back(director.createRandomTetromino());
 	}
-
+    
     setTetrominoStartingPosition(fallingTetromino, 0, 4);
     setTetrominoStartingPosition(ghostTetromino, 0, 4);
 
@@ -95,6 +99,8 @@ void Tetris::lockTetromino()
 
         board[y][x] = static_cast<int>(fallingTetromino->getColor());
     }
+
+    audio.getSfxFloor().play();
 }
 
 void Tetris::clearFullLines()
@@ -114,6 +120,8 @@ void Tetris::clearFullLines()
 
         if (isFull)
         {
+            audio.getSfxClearLine().play();
+
             for (int r = row; r > 0; --r)
             {
                 board[r] = board[r - 1];
@@ -164,6 +172,8 @@ void Tetris::hardDrop()
             break;
         }
     }
+
+    audio.getSfxHardDrop().play();
 }
 
 bool Tetris::isGameOver()
@@ -201,6 +211,8 @@ void Tetris::handleInput(sf::Event event)
                 commandMoveLeft->execute();
             }
 
+            audio.getSfxMove().play();
+
             delete commandMoveLeft;
 
             break;
@@ -222,6 +234,8 @@ void Tetris::handleInput(sf::Event event)
                 commandMoveRight->execute();
             }
 
+            audio.getSfxMove().play();
+
             delete commandMoveRight;
 
             break;
@@ -237,6 +251,8 @@ void Tetris::handleInput(sf::Event event)
             {
                 fallingTetromino->setShapeMatrix(temporaryTetromino->getShapeMatrix());
                 fallingTetromino->setSquares(temporaryTetromino->getSquares());
+
+                audio.getSfxRotate().play();
             }
 
             delete temporaryTetromino;
@@ -288,7 +304,7 @@ void Tetris::update(float deltaTime)
         {
             nextPosition[i].setY(fallingTetromino->getSquares()[i].getY() + 1);
         }
-
+        
         if (isValidPosition(nextPosition))
         {
             commandMoveDown->execute();

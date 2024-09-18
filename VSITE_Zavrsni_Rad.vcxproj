@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="audio.cpp" />
     <ClCompile Include="score_display.cpp" />
     <ClCompile Include="score_manager.cpp" />
     <ClCompile Include="state_game_over.cpp" />
@@ -151,6 +152,7 @@
     <ClCompile Include="tetromino.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="audio.h" />
     <ClInclude Include="observer.h" />
     <ClInclude Include="score_manager.h" />
     <ClInclude Include="score_display.h" />
