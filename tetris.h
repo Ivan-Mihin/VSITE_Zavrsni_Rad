@@ -3,6 +3,8 @@
 #include <SFML/Graphics.hpp>
 #include "tetromino.h"
 #include "command.h"
+#include "score_manager.h"
+#include "score_display.h"
 
 class Tetris
 {
@@ -33,7 +35,9 @@ private:
 
 	CommandMoveDown* commandMoveDown;
 
-	
+	ScoreManager scoreManager;
+	ScoreDisplay scoreDisplay;
+
 public:
 
 	bool isGameOver = false;

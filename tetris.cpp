@@ -32,6 +32,8 @@ void Tetris::initialize()
 
     tetrominoCanLock = false;
     lockDelayDuration = 1.0f;
+
+    scoreManager.addObserver(&scoreDisplay);
 }
 
 void Tetris::setTetrominoStartingPosition(int startRow, int startColumn)
@@ -111,6 +113,8 @@ void Tetris::clearFullLines()
 
             board[0] = std::vector<int>(BOARD_COLUMNS, 0);
             --row;
+
+            scoreManager.increaseScore(10);
         }
     }
 }
@@ -357,4 +361,6 @@ void Tetris::render(sf::RenderWindow& window)
             }
         }
     }
+
+    scoreDisplay.draw(window);
 }
