@@ -154,6 +154,7 @@
   <ItemGroup>
     <ClInclude Include="audio.h" />
     <ClInclude Include="observer.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="score_manager.h" />
     <ClInclude Include="score_display.h" />
     <ClInclude Include="tetris.h" />

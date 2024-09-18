@@ -8,6 +8,7 @@ class ScoreDisplay : public Observer
 private:
     int currentScore;
     sf::Font font;
+    sf::Text scoreLabel;
     sf::Text scoreText;
 
 public:

@@ -29,7 +29,22 @@ private:
 
 	sf::Texture boardTexture;
 	sf::Sprite boardSprite;
+
+	sf::Texture gameOverLineTexture;
+	sf::Sprite gameOverLineSprite;
+
 	sf::RectangleShape boardFrame;
+
+	sf::Texture mainMenuBackground;
+	sf::Sprite mainMenuBackgroundSprite;
+
+	sf::Font inventoryFont;
+	sf::Text inventoryText;
+	sf::FloatRect inventoryTextBounds;
+	sf::RectangleShape inventoryTextFrame;
+	sf::RectangleShape inventoryFrame;
+
+	sf::RectangleShape scoreFrame;
 
 	sf::Clock clock;
 	float fallInterval;

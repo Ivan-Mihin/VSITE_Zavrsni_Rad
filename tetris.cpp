@@ -33,9 +33,38 @@ void Tetris::initialize()
     boardSprite.setTexture(boardTexture);
     boardSprite.setPosition(220, 25);
 
+    gameOverLineTexture.loadFromFile("Resources/Sprites/game_over_line.png");
+    gameOverLineSprite.setTexture(gameOverLineTexture);
+    gameOverLineSprite.setPosition(220, 85);
+
     boardFrame.setPosition(210, 15);
     boardFrame.setSize(sf::Vector2f(380, 770));
     boardFrame.setFillColor(sf::Color::White);
+
+    inventoryFrame.setPosition(620, 100);
+    inventoryFrame.setSize(sf::Vector2f(150, 540));
+    inventoryFrame.setFillColor(sf::Color::Black);
+
+    mainMenuBackground.loadFromFile("Resources/Sprites/main_menu_background.png");
+    mainMenuBackgroundSprite.setTexture(mainMenuBackground);
+    mainMenuBackgroundSprite.setPosition(0, 0);
+
+    inventoryFont.loadFromFile("Resources/Fonts/BaiJamjuree-Regular.ttf");
+    inventoryText.setFont(inventoryFont);
+    inventoryText.setCharacterSize(30);
+    inventoryText.setFillColor(sf::Color::White);
+    inventoryText.setString("Inventory");
+    inventoryTextBounds = inventoryText.getLocalBounds();
+    inventoryText.setOrigin(inventoryTextBounds.left + inventoryTextBounds.width / 2.0f, inventoryTextBounds.top + inventoryTextBounds.height / 2.0f);
+    inventoryText.setPosition(695, 45);
+    
+    inventoryTextFrame.setPosition(620, 15);
+    inventoryTextFrame.setSize(sf::Vector2f(150, 60));
+    inventoryTextFrame.setFillColor(sf::Color::Black);
+
+    scoreFrame.setPosition(30, 15);
+    scoreFrame.setSize(sf::Vector2f(150, 90));
+    scoreFrame.setFillColor(sf::Color::Black);
 
     clock.restart();
     fallInterval = 0.5f;
@@ -180,7 +209,7 @@ bool Tetris::isGameOver()
 {
     for (int column = 0; column < BOARD_COLUMNS; ++column)
     {
-        if (board[1][column])
+        if (board[2][column])
         {
             return true;
         }
@@ -191,259 +220,273 @@ bool Tetris::isGameOver()
 
 void Tetris::handleInput(sf::Event event)
 {
-    if (event.type == sf::Event::KeyPressed)
+    if (!isGameOver())
     {
-        switch (event.key.code)
+        if (event.type == sf::Event::KeyPressed)
         {
-        case sf::Keyboard::Left:
-        {
-            CommandMoveLeft* commandMoveLeft = new CommandMoveLeft(fallingTetromino);
-            std::vector<Square> nextPosition;
-            nextPosition = fallingTetromino->getSquares();
-
-            for (int i = 0; i < 4; i++)
+            switch (event.key.code)
             {
-                nextPosition[i].setX(fallingTetromino->getSquares()[i].getX() - 1);
-            }
-
-            if (isValidPosition(nextPosition))
+            case sf::Keyboard::Left:
             {
-                commandMoveLeft->execute();
-            }
+                CommandMoveLeft* commandMoveLeft = new CommandMoveLeft(fallingTetromino);
+                std::vector<Square> nextPosition;
+                nextPosition = fallingTetromino->getSquares();
 
-            audio.getSfxMove().play();
-
-            delete commandMoveLeft;
-
-            break;
-        }
-        case sf::Keyboard::Right:
-        {
-            CommandMoveRight* commandMoveRight = new CommandMoveRight(fallingTetromino);
-
-            std::vector<Square> nextPosition;
-            nextPosition = fallingTetromino->getSquares();
-
-            for (int i = 0; i < 4; i++)
-            {
-                nextPosition[i].setX(fallingTetromino->getSquares()[i].getX() + 1);
-            }
-
-            if (isValidPosition(nextPosition))
-            {
-                commandMoveRight->execute();
-            }
-
-            audio.getSfxMove().play();
-
-            delete commandMoveRight;
-
-            break;
-        }
-        case sf::Keyboard::Up:
-        {
-            Tetromino* temporaryTetromino = new Tetromino(*fallingTetromino);
-            CommandRotate* temporaryCommandRotate = new CommandRotate(temporaryTetromino);
-
-            temporaryCommandRotate->execute();
-
-            if (isValidPosition(temporaryTetromino->getSquares()))
-            {
-                fallingTetromino->setShapeMatrix(temporaryTetromino->getShapeMatrix());
-                fallingTetromino->setSquares(temporaryTetromino->getSquares());
-
-                audio.getSfxRotate().play();
-            }
-
-            delete temporaryTetromino;
-            delete temporaryCommandRotate;
-
-            break;
-        }
-        case sf::Keyboard::Down:
-        {
-            hardDrop();
-            lockTetromino();
-
-            if (isGameOver())
-            {
-                gameOver = true;
-
-                delete fallingTetromino;
-                delete ghostTetromino;
-
-                for (Tetromino* tetromino : inventory)
+                for (int i = 0; i < 4; i++)
                 {
-                    delete tetromino;
+                    nextPosition[i].setX(fallingTetromino->getSquares()[i].getX() - 1);
                 }
-            }
-            else
-            {
-                clearFullLines();
-                resetFallingTetromino();
-            }
 
-            break;
-        }
-        default:
-        {
-            break;
-        }
+                if (isValidPosition(nextPosition))
+                {
+                    commandMoveLeft->execute();
+                }
+
+                audio.getSfxMove().play();
+
+                delete commandMoveLeft;
+
+                break;
+            }
+            case sf::Keyboard::Right:
+            {
+                CommandMoveRight* commandMoveRight = new CommandMoveRight(fallingTetromino);
+
+                std::vector<Square> nextPosition;
+                nextPosition = fallingTetromino->getSquares();
+
+                for (int i = 0; i < 4; i++)
+                {
+                    nextPosition[i].setX(fallingTetromino->getSquares()[i].getX() + 1);
+                }
+
+                if (isValidPosition(nextPosition))
+                {
+                    commandMoveRight->execute();
+                }
+
+                audio.getSfxMove().play();
+
+                delete commandMoveRight;
+
+                break;
+            }
+            case sf::Keyboard::Up:
+            {
+                Tetromino* temporaryTetromino = new Tetromino(*fallingTetromino);
+                CommandRotate* temporaryCommandRotate = new CommandRotate(temporaryTetromino);
+
+                temporaryCommandRotate->execute();
+
+                if (isValidPosition(temporaryTetromino->getSquares()))
+                {
+                    fallingTetromino->setShapeMatrix(temporaryTetromino->getShapeMatrix());
+                    fallingTetromino->setSquares(temporaryTetromino->getSquares());
+
+                    audio.getSfxRotate().play();
+                }
+
+                delete temporaryTetromino;
+                delete temporaryCommandRotate;
+
+                break;
+            }
+            case sf::Keyboard::Down:
+            {
+                hardDrop();
+                lockTetromino();
+
+                if (isGameOver())
+                {
+                    gameOver = true;
+
+                    delete fallingTetromino;
+                    delete ghostTetromino;
+
+                    for (Tetromino* tetromino : inventory)
+                    {
+                        delete tetromino;
+                    }
+                }
+                else
+                {
+                    clearFullLines();
+                    resetFallingTetromino();
+                }
+
+                break;
+            }
+            default:
+            {
+                break;
+            }
+            }
         }
     }
 }
 
 void Tetris::update(float deltaTime)
 {
-    if (clock.getElapsedTime().asSeconds() >= fallInterval)
+    if (!isGameOver())
     {
-        std::vector<Square> nextPosition;
-        nextPosition = fallingTetromino->getSquares();
+        ghostTetromino->setSquares(fallingTetromino->getSquares());
 
         for (int i = 0; i < 4; i++)
         {
-            nextPosition[i].setY(fallingTetromino->getSquares()[i].getY() + 1);
-        }
-        
-        if (isValidPosition(nextPosition))
-        {
-            commandMoveDown->execute();
-
-            tetrominoCanLock = false;
-            lockDelayTimer.restart();
-        }
-        else
-        {
-           
-            if (!tetrominoCanLock)
+            while (isValidPosition(ghostTetromino->getSquares()))
             {
-                tetrominoCanLock = true;
+                for (int i = 0; i < 4; i++)
+                {
+                    ghostTetromino->getSquares()[i].setY(ghostTetromino->getSquares()[i].getY() + 1);
+                }
+            }
+
+            for (int j = 0; j < 4; j++)
+            {
+                ghostTetromino->getSquares()[j].setY(ghostTetromino->getSquares()[j].getY() - 1);
+            }
+        }
+
+        if (clock.getElapsedTime().asSeconds() >= fallInterval)
+        {
+            std::vector<Square> nextPosition;
+            nextPosition = fallingTetromino->getSquares();
+
+            for (int i = 0; i < 4; i++)
+            {
+                nextPosition[i].setY(fallingTetromino->getSquares()[i].getY() + 1);
+            }
+
+            if (isValidPosition(nextPosition))
+            {
+                commandMoveDown->execute();
+
+                tetrominoCanLock = false;
                 lockDelayTimer.restart();
             }
             else
             {
-                if (lockDelayTimer.getElapsedTime().asSeconds() >= lockDelayDuration)
+
+                if (!tetrominoCanLock)
                 {
-                    lockTetromino();
-
-                    if (isGameOver())
+                    tetrominoCanLock = true;
+                    lockDelayTimer.restart();
+                }
+                else
+                {
+                    if (lockDelayTimer.getElapsedTime().asSeconds() >= lockDelayDuration)
                     {
-                        gameOver = true;
+                        lockTetromino();
 
-                        delete fallingTetromino;
-                        delete ghostTetromino;
-
-                        for (Tetromino* tetromino : inventory)
+                        if (isGameOver())
                         {
-                            delete tetromino;
+                            gameOver = true;
+
+                            delete fallingTetromino;
+                            delete ghostTetromino;
+
+                            for (Tetromino* tetromino : inventory)
+                            {
+                                delete tetromino;
+                            }
                         }
-                    }
-                    else
-                    {
-                        clearFullLines();
-                        resetFallingTetromino();
+                        else
+                        {
+                            clearFullLines();
+                            resetFallingTetromino();
+                        }
                     }
                 }
             }
-        }
 
-        clock.restart();
-    }
-
-    ghostTetromino->setSquares(fallingTetromino->getSquares());
-
-    for (int i = 0; i < 4; i++)
-    {
-        while (isValidPosition(ghostTetromino->getSquares()))
-        {
-            for (int i = 0; i < 4; i++)
-            {
-                ghostTetromino->getSquares()[i].setY(ghostTetromino->getSquares()[i].getY() + 1);
-            }
-        }
-
-        for (int j = 0; j < 4; j++)
-        {
-            ghostTetromino->getSquares()[j].setY(ghostTetromino->getSquares()[j].getY() - 1);
+            clock.restart();
         }
     }
 }
 
 void Tetris::render(sf::RenderWindow& window)
 {
-    window.draw(boardFrame);
-    window.draw(boardSprite);
-
-    // Draw Tetromino
-    for (int i = 0; i < 4; i++)
+    if (!isGameOver())
     {
-        tetrominoSprite.setTextureRect(sf::IntRect((int)fallingTetromino->getColor() * TEXTURE_SIZE, 0, TEXTURE_SIZE, TEXTURE_SIZE));
-        tetrominoSprite.setPosition(fallingTetromino->getSquares()[i].getX() * TEXTURE_SIZE + 220, fallingTetromino->getSquares()[i].getY() * TEXTURE_SIZE + 25);
-        window.draw(tetrominoSprite);
-    }
+        window.draw(mainMenuBackgroundSprite);
+        window.draw(boardFrame);
+        window.draw(inventoryFrame);
+        window.draw(inventoryTextFrame);
+        window.draw(boardSprite);
+        window.draw(gameOverLineSprite);
+        window.draw(inventoryText);
+        window.draw(scoreFrame);
+        scoreDisplay.draw(window);
 
-    // Draw Ghost Tetromino
-    for (int i = 0; i < 4; i++)
-    {
-        ghostTetrominoSprite.setTextureRect(sf::IntRect((int)ghostTetromino->getColor() * TEXTURE_SIZE, 0, TEXTURE_SIZE, TEXTURE_SIZE));
-        ghostTetrominoSprite.setPosition(ghostTetromino->getSquares()[i].getX() * TEXTURE_SIZE + 220, ghostTetromino->getSquares()[i].getY() * TEXTURE_SIZE + 25);
-        window.draw(ghostTetrominoSprite);
-    }
-
-    // Draw Inventory Tetrominos
-    for (int index = 0; index < inventory.size(); index++)
-    {
-        for (int x = 0; x < inventory[index]->getShapeMatrix().size(); ++x)
+        // Draw Tetromino
+        for (int i = 0; i < 4; i++)
         {
-            for (int y = 0; y < inventory[index]->getShapeMatrix().size(); ++y)
+            tetrominoSprite.setTextureRect(sf::IntRect((int)fallingTetromino->getColor() * TEXTURE_SIZE, 0, TEXTURE_SIZE, TEXTURE_SIZE));
+            tetrominoSprite.setPosition(fallingTetromino->getSquares()[i].getX() * TEXTURE_SIZE + 220, fallingTetromino->getSquares()[i].getY() * TEXTURE_SIZE + 25);
+            window.draw(tetrominoSprite);
+        }
+
+        // Draw Ghost Tetromino
+        for (int i = 0; i < 4; i++)
+        {
+            ghostTetrominoSprite.setTextureRect(sf::IntRect((int)ghostTetromino->getColor() * TEXTURE_SIZE, 0, TEXTURE_SIZE, TEXTURE_SIZE));
+            ghostTetrominoSprite.setPosition(ghostTetromino->getSquares()[i].getX() * TEXTURE_SIZE + 220, ghostTetromino->getSquares()[i].getY() * TEXTURE_SIZE + 25);
+            window.draw(ghostTetrominoSprite);
+        }
+
+        // Draw Inventory Tetrominos
+        for (int index = 0; index < inventory.size(); index++)
+        {
+            for (int x = 0; x < inventory[index]->getShapeMatrix().size(); ++x)
             {
-                int offsetFromBoardX = TEXTURE_SIZE;
-                int offsetFromBoardY = TEXTURE_SIZE;
-
-                if (inventory[index]->getShapeMatrix()[y][x])
+                for (int y = 0; y < inventory[index]->getShapeMatrix().size(); ++y)
                 {
-                    if (inventory[index]->getShape() == TetrominoShape::Shape_O)
-                    {
-                        offsetFromBoardX += TEXTURE_SIZE;
-                    }
-                    else if (inventory[index]->getShape() == TetrominoShape::Shape_I)
-                    {
-                        offsetFromBoardY -= 15;
-                    }
-                    else
-                    {
-                        offsetFromBoardX += TEXTURE_SIZE / 2;
-                    }
+                    int offsetFromBoardX = TEXTURE_SIZE;
+                    int offsetFromBoardY = TEXTURE_SIZE;
 
-                    tetrominoSprite.setTextureRect(sf::IntRect((int)inventory[index]->getColor() * TEXTURE_SIZE, 0, TEXTURE_SIZE, TEXTURE_SIZE));
-                    tetrominoSprite.setPosition(590 + offsetFromBoardX + TEXTURE_SIZE * x, 114 + offsetFromBoardY + (90 * index) + TEXTURE_SIZE * y);
+                    if (inventory[index]->getShapeMatrix()[y][x])
+                    {
+                        if (inventory[index]->getShape() == TetrominoShape::Shape_O)
+                        {
+                            offsetFromBoardX += TEXTURE_SIZE;
+                        }
+                        else if (inventory[index]->getShape() == TetrominoShape::Shape_I)
+                        {
+                            offsetFromBoardY -= 15;
+                        }
+                        else
+                        {
+                            offsetFromBoardX += TEXTURE_SIZE / 2;
+                        }
+
+                        tetrominoSprite.setTextureRect(sf::IntRect((int)inventory[index]->getColor() * TEXTURE_SIZE, 0, TEXTURE_SIZE, TEXTURE_SIZE));
+                        tetrominoSprite.setPosition(605 + offsetFromBoardX + TEXTURE_SIZE * x, 84 + offsetFromBoardY + (90 * index) + TEXTURE_SIZE * y);
+                        window.draw(tetrominoSprite);
+                    }
+                }
+            }
+        }
+
+        // Draw Placed Pieces
+        for (int i = 0; i < BOARD_ROWS; ++i)
+        {
+            for (int j = 0; j < BOARD_COLUMNS; ++j)
+            {
+                // Only draw non-empty cells
+                if (board[i][j] != 0) {
+                    // Create a rectangle for each block
+                    sf::RectangleShape block(sf::Vector2f(TEXTURE_SIZE, TEXTURE_SIZE));
+
+                    // Set the block's position on the screen
+                    tetrominoSprite.setPosition(220 + j * TEXTURE_SIZE, 25 + i * TEXTURE_SIZE);
+
+                    // Set the block's color based on the value in the board
+                    tetrominoSprite.setTextureRect(sf::IntRect(board[i][j] * TEXTURE_SIZE, 0, TEXTURE_SIZE, TEXTURE_SIZE));
+
+                    // Draw the block
                     window.draw(tetrominoSprite);
                 }
             }
         }
     }
-
-    // Draw Placed Pieces
-    for (int i = 0; i < BOARD_ROWS; ++i) 
-    {
-        for (int j = 0; j < BOARD_COLUMNS; ++j) 
-        {
-            // Only draw non-empty cells
-            if (board[i][j] != 0) {
-                // Create a rectangle for each block
-                sf::RectangleShape block(sf::Vector2f(TEXTURE_SIZE, TEXTURE_SIZE));
-
-                // Set the block's position on the screen
-                tetrominoSprite.setPosition(220 + j * TEXTURE_SIZE, 25 + i * TEXTURE_SIZE);
-
-                // Set the block's color based on the value in the board
-                tetrominoSprite.setTextureRect(sf::IntRect(board[i][j] * TEXTURE_SIZE, 0, TEXTURE_SIZE, TEXTURE_SIZE));
-                
-                // Draw the block
-                window.draw(tetrominoSprite);
-            }
-        }
-    }
-
-    scoreDisplay.draw(window);
 }
