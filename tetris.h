@@ -39,8 +39,7 @@ private:
 	ScoreDisplay scoreDisplay;
 
 public:
-
-	bool isGameOver = false;
+	bool gameOver;
 
 	void initialize();
 	void setTetrominoStartingPosition(int startRow, int startColumn);
@@ -49,7 +48,7 @@ public:
 	void clearFullLines();
 	void resetFallingTetromino();
 	void hardDrop();
-	bool gameOver();
+	bool isGameOver();
 
 	void handleInput(sf::Event event);
 	void update(float deltaTime);

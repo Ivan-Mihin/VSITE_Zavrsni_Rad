@@ -26,7 +26,7 @@ void PlayingState::update(float deltaTime)
 {
     tetrisGame.update(deltaTime);
 
-    if (tetrisGame.isGameOver)
+    if (tetrisGame.gameOver)
     {
         commandEndGame->execute();
     }

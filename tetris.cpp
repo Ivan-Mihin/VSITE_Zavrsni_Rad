@@ -34,6 +34,8 @@ void Tetris::initialize()
     lockDelayDuration = 1.0f;
 
     scoreManager.addObserver(&scoreDisplay);
+
+    gameOver = false;
 }
 
 void Tetris::setTetrominoStartingPosition(int startRow, int startColumn)
@@ -154,15 +156,27 @@ void Tetris::hardDrop()
     }
 }
 
-bool Tetris::gameOver()
+bool Tetris::isGameOver()
 {
-    for (int i = 0; i < 4; i++)
+    for (int column = 0; column < BOARD_COLUMNS; ++column)
     {
-        if (board[fallingTetromino->getSquares()[i].getY()][fallingTetromino->getSquares()[i].getX()])
+        if (board[1][column])
         {
             return true;
         }
     }
+
+
+    //Iz nekog razloga on propusti još jedan tetromino prije game overa
+
+
+    //for (int i = 0; i < 4; i++)
+    //{
+    //    if (board[fallingTetromino->getSquares()[i].getY()][fallingTetromino->getSquares()[i].getX()])
+    //    {
+    //        return true;
+    //    }
+    //}
 
     return false;
 }
@@ -235,11 +249,17 @@ void Tetris::handleInput(sf::Event event)
         case sf::Keyboard::Down:
         {
             hardDrop();
-            isGameOver = gameOver();
-
             lockTetromino();
-            clearFullLines();
-            resetFallingTetromino();
+
+            if (isGameOver())
+            {
+                gameOver = true;
+            }
+            else
+            {
+                clearFullLines();
+                resetFallingTetromino();
+            }
 
             break;
         }
@@ -272,20 +292,27 @@ void Tetris::update(float deltaTime)
         }
         else
         {
-            isGameOver = gameOver();
-
-            if (!tetrominoCanLock) 
+           
+            if (!tetrominoCanLock)
             {
                 tetrominoCanLock = true;
                 lockDelayTimer.restart();
             }
-            else 
+            else
             {
-                if (lockDelayTimer.getElapsedTime().asSeconds() >= lockDelayDuration) 
+                if (lockDelayTimer.getElapsedTime().asSeconds() >= lockDelayDuration)
                 {
                     lockTetromino();
-                    clearFullLines();
-                    resetFallingTetromino();
+
+                    if (isGameOver())
+                    {
+                        gameOver = true;
+                    }
+                    else
+                    {
+                        clearFullLines();
+                        resetFallingTetromino();
+                    }
                 }
             }
         }
