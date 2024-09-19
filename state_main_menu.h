@@ -3,7 +3,7 @@
 #include "state.h"
 #include "command.h"
 
-class MainMenuState : public State 
+class StateMainMenu : public State 
 {
 private:
     sf::Font font;
@@ -22,7 +22,7 @@ private:
     CommandExitGame* commandExitGame;
 
 public:
-    MainMenuState(CommandStartGame* commandStartGame, CommandExitGame* commandExitGame);
+    StateMainMenu(CommandStartGame* commandStartGame, CommandExitGame* commandExitGame);
 
     void handleInput(sf::Event& event) override;
     void update(float deltaTime) override;

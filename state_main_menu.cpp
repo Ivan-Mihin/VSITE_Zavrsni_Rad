@@ -1,6 +1,6 @@
 #include "state_main_menu.h"
 
-MainMenuState::MainMenuState(CommandStartGame* commandStartGame, CommandExitGame* commandExitGame) : commandStartGame(commandStartGame) , commandExitGame(commandExitGame)
+StateMainMenu::StateMainMenu(CommandStartGame* commandStartGame, CommandExitGame* commandExitGame) : commandStartGame(commandStartGame) , commandExitGame(commandExitGame)
 {
     font.loadFromFile("Resources/Fonts/BaiJamjuree-Regular.ttf");
 
@@ -21,7 +21,7 @@ MainMenuState::MainMenuState(CommandStartGame* commandStartGame, CommandExitGame
     startText.setPosition(400, 600);
 }
 
-void MainMenuState::handleInput(sf::Event& event)
+void StateMainMenu::handleInput(sf::Event& event)
 {
     if (event.type == sf::Event::KeyPressed)
     {
@@ -36,7 +36,7 @@ void MainMenuState::handleInput(sf::Event& event)
     }
 }
 
-void MainMenuState::update(float deltaTime)
+void StateMainMenu::update(float deltaTime)
 {
     sf::Time elapsed = clock.getElapsedTime();
     float time = elapsed.asSeconds();
@@ -45,7 +45,7 @@ void MainMenuState::update(float deltaTime)
     startText.setFillColor(color);
 }
 
-void MainMenuState::render(sf::RenderWindow& window)
+void StateMainMenu::render(sf::RenderWindow& window)
 {
     window.draw(mainMenuBackgroundSprite);
     window.draw(tetrisLogoSprite);

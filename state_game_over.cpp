@@ -1,6 +1,6 @@
 #include "state_game_over.h"
 
-GameOverState::GameOverState(CommandStartGame* commandStartGame, CommandExitGame* commandExitGame) : commandStartGame(commandStartGame), commandExitGame(commandExitGame)
+StateGameOver::StateGameOver(CommandStartGame* commandStartGame, CommandExitGame* commandExitGame) : commandStartGame(commandStartGame), commandExitGame(commandExitGame)
 {
     font.loadFromFile("Resources/Fonts/BaiJamjuree-Regular.ttf");
 
@@ -21,7 +21,7 @@ GameOverState::GameOverState(CommandStartGame* commandStartGame, CommandExitGame
     gameOverText.setPosition(400, 600);
 }
 
-void GameOverState::handleInput(sf::Event& event)
+void StateGameOver::handleInput(sf::Event& event)
 {
     if (event.type == sf::Event::KeyPressed)
     {
@@ -36,7 +36,7 @@ void GameOverState::handleInput(sf::Event& event)
     }
 }
 
-void GameOverState::update(float deltaTime)
+void StateGameOver::update(float deltaTime)
 {
     sf::Time elapsed = clock.getElapsedTime();
     float time = elapsed.asSeconds();
@@ -45,7 +45,7 @@ void GameOverState::update(float deltaTime)
     gameOverText.setFillColor(color);
 }
 
-void GameOverState::render(sf::RenderWindow& window)
+void StateGameOver::render(sf::RenderWindow& window)
 {
     window.draw(gameOverBackgroundSprite);
     window.draw(gameOverLogoSprite);

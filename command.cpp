@@ -4,37 +4,62 @@
 #include "state_playing.h"
 #include "command.h"
 
+CommandMoveLeft::CommandMoveLeft(Tetromino* tetromino)
+{
+    this->tetromino = tetromino;
+}
+
 void CommandMoveLeft::execute()
 {
-    tetromino.moveLeft();
+    tetromino->moveLeft();
+}
+
+CommandMoveRight::CommandMoveRight(Tetromino* tetromino)
+{
+    this->tetromino = tetromino;
 }
 
 void CommandMoveRight::execute()
 {
-    tetromino.moveRight();
+    tetromino->moveRight();
+}
+
+CommandMoveDown::CommandMoveDown(Tetromino* tetromino)
+{
+    this->tetromino = tetromino;
 }
 
 void CommandMoveDown::execute()
 {
-    tetromino.moveDown();
+    tetromino->moveDown();
+}
+
+CommandRotate::CommandRotate(Tetromino* tetromino)
+{
+    this->tetromino = tetromino;
 }
 
 void CommandRotate::execute()
 {
-    tetromino.rotate();
+    tetromino->rotate();
+}
+
+void CommandStartGame::execute()
+{
+    Game::getInstance().changeState(new StatePlaying(new CommandExitGame(&Game::getInstance().getWindow()), new CommandEndGame()));
+}
+
+void CommandEndGame::execute()
+{
+    Game::getInstance().changeState(new StateGameOver(new CommandStartGame(), new CommandExitGame(&Game::getInstance().getWindow())));
+}
+
+CommandExitGame::CommandExitGame(sf::RenderWindow* window)
+{
+    this->window = window;
 }
 
 void CommandExitGame::execute()
 {
     window->close();
-}
-
-void CommandStartGame::execute()
-{
-    Game::getInstance().changeState(new PlayingState(new CommandExitGame(&Game::getInstance().getWindow()), new CommandEndGame()));
-}
-
-void CommandEndGame::execute()
-{
-    Game::getInstance().changeState(new GameOverState(new CommandStartGame(), new CommandExitGame(&Game::getInstance().getWindow())));
 }

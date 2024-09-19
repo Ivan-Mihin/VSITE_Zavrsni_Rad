@@ -3,7 +3,7 @@
 #include "state.h"
 #include "game.h"
 
-class GameOverState : public State 
+class StateGameOver : public State 
 {
 private:
     sf::Font font;
@@ -22,7 +22,7 @@ private:
     CommandExitGame* commandExitGame;
 
 public:
-    GameOverState(CommandStartGame* commandStartGame, CommandExitGame* commandExitGame);
+    StateGameOver(CommandStartGame* commandStartGame, CommandExitGame* commandExitGame);
 
     void handleInput(sf::Event& event) override;
     void update(float deltaTime) override;

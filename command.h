@@ -12,40 +12,40 @@ public:
 class CommandMoveLeft : public Command 
 {
 private:
-    Tetromino& tetromino;
+    Tetromino* tetromino;
 
 public:
-    CommandMoveLeft(Tetromino* tetromino) : tetromino(*tetromino) {}
+    CommandMoveLeft(Tetromino* tetromino);
     void execute() override;
 };
 
 class CommandMoveRight : public Command 
 {
 private:
-    Tetromino& tetromino;
+    Tetromino* tetromino;
 
 public:
-    CommandMoveRight(Tetromino* tetromino) : tetromino(*tetromino) {}
+    CommandMoveRight(Tetromino* tetromino);
     void execute() override;
 };
 
 class CommandMoveDown : public Command
 {
 private:
-    Tetromino& tetromino;
+    Tetromino* tetromino;
 
 public:
-    CommandMoveDown(Tetromino* tetromino) : tetromino(*tetromino) {}
+    CommandMoveDown(Tetromino* tetromino);
     void execute() override;
 };
 
 class CommandRotate : public Command
 {
 private:
-    Tetromino& tetromino;
+    Tetromino* tetromino;
 
 public:
-    CommandRotate(Tetromino* tetromino) : tetromino(*tetromino) {}
+    CommandRotate(Tetromino* tetromino);
     void execute() override;
 };
 
@@ -69,6 +69,6 @@ private:
     sf::RenderWindow* window;
 
 public:
-    CommandExitGame(sf::RenderWindow* window) : window(window) {}
+    CommandExitGame(sf::RenderWindow* window);
     void execute() override;
 };

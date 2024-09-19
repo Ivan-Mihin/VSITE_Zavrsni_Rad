@@ -4,7 +4,7 @@
 Game::Game() : window(sf::VideoMode(800, 800), "Tetris!") , commandExitGame(new CommandExitGame(&window))
 {
     commandStartGame = new CommandStartGame();
-    changeState(new MainMenuState(commandStartGame, commandExitGame));
+    changeState(new StateMainMenu(commandStartGame, commandExitGame));
 }
 
 Game* Game::instance = nullptr;

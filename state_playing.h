@@ -4,7 +4,7 @@
 #include "state.h"
 #include "tetris.h"
 
-class PlayingState : public State 
+class StatePlaying : public State 
 {
 private:
     Tetris tetrisGame;
@@ -12,7 +12,7 @@ private:
     CommandEndGame* commandEndGame;
 
 public:
-    PlayingState(CommandExitGame* commandExitGame, CommandEndGame* commandEndgame);
+    StatePlaying(CommandExitGame* commandExitGame, CommandEndGame* commandEndgame);
 
     void handleInput(sf::Event& event) override;
     void update(float deltaTime) override;

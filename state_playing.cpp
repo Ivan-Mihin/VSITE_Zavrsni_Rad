@@ -1,11 +1,11 @@
 #include "state_playing.h"
 
-PlayingState::PlayingState(CommandExitGame* commandExitGame, CommandEndGame* commandEndGame) : commandExitGame(commandExitGame) , commandEndGame(commandEndGame)
+StatePlaying::StatePlaying(CommandExitGame* commandExitGame, CommandEndGame* commandEndGame) : commandExitGame(commandExitGame) , commandEndGame(commandEndGame)
 {
     tetrisGame.initialize();
 }
 
-void PlayingState::handleInput(sf::Event& event)
+void StatePlaying::handleInput(sf::Event& event)
 {
     if (event.type == sf::Event::KeyPressed)
     {
@@ -22,7 +22,7 @@ void PlayingState::handleInput(sf::Event& event)
     tetrisGame.handleInput(event);
 }
 
-void PlayingState::update(float deltaTime)
+void StatePlaying::update(float deltaTime)
 {
     tetrisGame.update(deltaTime);
 
@@ -32,7 +32,7 @@ void PlayingState::update(float deltaTime)
     }
 }
 
-void PlayingState::render(sf::RenderWindow& window)
+void StatePlaying::render(sf::RenderWindow& window)
 {
     tetrisGame.render(window);
 }
