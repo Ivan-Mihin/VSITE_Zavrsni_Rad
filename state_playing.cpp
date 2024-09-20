@@ -1,7 +1,9 @@
 #include "state_playing.h"
 
-StatePlaying::StatePlaying(CommandExitGame* commandExitGame, CommandEndGame* commandEndGame) : commandExitGame(commandExitGame) , commandEndGame(commandEndGame)
+StatePlaying::StatePlaying(CommandExitGame* commandExitGame) : commandExitGame(commandExitGame)
 {
+    commandEndGame = new CommandEndGame();
+
     tetrisGame.initialize();
 }
 

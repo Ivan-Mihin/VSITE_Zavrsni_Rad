@@ -46,12 +46,12 @@ void CommandRotate::execute()
 
 void CommandStartGame::execute()
 {
-    Game::getInstance().changeState(new StatePlaying(new CommandExitGame(&Game::getInstance().getWindow()), new CommandEndGame()));
+    Game::getInstance().changeState(new StatePlaying(new CommandExitGame(&Game::getInstance().getWindow())));
 }
 
 void CommandEndGame::execute()
 {
-    Game::getInstance().changeState(new StateGameOver(new CommandStartGame(), new CommandExitGame(&Game::getInstance().getWindow())));
+    Game::getInstance().changeState(new StateGameOver(new CommandExitGame(&Game::getInstance().getWindow())));
 }
 
 CommandExitGame::CommandExitGame(sf::RenderWindow* window)

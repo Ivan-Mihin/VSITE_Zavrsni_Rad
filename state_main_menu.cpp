@@ -1,7 +1,9 @@
 #include "state_main_menu.h"
 
-StateMainMenu::StateMainMenu(CommandStartGame* commandStartGame, CommandExitGame* commandExitGame) : commandStartGame(commandStartGame) , commandExitGame(commandExitGame)
+StateMainMenu::StateMainMenu(CommandExitGame* commandExitGame) : commandExitGame(commandExitGame)
 {
+    commandStartGame = new CommandStartGame();
+
     font.loadFromFile("Resources/Fonts/BaiJamjuree-Regular.ttf");
 
     mainMenuBackground.loadFromFile("Resources/Sprites/main_menu_background_2.png");

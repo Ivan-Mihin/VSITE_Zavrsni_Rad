@@ -12,7 +12,7 @@ private:
     CommandEndGame* commandEndGame;
 
 public:
-    StatePlaying(CommandExitGame* commandExitGame, CommandEndGame* commandEndgame);
+    StatePlaying(CommandExitGame* commandExitGame);
 
     void handleInput(sf::Event& event) override;
     void update(float deltaTime) override;

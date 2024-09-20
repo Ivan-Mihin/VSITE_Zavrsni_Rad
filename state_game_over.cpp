@@ -1,7 +1,9 @@
 #include "state_game_over.h"
 
-StateGameOver::StateGameOver(CommandStartGame* commandStartGame, CommandExitGame* commandExitGame) : commandStartGame(commandStartGame), commandExitGame(commandExitGame)
+StateGameOver::StateGameOver(CommandExitGame* commandExitGame) : commandExitGame(commandExitGame)
 {
+    commandStartGame = new CommandStartGame();
+
     font.loadFromFile("Resources/Fonts/BaiJamjuree-Regular.ttf");
 
     gameOverBackground.loadFromFile("Resources/Sprites/main_menu_background_2.png");

@@ -22,7 +22,7 @@ private:
     CommandExitGame* commandExitGame;
 
 public:
-    StateMainMenu(CommandStartGame* commandStartGame, CommandExitGame* commandExitGame);
+    StateMainMenu(CommandExitGame* commandExitGame);
 
     void handleInput(sf::Event& event) override;
     void update(float deltaTime) override;

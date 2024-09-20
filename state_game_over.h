@@ -22,7 +22,7 @@ private:
     CommandExitGame* commandExitGame;
 
 public:
-    StateGameOver(CommandStartGame* commandStartGame, CommandExitGame* commandExitGame);
+    StateGameOver(CommandExitGame* commandExitGame);
 
     void handleInput(sf::Event& event) override;
     void update(float deltaTime) override;
