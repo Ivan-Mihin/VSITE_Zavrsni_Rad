@@ -71,17 +71,20 @@ private:
 
 	sf::Color innerRectangleColor;
 
-
-
 	sf::Clock clockForFallingTetromino;
 	float durationBeforeFallingTetrominoMovesDown;
-
 
 	bool tetrominoHasLanded;
 	float lockDelayDuration;
 
 	sf::Clock lockDelayClock;
 	bool isLockDelayActive;
+
+	sf::Color inventoryNextTetrominoInnerRectangleStartColor;
+	sf::Color inventoryNextTetrominoInnerRectangleEndColor;
+
+	sf::Clock colorClock;
+	float colorChangeCycle;
 
 public:
 	bool gameOver;
