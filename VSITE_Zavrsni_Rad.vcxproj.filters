@@ -39,7 +39,7 @@
     <ClCompile Include="state_game_over.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="score_display.cpp">
+    <ClCompile Include="observer_score.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="score_manager.cpp">
@@ -80,7 +80,7 @@
     <ClInclude Include="score_manager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="score_display.h">
+    <ClInclude Include="observer_score.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="audio.h">

@@ -3,17 +3,13 @@
 #include "observer.h"
 #include "score_manager.h"
 
-class ScoreDisplay : public Observer 
+class ObserverScore : public Observer 
 {
 private:
     int currentScore;
-    sf::Font font;
-    sf::Text scoreLabel;
-    sf::Text scoreText;
 
 public:
-    ScoreDisplay();
+    ObserverScore();
 
     void update(int score) override;
-    void draw(sf::RenderWindow& window);
 };

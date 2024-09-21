@@ -9,7 +9,7 @@ private:
     std::vector<Observer*> observers;
 
 public:
-    ScoreManager() : score(0) {}
+    ScoreManager();
 
     void addObserver(Observer* observer);
     void removeObserver(Observer* observer);

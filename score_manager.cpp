@@ -1,5 +1,10 @@
 #include "score_manager.h"
 
+ScoreManager::ScoreManager()
+{
+    score = 0;
+}
+
 void ScoreManager::addObserver(Observer* observer)
 {
     observers.push_back(observer);
