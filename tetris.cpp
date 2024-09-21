@@ -11,7 +11,7 @@ void Tetris::initialize()
 	fallingTetromino = director.createRandomTetromino();
     ghostTetromino = new Tetromino(*fallingTetromino);
 
-	for (int i = 0; i < 6; ++i)
+	for (int i = 0; i < 7; ++i)
 	{
 		inventory.push_back(director.createRandomTetromino());
 	}
@@ -47,9 +47,13 @@ void Tetris::initialize()
 
     font.loadFromFile("Resources/Fonts/BaiJamjuree-Regular.ttf");
 
-    inventoryRectangle.setPosition(620, 100);
-    inventoryRectangle.setSize(sf::Vector2f(150, 540));
-    inventoryRectangle.setFillColor(innerRectangleColor);
+    inventoryOuterRectangle.setPosition(610, 135);
+    inventoryOuterRectangle.setSize(sf::Vector2f(170, 650));
+    inventoryOuterRectangle.setFillColor(sf::Color::Black);
+
+    inventoryInnerRectangle.setPosition(inventoryOuterRectangle.getPosition().x + 10, inventoryOuterRectangle.getPosition().y + 10);
+    inventoryInnerRectangle.setSize(sf::Vector2f(150, 630));
+    inventoryInnerRectangle.setFillColor(innerRectangleColor);
 
     background.loadFromFile("Resources/Sprites/main_menu_background.png");
     backgroundSprite.setTexture(background);
@@ -130,10 +134,13 @@ void Tetris::initialize()
     lockDelayInventoryTextLabelRectangle.setSize(sf::Vector2f(inventoryTextLabelInnerRectangle.getLocalBounds().width, inventoryTextLabelInnerRectangle.getLocalBounds().height));
     lockDelayInventoryTextLabelRectangle.setFillColor(colorPicker(fallingTetromino->getColor()));
 
-    /*lockdelayinventoryrectanglestartx = inventoryrectangle.getposition().x;
-    lockdelayinventoryrectanglestarty = inventoryrectangle.getposition().y;
-    lockdelayinventoryrectangleendx = scoretextlabel.getposition().x;
-    lockdelayinventoryrectangleendy = scoretextlabel.getposition().y;*/
+    lockDelayInventoryRectangleStartX = inventoryInnerRectangle.getPosition().x;
+    lockDelayInventoryRectangleStartY = inventoryInnerRectangle.getPosition().y;
+    lockDelayInventoryRectangleEndX = inventoryOuterRectangle.getPosition().x;
+    lockDelayInventoryRectangleEndY = inventoryOuterRectangle.getPosition().y;
+    lockDelayInventoryRectangle.setPosition(sf::Vector2f(lockDelayInventoryRectangleStartX, lockDelayInventoryRectangleStartY));
+    lockDelayInventoryRectangle.setSize(sf::Vector2f(inventoryInnerRectangle.getLocalBounds().width, inventoryInnerRectangle.getLocalBounds().height));
+    lockDelayInventoryRectangle.setFillColor(colorPicker(fallingTetromino->getColor()));
 
     lockDelaySizeIncreaseStartValue = 0.0f;
     lockDelaySizeIncreaseEndValue = 20.0f;
@@ -292,6 +299,7 @@ void Tetris::resetFallingTetromino()
     lockDelayBoardRectangle.setFillColor(colorPicker(fallingTetromino->getColor()));
     lockDelayScoreRectangle.setFillColor(colorPicker(fallingTetromino->getColor()));
     lockDelayInventoryTextLabelRectangle.setFillColor(colorPicker(fallingTetromino->getColor()));
+    lockDelayInventoryRectangle.setFillColor(colorPicker(fallingTetromino->getColor()));
 
     inventory.erase(inventory.begin());
     inventory.push_back(director.createRandomTetromino());
@@ -349,6 +357,9 @@ void Tetris::lockDelayRectangleReset()
 
     lockDelayInventoryTextLabelRectangle.setPosition(sf::Vector2f(lockDelayInventoryTextLabelRectangleStartX, lockDelayInventoryTextLabelRectangleStartY));
     lockDelayInventoryTextLabelRectangle.setSize(sf::Vector2f(inventoryTextLabelInnerRectangle.getLocalBounds().width, inventoryTextLabelInnerRectangle.getLocalBounds().height));
+
+    lockDelayInventoryRectangle.setPosition(sf::Vector2f(lockDelayInventoryRectangleStartX, lockDelayInventoryRectangleStartY));
+    lockDelayInventoryRectangle.setSize(sf::Vector2f(inventoryInnerRectangle.getLocalBounds().width, inventoryInnerRectangle.getLocalBounds().height));
 }
 
 void Tetris::handleInput(sf::Event event)
@@ -567,6 +578,9 @@ void Tetris::update(float deltaTime)
                 float currentLockDelayInventoryTextLabelRectangleSizeX = lockDelayInventoryTextLabelRectangleStartX + t * (lockDelayInventoryTextLabelRectangleEndX - lockDelayInventoryTextLabelRectangleStartX);
                 float currentLockDelayInventoryTextLabelRectangleSizeY = lockDelayInventoryTextLabelRectangleStartY + t * (lockDelayInventoryTextLabelRectangleEndY - lockDelayInventoryTextLabelRectangleStartY);
 
+                float currentLockDelayInventoryRectangleSizeX = lockDelayInventoryRectangleStartX + t * (lockDelayInventoryRectangleEndX - lockDelayInventoryRectangleStartX);
+                float currentLockDelayInventoryRectangleSizeY = lockDelayInventoryRectangleStartY + t * (lockDelayInventoryRectangleEndY - lockDelayInventoryRectangleStartY);
+
                 float currentLockDelaySizeIncreaseValue = lockDelaySizeIncreaseStartValue + t * (lockDelaySizeIncreaseEndValue - lockDelaySizeIncreaseStartValue);
 
                 lockDelayBoardRectangle.setSize(sf::Vector2f(boardSprite.getLocalBounds().width + currentLockDelaySizeIncreaseValue,
@@ -580,6 +594,10 @@ void Tetris::update(float deltaTime)
                 lockDelayInventoryTextLabelRectangle.setSize(sf::Vector2f(inventoryTextLabelInnerRectangle.getLocalBounds().width + currentLockDelaySizeIncreaseValue,
                     inventoryTextLabelInnerRectangle.getLocalBounds().height + currentLockDelaySizeIncreaseValue));
                 lockDelayInventoryTextLabelRectangle.setPosition(currentLockDelayInventoryTextLabelRectangleSizeX, currentLockDelayInventoryTextLabelRectangleSizeY);
+            
+                lockDelayInventoryRectangle.setSize(sf::Vector2f(inventoryInnerRectangle.getLocalBounds().width + currentLockDelaySizeIncreaseValue,
+                    inventoryInnerRectangle.getLocalBounds().height + currentLockDelaySizeIncreaseValue));
+                lockDelayInventoryRectangle.setPosition(currentLockDelayInventoryRectangleSizeX, currentLockDelayInventoryRectangleSizeY);
             }
             else 
             {
@@ -616,7 +634,9 @@ void Tetris::render(sf::RenderWindow& window)
         window.draw(inventoryTextLabelInnerRectangle);
         window.draw(inventoryTextLabel);
 
-        window.draw(inventoryRectangle);
+        window.draw(inventoryOuterRectangle);
+        window.draw(lockDelayInventoryRectangle);
+        window.draw(inventoryInnerRectangle);
 
         // Draw Tetromino
         for (int index = 0; index < 4; index++)
@@ -641,27 +661,32 @@ void Tetris::render(sf::RenderWindow& window)
             {
                 for (int column = 0; column < inventory[index]->getShapeMatrix().size(); ++column)
                 {
-                    int offsetFromBoardX = TEXTURE_SIZE;
-                    int offsetFromBoardY = TEXTURE_SIZE;
+                    int offsetFromInventoryInnerRectangle = TEXTURE_SIZE / 2;
+                    int additionalOffsetX = 0;
+                    int additionalOffsetY = 0;
 
                     if (inventory[index]->getShapeMatrix()[column][row])
                     {
                         
                         if (inventory[index]->getShape() == TetrominoShape::Shape_I)
                         {
-                            offsetFromBoardY -= TEXTURE_SIZE / 2;
+                            additionalOffsetY -= TEXTURE_SIZE / 2;
                         }
                         else if (inventory[index]->getShape() == TetrominoShape::Shape_O)
                         {
-                            offsetFromBoardX += TEXTURE_SIZE;
+                            additionalOffsetX += TEXTURE_SIZE;
                         }
                         else
                         {
-                            offsetFromBoardX += TEXTURE_SIZE / 2;
+                            additionalOffsetX += TEXTURE_SIZE / 2;
                         }
 
                         tetrominoSprite.setTextureRect(sf::IntRect((int)inventory[index]->getColor() * TEXTURE_SIZE, 0, TEXTURE_SIZE, TEXTURE_SIZE));
-                        tetrominoSprite.setPosition(605 + offsetFromBoardX + TEXTURE_SIZE * row, 84 + offsetFromBoardY + (90 * index) + TEXTURE_SIZE * column);
+
+                        tetrominoSprite.setPosition(inventoryInnerRectangle.getGlobalBounds().left + offsetFromInventoryInnerRectangle + additionalOffsetX + TEXTURE_SIZE * row,
+                            inventoryInnerRectangle.getGlobalBounds().top + offsetFromInventoryInnerRectangle + additionalOffsetY + (3 * TEXTURE_SIZE * index) + TEXTURE_SIZE * column);
+
+                        //tetrominoSprite.setPosition(605 + offsetFromBoardX + TEXTURE_SIZE * row, 84 + offsetFromBoardY + (90 * index) + TEXTURE_SIZE * column);
                         window.draw(tetrominoSprite);
                     }
                 }

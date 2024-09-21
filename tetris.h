@@ -36,7 +36,9 @@ private:
 	sf::RectangleShape boardOuterRectangle;
 	sf::RectangleShape inventoryTextLabelOuterRectangle;
 	sf::RectangleShape inventoryTextLabelInnerRectangle;
-	sf::RectangleShape inventoryRectangle;
+	sf::RectangleShape inventoryNextTetrominoInnerRectangle;
+	sf::RectangleShape inventoryInnerRectangle;
+	sf::RectangleShape inventoryOuterRectangle;
 	sf::RectangleShape scoreOuterRectangle;
 	sf::RectangleShape scoreTextLabelInnerRectangle;
 	sf::RectangleShape scoreValueInnerRectangle;
