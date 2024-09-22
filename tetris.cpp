@@ -456,28 +456,37 @@ void Tetris::handleInput(sf::Event event)
             {
                 hardDrop();
 
-                //if (lockDelayTimer.getElapsedTime().asSeconds() >= lockDelayDuration)
-                //{
-                    lockTetromino();
-
-                    if (isGameOver())
+                if (!isLockDelayActive)
+                {
+                    lockDelayClock.restart();
+                    isLockDelayActive = true;
+                }
+                else
+                {
+                    if (lockDelayClock.getElapsedTime().asSeconds() >= lockDelayDuration)
                     {
-                        gameOver = true;
+                        lockTetromino();
+                        lockDelayRectangleReset();
 
-                        delete fallingTetromino;
-                        delete ghostTetromino;
-
-                        for (Tetromino* tetromino : inventory)
+                        if (isGameOver())
                         {
-                            delete tetromino;
+                            gameOver = true;
+
+                            delete fallingTetromino;
+                            delete ghostTetromino;
+
+                            for (Tetromino* tetromino : inventory)
+                            {
+                                delete tetromino;
+                            }
+                        }
+                        else
+                        {
+                            clearFullLines();
+                            resetFallingTetromino();
                         }
                     }
-                    else
-                    {
-                        clearFullLines();
-                        resetFallingTetromino();
-                    }
-/*                } */         
+                }
 
                 break;
             }
