@@ -4,13 +4,13 @@ StateMainMenu::StateMainMenu(CommandExitGame* commandExitGame) : commandExitGame
 {
     commandStartGame = new CommandStartGame();
 
-    font.loadFromFile("Resources/Fonts/BaiJamjuree-Regular.ttf");
+    font.loadFromFile("../../Resources/Fonts/BaiJamjuree-Regular.ttf");
 
-    mainMenuBackground.loadFromFile("Resources/Sprites/main_menu_background_2.png");
+    mainMenuBackground.loadFromFile("../../Resources/Sprites/main_menu_background_2.png");
     mainMenuBackgroundSprite.setTexture(mainMenuBackground);
     mainMenuBackgroundSprite.setPosition(0, 0);
 
-    tetrisLogo.loadFromFile("Resources/Sprites/tetris_logo.png");
+    tetrisLogo.loadFromFile("../../Resources/Sprites/tetris_logo.png");
     tetrisLogoSprite.setTexture(tetrisLogo);
     tetrisLogoSprite.setOrigin(250, 0);
     tetrisLogoSprite.setPosition(400, 100);

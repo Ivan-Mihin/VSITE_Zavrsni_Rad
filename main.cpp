@@ -2,7 +2,8 @@
 #include <windows.h>
 #include "game.h"
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
+//int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
+int main()
 {
     std::srand(static_cast<unsigned int>(std::time(nullptr)));
 

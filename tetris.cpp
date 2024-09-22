@@ -33,19 +33,19 @@ void Tetris::initialize()
     inventoryNextTetrominoInnerRectangleEndColor.g = 50;
     inventoryNextTetrominoInnerRectangleEndColor.b = 50;
 
-    tetrominoTexture.loadFromFile("Resources/Sprites/tetromino.png");
+    tetrominoTexture.loadFromFile("../../Resources/Sprites/tetromino.png");
     tetrominoSprite.setTexture(tetrominoTexture);
     tetrominoSprite.setTextureRect(sf::IntRect(0, 0, TEXTURE_SIZE, TEXTURE_SIZE));
 
-    ghostTetrominoTexture.loadFromFile("Resources/Sprites/tetromino_ghost.png");
+    ghostTetrominoTexture.loadFromFile("../../Resources/Sprites/tetromino_ghost.png");
     ghostTetrominoSprite.setTexture(ghostTetrominoTexture);
     ghostTetrominoSprite.setTextureRect(sf::IntRect(0, 0, TEXTURE_SIZE, TEXTURE_SIZE));
 
-    boardTexture.loadFromFile("Resources/Sprites/board.png");
+    boardTexture.loadFromFile("../../Resources/Sprites/board.png");
     boardSprite.setTexture(boardTexture);
     boardSprite.setPosition(220, 25);
 
-    boardGameOverLineTexture.loadFromFile("Resources/Sprites/game_over_line.png");
+    boardGameOverLineTexture.loadFromFile("../../Resources/Sprites/game_over_line.png");
     boardGameOverLineSprite.setTexture(boardGameOverLineTexture);
     boardGameOverLineSprite.setPosition(220, 85);
 
@@ -53,7 +53,7 @@ void Tetris::initialize()
     boardOuterRectangle.setSize(sf::Vector2f(380, 770));
     boardOuterRectangle.setFillColor(sf::Color::Black);
 
-    font.loadFromFile("Resources/Fonts/BaiJamjuree-Regular.ttf");
+    font.loadFromFile("../../Resources/Fonts/BaiJamjuree-Regular.ttf");
 
     inventoryOuterRectangle.setPosition(610, 135);
     inventoryOuterRectangle.setSize(sf::Vector2f(170, 650));
@@ -67,7 +67,7 @@ void Tetris::initialize()
     inventoryInnerRectangle.setSize(sf::Vector2f(150, 540));
     inventoryInnerRectangle.setFillColor(innerRectangleColor);
 
-    background.loadFromFile("Resources/Sprites/main_menu_background.png");
+    background.loadFromFile("../../Resources/Sprites/main_menu_background.png");
     backgroundSprite.setTexture(background);
     backgroundSprite.setPosition(0, 0);
 
