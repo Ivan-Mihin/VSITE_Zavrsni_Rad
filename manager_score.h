@@ -2,14 +2,14 @@
 #include <vector>
 #include "observer.h"
 
-class ScoreManager 
+class ManagerScore
 {
 private:
     int score;
     std::vector<Observer*> observers;
 
 public:
-    ScoreManager();
+    ManagerScore();
 
     void addObserver(Observer* observer);
     void removeObserver(Observer* observer);

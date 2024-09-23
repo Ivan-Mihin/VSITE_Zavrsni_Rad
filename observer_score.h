@@ -1,7 +1,6 @@
 #pragma once
-#include <SFML/Graphics.hpp>
 #include "observer.h"
-#include "score_manager.h"
+#include "manager_score.h"
 
 class ObserverScore : public Observer 
 {

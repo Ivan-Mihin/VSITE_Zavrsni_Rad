@@ -2,148 +2,148 @@
 
 Audio::Audio()
 {
-    buffer_all_clear.loadFromFile("../../Resources/Audio/all_clear.ogg");
+    buffer_all_clear.loadFromFile("Resources/Audio/all_clear.ogg");
     sfx_all_clear.setBuffer(buffer_all_clear);
 
-    buffer_clear_four_lines.loadFromFile("../../Resources/Audio/clear_four_lines.ogg");
+    buffer_clear_four_lines.loadFromFile("Resources/Audio/clear_four_lines.ogg");
     sfx_clear_four_lines.setBuffer(buffer_clear_four_lines);
 
-    buffer_clear_four_lines_combo.loadFromFile("../../Resources/Audio/clear_four_lines_combo.ogg");
+    buffer_clear_four_lines_combo.loadFromFile("Resources/Audio/clear_four_lines_combo.ogg");
     sfx_clear_four_lines_combo.setBuffer(buffer_clear_four_lines_combo);
 
-    buffer_clear_four_lines_combo_broken.loadFromFile("../../Resources/Audio/clear_four_lines_combo_broken.ogg");
+    buffer_clear_four_lines_combo_broken.loadFromFile("Resources/Audio/clear_four_lines_combo_broken.ogg");
     sfx_clear_four_lines_combo_broken.setBuffer(buffer_clear_four_lines_combo_broken);
 
-    buffer_clear_line.loadFromFile("../../Resources/Audio/clear_line.ogg");
+    buffer_clear_line.loadFromFile("Resources/Audio/clear_line.ogg");
     sfx_clear_line.setBuffer(buffer_clear_line);
 
-    buffer_clear_t_spin.loadFromFile("../../Resources/Audio/clear_t_spin.ogg");
+    buffer_clear_t_spin.loadFromFile("Resources/Audio/clear_t_spin.ogg");
     sfx_clear_t_spin.setBuffer(buffer_clear_t_spin);
 
-    buffer_combo_1.loadFromFile("../../Resources/Audio/combo_1.ogg");
+    buffer_combo_1.loadFromFile("Resources/Audio/combo_1.ogg");
     sfx_combo_1.setBuffer(buffer_combo_1);
 
-    buffer_combo_2.loadFromFile("../../Resources/Audio/combo_2.ogg");
+    buffer_combo_2.loadFromFile("Resources/Audio/combo_2.ogg");
     sfx_combo_2.setBuffer(buffer_combo_2);
 
-    buffer_combo_3.loadFromFile("../../Resources/Audio/combo_3.ogg");
+    buffer_combo_3.loadFromFile("Resources/Audio/combo_3.ogg");
     sfx_combo_3.setBuffer(buffer_combo_3);
 
-    buffer_combo_4.loadFromFile("../../Resources/Audio/combo_4.ogg");
+    buffer_combo_4.loadFromFile("Resources/Audio/combo_4.ogg");
     sfx_combo_4.setBuffer(buffer_combo_4);
 
-    buffer_combo_5.loadFromFile("../../Resources/Audio/combo_5.ogg");
+    buffer_combo_5.loadFromFile("Resources/Audio/combo_5.ogg");
     sfx_combo_5.setBuffer(buffer_combo_5);
 
-    buffer_combo_6.loadFromFile("../../Resources/Audio/combo_6.ogg");
+    buffer_combo_6.loadFromFile("Resources/Audio/combo_6.ogg");
     sfx_combo_6.setBuffer(buffer_combo_6);
 
-    buffer_combo_7.loadFromFile("../../Resources/Audio/combo_7.ogg");
+    buffer_combo_7.loadFromFile("Resources/Audio/combo_7.ogg");
     sfx_combo_7.setBuffer(buffer_combo_7);
 
-    buffer_combo_8.loadFromFile("../../Resources/Audio/combo_8.ogg");
+    buffer_combo_8.loadFromFile("Resources/Audio/combo_8.ogg");
     sfx_combo_8.setBuffer(buffer_combo_8);
 
-    buffer_combo_9.loadFromFile("../../Resources/Audio/combo_9.ogg");
+    buffer_combo_9.loadFromFile("Resources/Audio/combo_9.ogg");
     sfx_combo_9.setBuffer(buffer_combo_9);
 
-    buffer_combo_10.loadFromFile("../../Resources/Audio/combo_10.ogg");
+    buffer_combo_10.loadFromFile("Resources/Audio/combo_10.ogg");
     sfx_combo_10.setBuffer(buffer_combo_10);
 
-    buffer_combo_11.loadFromFile("../../Resources/Audio/combo_11.ogg");
+    buffer_combo_11.loadFromFile("Resources/Audio/combo_11.ogg");
     sfx_combo_11.setBuffer(buffer_combo_11);
 
-    buffer_combo_12.loadFromFile("../../Resources/Audio/combo_12.ogg");
+    buffer_combo_12.loadFromFile("Resources/Audio/combo_12.ogg");
     sfx_combo_12.setBuffer(buffer_combo_12);
 
-    buffer_combo_13.loadFromFile("../../Resources/Audio/combo_13.ogg");
+    buffer_combo_13.loadFromFile("Resources/Audio/combo_13.ogg");
     sfx_combo_13.setBuffer(buffer_combo_13);
 
-    buffer_combo_14.loadFromFile("../../Resources/Audio/combo_14.ogg");
+    buffer_combo_14.loadFromFile("Resources/Audio/combo_14.ogg");
     sfx_combo_14.setBuffer(buffer_combo_14);
 
-    buffer_combo_15.loadFromFile("../../Resources/Audio/combo_15.ogg");
+    buffer_combo_15.loadFromFile("Resources/Audio/combo_15.ogg");
     sfx_combo_15.setBuffer(buffer_combo_15);
 
-    buffer_combo_16.loadFromFile("../../Resources/Audio/combo_16.ogg");
+    buffer_combo_16.loadFromFile("Resources/Audio/combo_16.ogg");
     sfx_combo_16.setBuffer(buffer_combo_16);
 
-    buffer_combo_1_power.loadFromFile("../../Resources/Audio/combo_1_power.ogg");
+    buffer_combo_1_power.loadFromFile("Resources/Audio/combo_1_power.ogg");
     sfx_combo_1_power.setBuffer(buffer_combo_1_power);
 
-    buffer_combo_2_power.loadFromFile("../../Resources/Audio/combo_2_power.ogg");
+    buffer_combo_2_power.loadFromFile("Resources/Audio/combo_2_power.ogg");
     sfx_combo_2_power.setBuffer(buffer_combo_2_power);
 
-    buffer_combo_3_power.loadFromFile("../../Resources/Audio/combo_3_power.ogg");
+    buffer_combo_3_power.loadFromFile("Resources/Audio/combo_3_power.ogg");
     sfx_combo_3_power.setBuffer(buffer_combo_3_power);
 
-    buffer_combo_4_power.loadFromFile("../../Resources/Audio/combo_4_power.ogg");
+    buffer_combo_4_power.loadFromFile("Resources/Audio/combo_4_power.ogg");
     sfx_combo_4_power.setBuffer(buffer_combo_4_power);
 
-    buffer_combo_5_power.loadFromFile("../../Resources/Audio/combo_5_power.ogg");
+    buffer_combo_5_power.loadFromFile("Resources/Audio/combo_5_power.ogg");
     sfx_combo_5_power.setBuffer(buffer_combo_5_power);
 
-    buffer_combo_6_power.loadFromFile("../../Resources/Audio/combo_6_power.ogg");
+    buffer_combo_6_power.loadFromFile("Resources/Audio/combo_6_power.ogg");
     sfx_combo_6_power.setBuffer(buffer_combo_6_power);
 
-    buffer_combo_7_power.loadFromFile("../../Resources/Audio/combo_7_power.ogg");
+    buffer_combo_7_power.loadFromFile("Resources/Audio/combo_7_power.ogg");
     sfx_combo_7_power.setBuffer(buffer_combo_7_power);
 
-    buffer_combo_8_power.loadFromFile("../../Resources/Audio/combo_8_power.ogg");
+    buffer_combo_8_power.loadFromFile("Resources/Audio/combo_8_power.ogg");
     sfx_combo_8_power.setBuffer(buffer_combo_8_power);
 
-    buffer_combo_9_power.loadFromFile("../../Resources/Audio/combo_9_power.ogg");
+    buffer_combo_9_power.loadFromFile("Resources/Audio/combo_9_power.ogg");
     sfx_combo_9_power.setBuffer(buffer_combo_9_power);
 
-    buffer_combo_10_power.loadFromFile("../../Resources/Audio/combo_10_power.ogg");
+    buffer_combo_10_power.loadFromFile("Resources/Audio/combo_10_power.ogg");
     sfx_combo_10_power.setBuffer(buffer_combo_10_power);
 
-    buffer_combo_11_power.loadFromFile("../../Resources/Audio/combo_11_power.ogg");
+    buffer_combo_11_power.loadFromFile("Resources/Audio/combo_11_power.ogg");
     sfx_combo_11_power.setBuffer(buffer_combo_11_power);
 
-    buffer_combo_12_power.loadFromFile("../../Resources/Audio/combo_12_power.ogg");
+    buffer_combo_12_power.loadFromFile("Resources/Audio/combo_12_power.ogg");
     sfx_combo_12_power.setBuffer(buffer_combo_12_power);
 
-    buffer_combo_13_power.loadFromFile("../../Resources/Audio/combo_13_power.ogg");
+    buffer_combo_13_power.loadFromFile("Resources/Audio/combo_13_power.ogg");
     sfx_combo_13_power.setBuffer(buffer_combo_13_power);
 
-    buffer_combo_14_power.loadFromFile("../../Resources/Audio/combo_14_power.ogg");
+    buffer_combo_14_power.loadFromFile("Resources/Audio/combo_14_power.ogg");
     sfx_combo_14_power.setBuffer(buffer_combo_14_power);
 
-    buffer_combo_15_power.loadFromFile("../../Resources/Audio/combo_15_power.ogg");
+    buffer_combo_15_power.loadFromFile("Resources/Audio/combo_15_power.ogg");
     sfx_combo_15_power.setBuffer(buffer_combo_15_power);
 
-    buffer_combo_16_power.loadFromFile("../../Resources/Audio/combo_16_power.ogg");
+    buffer_combo_16_power.loadFromFile("Resources/Audio/combo_16_power.ogg");
     sfx_combo_16_power.setBuffer(buffer_combo_16_power);
 
-    buffer_combobreak.loadFromFile("../../Resources/Audio/combo_break.ogg");
+    buffer_combobreak.loadFromFile("Resources/Audio/combo_break.ogg");
     sfx_combo_break.setBuffer(buffer_combobreak);
 
-    buffer_final_t_spin.loadFromFile("../../Resources/Audio/final_t_spin.ogg");
+    buffer_final_t_spin.loadFromFile("Resources/Audio/final_t_spin.ogg");
     sfx_final_t_spin.setBuffer(buffer_final_t_spin);
 
-    buffer_floor.loadFromFile("../../Resources/Audio/floor.ogg");
+    buffer_floor.loadFromFile("Resources/Audio/floor.ogg");
     sfx_floor.setBuffer(buffer_floor);
 
-    buffer_hard_drop.loadFromFile("../../Resources/Audio/hard_drop.ogg");
+    buffer_hard_drop.loadFromFile("Resources/Audio/hard_drop.ogg");
     sfx_hard_drop.setBuffer(buffer_hard_drop);
 
-    buffer_hit.loadFromFile("../../Resources/Audio/hit.ogg");
+    buffer_hit.loadFromFile("Resources/Audio/hit.ogg");
     sfx_hit.setBuffer(buffer_hit);
 
-    buffer_hold.loadFromFile("../../Resources/Audio/hold.ogg");
+    buffer_hold.loadFromFile("Resources/Audio/hold.ogg");
     sfx_hold.setBuffer(buffer_hold);
 
-    buffer_move.loadFromFile("../../Resources/Audio/move.ogg");
+    buffer_move.loadFromFile("Resources/Audio/move.ogg");
     sfx_move.setBuffer(buffer_move);
 
-    buffer_rotate.loadFromFile("../../Resources/Audio/rotate.ogg");
+    buffer_rotate.loadFromFile("Resources/Audio/rotate.ogg");
     sfx_rotate.setBuffer(buffer_rotate);
 
-    buffer_side_hit.loadFromFile("../../Resources/Audio/side_hit.ogg");
+    buffer_side_hit.loadFromFile("Resources/Audio/side_hit.ogg");
     sfx_side_hit.setBuffer(buffer_side_hit);
 
-    buffer_tetris_theme_song.loadFromFile("../../Resources/Audio/tetris_theme_song.ogg");
+    buffer_tetris_theme_song.loadFromFile("Resources/Audio/tetris_theme_song.ogg");
     sfx_tetris_theme_song.setBuffer(buffer_tetris_theme_song);
 }
 

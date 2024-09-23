@@ -42,10 +42,16 @@
     <ClCompile Include="observer_score.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="score_manager.cpp">
+    <ClCompile Include="manager_score.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="audio.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="observer_combo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="manager_combo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -77,13 +83,19 @@
     <ClInclude Include="observer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="score_manager.h">
+    <ClInclude Include="manager_score.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="observer_score.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="audio.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="observer_combo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="manager_combo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

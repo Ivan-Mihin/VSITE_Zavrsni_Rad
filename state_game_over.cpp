@@ -4,13 +4,13 @@ StateGameOver::StateGameOver(CommandExitGame* commandExitGame) : commandExitGame
 {
     commandStartGame = new CommandStartGame();
 
-    font.loadFromFile("../../Resources/Fonts/BaiJamjuree-Regular.ttf");
+    font.loadFromFile("Resources/Fonts/BaiJamjuree-Regular.ttf");
 
-    gameOverBackground.loadFromFile("../../Resources/Sprites/main_menu_background_2.png");
+    gameOverBackground.loadFromFile("Resources/Sprites/main_menu_background_2.png");
     gameOverBackgroundSprite.setTexture(gameOverBackground);
     gameOverBackgroundSprite.setPosition(0, 0);
 
-    gameOverLogo.loadFromFile("../../Resources/Sprites/game_over_logo.png");
+    gameOverLogo.loadFromFile("Resources/Sprites/game_over_logo.png");
     gameOverLogoSprite.setTexture(gameOverLogo);
     gameOverLogoSprite.setOrigin(250, 0);
     gameOverLogoSprite.setPosition(400, 100);

@@ -4,8 +4,10 @@
 #include "audio.h"
 #include "tetromino.h"
 #include "command.h"
-#include "score_manager.h"
+#include "manager_score.h"
 #include "observer_score.h"
+#include "manager_combo.h"
+#include "observer_combo.h"
 
 class Tetris
 {
@@ -14,77 +16,92 @@ private:
 	static const int BOARD_COLUMNS = 12;
 	static const int TEXTURE_SIZE = 30;
 
-	std::vector<std::vector<int>> board;
+	Audio audio;
+	sf::Texture background;
+	sf::Sprite backgroundSprite;
+	sf::Font font;
 
+	// Board
+	std::vector<std::vector<int>> board;
+	sf::Texture boardTexture;
+	sf::Sprite boardSprite;
+	sf::Texture boardGameOverLineTexture;
+	sf::Sprite boardGameOverLineSprite;
+	sf::RectangleShape boardOuterRectangle;
+
+	// Tetromino
 	TetrominoDirector director;
 	Tetromino* fallingTetromino;
 	Tetromino* ghostTetromino;
 	std::vector<Tetromino*> inventory;
-
-	sf::Texture background;
-	sf::Texture boardTexture;
-	sf::Texture boardGameOverLineTexture;
 	sf::Texture tetrominoTexture;
-	sf::Texture ghostTetrominoTexture;
-
-	sf::Sprite backgroundSprite;
-	sf::Sprite boardSprite;
-	sf::Sprite boardGameOverLineSprite;
 	sf::Sprite tetrominoSprite;
+	sf::Texture ghostTetrominoTexture;
 	sf::Sprite ghostTetrominoSprite;
 
-	sf::RectangleShape boardOuterRectangle;
+	// Inventory Text Label
 	sf::RectangleShape inventoryTextLabelOuterRectangle;
 	sf::RectangleShape inventoryTextLabelInnerRectangle;
+	sf::Text inventoryTextLabel;
+
+	// Inventory
+	sf::RectangleShape inventoryOuterRectangle;
 	sf::RectangleShape inventoryNextTetrominoInnerRectangle;
 	sf::RectangleShape inventoryInnerRectangle;
-	sf::RectangleShape inventoryOuterRectangle;
+
+	// Score
 	sf::RectangleShape scoreOuterRectangle;
 	sf::RectangleShape scoreTextLabelInnerRectangle;
 	sf::RectangleShape scoreValueInnerRectangle;
-
-	sf::Font font;
-
-	sf::Text inventoryTextLabel;
 	sf::Text scoreTextLabel;
 	sf::Text scoreValue;
 
-	float lockDelayBoardRectangleStartX, lockDelayBoardRectangleStartY, lockDelayBoardRectangleEndX, lockDelayBoardRectangleEndY;
-	float lockDelayScoreRectangleStartX, lockDelayScoreRectangleStartY, lockDelayScoreRectangleEndX, lockDelayScoreRectangleEndY;
-	float lockDelayInventoryTextLabelRectangleStartX, lockDelayInventoryTextLabelRectangleStartY, lockDelayInventoryTextLabelRectangleEndX, lockDelayInventoryTextLabelRectangleEndY;
-	float lockDelayInventoryRectangleStartX, lockDelayInventoryRectangleStartY, lockDelayInventoryRectangleEndX, lockDelayInventoryRectangleEndY;
-
-	sf::RectangleShape lockDelayBoardRectangle;
-	sf::RectangleShape lockDelayScoreRectangle;
-	sf::RectangleShape lockDelayInventoryTextLabelRectangle;
-	sf::RectangleShape lockDelayInventoryRectangle;
-
+	// Combo
+	sf::RectangleShape comboOuterRectangle;
+	sf::RectangleShape comboTextLabelInnerRectangle;
+	sf::RectangleShape comboValueInnerRectangle;
+	sf::Text comboTextLabel;
+	sf::Text comboValue;
+	bool isComboActive;
+		
+	// Lock Delay
+	sf::Clock lockDelayClock;
+	bool isLockDelayActive;
+	float lockDelayDuration;
 	float lockDelaySizeIncreaseStartValue;
 	float lockDelaySizeIncreaseEndValue;
 
-	CommandMoveDown* commandMoveDown;
+	float lockDelayBoardRectangleStartX, lockDelayBoardRectangleStartY, lockDelayBoardRectangleEndX, lockDelayBoardRectangleEndY;
+	sf::RectangleShape lockDelayBoardRectangle;
 
-	ScoreManager scoreManager;
+	float lockDelayScoreRectangleStartX, lockDelayScoreRectangleStartY, lockDelayScoreRectangleEndX, lockDelayScoreRectangleEndY;
+	sf::RectangleShape lockDelayScoreRectangle;
+
+	float lockDelayInventoryTextLabelRectangleStartX, lockDelayInventoryTextLabelRectangleStartY, lockDelayInventoryTextLabelRectangleEndX, lockDelayInventoryTextLabelRectangleEndY;
+	sf::RectangleShape lockDelayInventoryTextLabelRectangle;
+
+	float lockDelayInventoryRectangleStartX, lockDelayInventoryRectangleStartY, lockDelayInventoryRectangleEndX, lockDelayInventoryRectangleEndY;
+	sf::RectangleShape lockDelayInventoryRectangle;
+
+	float lockDelayComboRectangleStartX, lockDelayComboRectangleStartY, lockDelayComboRectangleEndX, lockDelayComboRectangleEndY;
+	sf::RectangleShape lockDelayComboRectangle;
+
+	// Observer
+	ManagerScore managerScore;
 	ObserverScore observerScore;
+	ManagerCombo managerCombo;
+	ObserverCombo observerCombo;
 
-	Audio audio;
-
-	sf::Color innerRectangleColor;
-
-	sf::Clock clockForFallingTetromino;
-	float durationBeforeFallingTetrominoMovesDown;
-
-	bool tetrominoHasLanded;
-	float lockDelayDuration;
-
-	sf::Clock lockDelayClock;
-	bool isLockDelayActive;
-
-	sf::Color inventoryNextTetrominoInnerRectangleStartColor;
-	sf::Color inventoryNextTetrominoInnerRectangleEndColor;
-
+	// Color
 	sf::Clock colorClock;
 	float colorChangeCycle;
+	sf::Color inventoryNextTetrominoInnerRectangleStartColor;
+	sf::Color inventoryNextTetrominoInnerRectangleEndColor;
+	sf::Color innerRectangleColor;
+
+	CommandMoveDown* commandMoveDown;
+	sf::Clock clockForFallingTetromino;
+	float durationBeforeFallingTetrominoMovesDown;
 
 public:
 	bool gameOver;
@@ -99,6 +116,7 @@ public:
 	bool isGameOver();
 	void lockDelayRectangleReset();
 	sf::Color colorPicker(TetrominoColor fallingTetromino);
+	void comboCheck();
 
 	void handleInput(sf::Event event);
 	void update(float deltaTime);

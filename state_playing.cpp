@@ -11,11 +11,7 @@ void StatePlaying::handleInput(sf::Event& event)
 {
     if (event.type == sf::Event::KeyPressed)
     {
-        if (event.key.code == sf::Keyboard::Enter)
-        {
-            //Game::getInstance().changeState(new PausedState());
-        }
-        else if (event.key.code == sf::Keyboard::Escape)
+        if (event.key.code == sf::Keyboard::Escape)
         {
             commandExitGame->execute();
         }

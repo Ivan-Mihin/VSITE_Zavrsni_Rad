@@ -1,21 +1,21 @@
-#include "score_manager.h"
+#include "manager_score.h"
 
-ScoreManager::ScoreManager()
+ManagerScore::ManagerScore()
 {
     score = 0;
 }
 
-void ScoreManager::addObserver(Observer* observer)
+void ManagerScore::addObserver(Observer* observer)
 {
     observers.push_back(observer);
 }
 
-void ScoreManager::removeObserver(Observer* observer)
+void ManagerScore::removeObserver(Observer* observer)
 {
     observers.erase(std::remove(observers.begin(), observers.end(), observer), observers.end());
 }
 
-void ScoreManager::notifyObservers()
+void ManagerScore::notifyObservers()
 {
     for (Observer* observer : observers)
     {
@@ -23,13 +23,13 @@ void ScoreManager::notifyObservers()
     }
 }
 
-void ScoreManager::increaseScore(int value) 
+void ManagerScore::increaseScore(int value)
 {
     score += value;
     notifyObservers();
 }
 
-int ScoreManager::getScore() const 
+int ManagerScore::getScore() const
 {
     return score;
 }

@@ -6,46 +6,20 @@ void Tetris::initialize()
     audio.getSfxTetrisThemeSong().setVolume(15);
     audio.getSfxTetrisThemeSong().play();
 
-	board.assign(BOARD_ROWS, std::vector<int>(BOARD_COLUMNS, 0));
+    background.loadFromFile("Resources/Sprites/main_menu_background.png");
+    backgroundSprite.setTexture(background);
+    backgroundSprite.setPosition(0, 0);
 
-	fallingTetromino = director.createRandomTetromino();
-    ghostTetromino = new Tetromino(*fallingTetromino);
+    font.loadFromFile("Resources/Fonts/BaiJamjuree-Regular.ttf");
 
-	for (int i = 0; i < 7; ++i)
-	{
-		inventory.push_back(director.createRandomTetromino());
-	}
-    
-    setTetrominoStartingPosition(fallingTetromino, 0, 4);
-    setTetrominoStartingPosition(ghostTetromino, 0, 4);
+    // Board
+    board.assign(BOARD_ROWS, std::vector<int>(BOARD_COLUMNS, 0));
 
-    commandMoveDown = new CommandMoveDown(fallingTetromino);
-
-    innerRectangleColor.r = 25;
-    innerRectangleColor.g = 25;
-    innerRectangleColor.b = 25;
-
-    inventoryNextTetrominoInnerRectangleStartColor.r = 25;
-    inventoryNextTetrominoInnerRectangleStartColor.g = 25;
-    inventoryNextTetrominoInnerRectangleStartColor.b = 25;
-
-    inventoryNextTetrominoInnerRectangleEndColor.r = 50;
-    inventoryNextTetrominoInnerRectangleEndColor.g = 50;
-    inventoryNextTetrominoInnerRectangleEndColor.b = 50;
-
-    tetrominoTexture.loadFromFile("../../Resources/Sprites/tetromino.png");
-    tetrominoSprite.setTexture(tetrominoTexture);
-    tetrominoSprite.setTextureRect(sf::IntRect(0, 0, TEXTURE_SIZE, TEXTURE_SIZE));
-
-    ghostTetrominoTexture.loadFromFile("../../Resources/Sprites/tetromino_ghost.png");
-    ghostTetrominoSprite.setTexture(ghostTetrominoTexture);
-    ghostTetrominoSprite.setTextureRect(sf::IntRect(0, 0, TEXTURE_SIZE, TEXTURE_SIZE));
-
-    boardTexture.loadFromFile("../../Resources/Sprites/board.png");
+    boardTexture.loadFromFile("Resources/Sprites/board.png");
     boardSprite.setTexture(boardTexture);
     boardSprite.setPosition(220, 25);
 
-    boardGameOverLineTexture.loadFromFile("../../Resources/Sprites/game_over_line.png");
+    boardGameOverLineTexture.loadFromFile("Resources/Sprites/game_over_line.png");
     boardGameOverLineSprite.setTexture(boardGameOverLineTexture);
     boardGameOverLineSprite.setPosition(220, 85);
 
@@ -53,8 +27,45 @@ void Tetris::initialize()
     boardOuterRectangle.setSize(sf::Vector2f(380, 770));
     boardOuterRectangle.setFillColor(sf::Color::Black);
 
-    font.loadFromFile("../../Resources/Fonts/BaiJamjuree-Regular.ttf");
+    // Tetromino
+    fallingTetromino = director.createRandomTetromino();
+    ghostTetromino = new Tetromino(*fallingTetromino);
 
+	for (int i = 0; i < 7; ++i)
+	{
+		inventory.push_back(director.createRandomTetromino());
+	}
+
+    setTetrominoStartingPosition(fallingTetromino, 0, 4);
+    setTetrominoStartingPosition(ghostTetromino, 0, 4);
+
+    tetrominoTexture.loadFromFile("Resources/Sprites/tetromino.png");
+    tetrominoSprite.setTexture(tetrominoTexture);
+    tetrominoSprite.setTextureRect(sf::IntRect(0, 0, TEXTURE_SIZE, TEXTURE_SIZE));
+
+    ghostTetrominoTexture.loadFromFile("Resources/Sprites/tetromino_ghost.png");
+    ghostTetrominoSprite.setTexture(ghostTetrominoTexture);
+    ghostTetrominoSprite.setTextureRect(sf::IntRect(0, 0, TEXTURE_SIZE, TEXTURE_SIZE));
+
+    // Inventory Text Label
+    inventoryTextLabelOuterRectangle.setPosition(610, 15);
+    inventoryTextLabelOuterRectangle.setSize(sf::Vector2f(170, 80));
+    inventoryTextLabelOuterRectangle.setFillColor(sf::Color::Black);
+
+    inventoryTextLabelInnerRectangle.setPosition(inventoryTextLabelOuterRectangle.getPosition().x + 10, inventoryTextLabelOuterRectangle.getPosition().y + 10);
+    inventoryTextLabelInnerRectangle.setSize(sf::Vector2f(150, 60));
+    inventoryTextLabelInnerRectangle.setFillColor(innerRectangleColor);
+
+    inventoryTextLabel.setFont(font);
+    inventoryTextLabel.setCharacterSize(30);
+    inventoryTextLabel.setFillColor(sf::Color::White);
+    inventoryTextLabel.setString("Inventory");
+    inventoryTextLabel.setOrigin(inventoryTextLabel.getLocalBounds().left + inventoryTextLabel.getLocalBounds().width / 2.0f,
+        inventoryTextLabel.getLocalBounds().top + inventoryTextLabel.getLocalBounds().height / 2.0f);
+    inventoryTextLabel.setPosition(inventoryTextLabelOuterRectangle.getPosition().x + inventoryTextLabelOuterRectangle.getLocalBounds().left + inventoryTextLabelOuterRectangle.getLocalBounds().width / 2.0f,
+        inventoryTextLabelOuterRectangle.getPosition().y + inventoryTextLabelOuterRectangle.getLocalBounds().top + inventoryTextLabelOuterRectangle.getLocalBounds().height / 2.0f);
+
+    // Inventory
     inventoryOuterRectangle.setPosition(610, 135);
     inventoryOuterRectangle.setSize(sf::Vector2f(170, 650));
     inventoryOuterRectangle.setFillColor(sf::Color::Black);
@@ -67,10 +78,7 @@ void Tetris::initialize()
     inventoryInnerRectangle.setSize(sf::Vector2f(150, 540));
     inventoryInnerRectangle.setFillColor(innerRectangleColor);
 
-    background.loadFromFile("../../Resources/Sprites/main_menu_background.png");
-    backgroundSprite.setTexture(background);
-    backgroundSprite.setPosition(0, 0);
-
+    // Score
     scoreOuterRectangle.setPosition(20, 15);
     scoreOuterRectangle.setSize(sf::Vector2f(170, 140));
     scoreOuterRectangle.setFillColor(sf::Color::Black);
@@ -100,27 +108,43 @@ void Tetris::initialize()
         scoreValue.getLocalBounds().top + scoreValue.getLocalBounds().height / 2.0f);
     scoreValue.setPosition(scoreValueInnerRectangle.getPosition().x + scoreValueInnerRectangle.getLocalBounds().left + scoreValueInnerRectangle.getLocalBounds().width / 2.0f,
         scoreValueInnerRectangle.getPosition().y + scoreValueInnerRectangle.getLocalBounds().top + scoreValueInnerRectangle.getLocalBounds().height / 2.0f);
-    
-    inventoryTextLabelOuterRectangle.setPosition(610, 15);
-    inventoryTextLabelOuterRectangle.setSize(sf::Vector2f(170, 80));
-    inventoryTextLabelOuterRectangle.setFillColor(sf::Color::Black);
 
-    inventoryTextLabelInnerRectangle.setPosition(inventoryTextLabelOuterRectangle.getPosition().x + 10, inventoryTextLabelOuterRectangle.getPosition().y + 10);
-    inventoryTextLabelInnerRectangle.setSize(sf::Vector2f(150, 60));
-    inventoryTextLabelInnerRectangle.setFillColor(innerRectangleColor);
+    // Combo
+    comboOuterRectangle.setPosition(20, 185);
+    comboOuterRectangle.setSize(sf::Vector2f(170, 140));
+    comboOuterRectangle.setFillColor(sf::Color::Black);
 
-    inventoryTextLabel.setFont(font);
-    inventoryTextLabel.setCharacterSize(30);
-    inventoryTextLabel.setFillColor(sf::Color::White);
-    inventoryTextLabel.setString("Inventory");
-    inventoryTextLabel.setOrigin(inventoryTextLabel.getLocalBounds().left + inventoryTextLabel.getLocalBounds().width / 2.0f,
-        inventoryTextLabel.getLocalBounds().top + inventoryTextLabel.getLocalBounds().height / 2.0f);
-    inventoryTextLabel.setPosition(inventoryTextLabelOuterRectangle.getPosition().x + inventoryTextLabelOuterRectangle.getLocalBounds().left + inventoryTextLabelOuterRectangle.getLocalBounds().width / 2.0f,
-        inventoryTextLabelOuterRectangle.getPosition().y + inventoryTextLabelOuterRectangle.getLocalBounds().top + inventoryTextLabelOuterRectangle.getLocalBounds().height / 2.0f);
+    comboTextLabelInnerRectangle.setPosition(comboOuterRectangle.getPosition().x + 10, comboOuterRectangle.getPosition().y + 10);
+    comboTextLabelInnerRectangle.setSize(sf::Vector2f(150, 60));
+    comboTextLabelInnerRectangle.setFillColor(innerRectangleColor);
 
-    scoreManager.addObserver(&observerScore);
+    comboValueInnerRectangle.setPosition(comboOuterRectangle.getPosition().x + 10, comboOuterRectangle.getPosition().y + 10 + comboTextLabelInnerRectangle.getSize().y);
+    comboValueInnerRectangle.setSize(sf::Vector2f(150, 60));
+    comboValueInnerRectangle.setFillColor(innerRectangleColor);
 
-    gameOver = false;
+    comboTextLabel.setFont(font);
+    comboTextLabel.setCharacterSize(30);
+    comboTextLabel.setFillColor(sf::Color::White);
+    comboTextLabel.setString("Combo");
+    comboTextLabel.setOrigin(comboTextLabel.getLocalBounds().left + comboTextLabel.getLocalBounds().width / 2.0f,
+        comboTextLabel.getLocalBounds().top + comboTextLabel.getLocalBounds().height / 2.0f);
+    comboTextLabel.setPosition(comboTextLabelInnerRectangle.getPosition().x + comboTextLabelInnerRectangle.getLocalBounds().left + comboTextLabelInnerRectangle.getLocalBounds().width / 2.0f,
+        comboTextLabelInnerRectangle.getPosition().y + comboTextLabelInnerRectangle.getLocalBounds().top + comboTextLabelInnerRectangle.getLocalBounds().height / 2.0f);
+
+    comboValue.setFont(font);
+    comboValue.setCharacterSize(30);
+    comboValue.setFillColor(sf::Color::White);
+    comboValue.setString("0");
+    comboValue.setOrigin(comboValue.getLocalBounds().left + comboValue.getLocalBounds().width / 2.0f,
+        comboValue.getLocalBounds().top + comboValue.getLocalBounds().height / 2.0f);
+    comboValue.setPosition(comboValueInnerRectangle.getPosition().x + comboValueInnerRectangle.getLocalBounds().left + comboValueInnerRectangle.getLocalBounds().width / 2.0f,
+        comboValueInnerRectangle.getPosition().y + comboValueInnerRectangle.getLocalBounds().top + comboValueInnerRectangle.getLocalBounds().height / 2.0f);
+
+    // Lock Delay
+    isLockDelayActive = false;
+    lockDelayDuration = 1.0f;
+    lockDelaySizeIncreaseStartValue = 0.0f;
+    lockDelaySizeIncreaseEndValue = 20.0f;
 
     lockDelayBoardRectangleStartX = boardSprite.getPosition().x;
     lockDelayBoardRectangleStartY = boardSprite.getPosition().y;
@@ -138,6 +162,15 @@ void Tetris::initialize()
     lockDelayScoreRectangle.setSize(sf::Vector2f(scoreTextLabelInnerRectangle.getLocalBounds().width, scoreTextLabelInnerRectangle.getLocalBounds().height + scoreValueInnerRectangle.getLocalBounds().height));
     lockDelayScoreRectangle.setFillColor(colorPicker(fallingTetromino->getColor()));
 
+    lockDelayComboRectangleStartX = comboTextLabelInnerRectangle.getPosition().x;
+    lockDelayComboRectangleStartY = comboTextLabelInnerRectangle.getPosition().y;
+    lockDelayComboRectangleEndX = comboOuterRectangle.getPosition().x;
+    lockDelayComboRectangleEndY = comboOuterRectangle.getPosition().y;
+    lockDelayComboRectangle.setPosition(sf::Vector2f(lockDelayComboRectangleStartX, lockDelayComboRectangleStartY));
+    lockDelayComboRectangle.setSize(sf::Vector2f(comboTextLabelInnerRectangle.getLocalBounds().width, comboTextLabelInnerRectangle.getLocalBounds().height + comboValueInnerRectangle.getLocalBounds().height));
+    lockDelayComboRectangle.setFillColor(colorPicker(fallingTetromino->getColor()));
+    isComboActive = false;
+
     lockDelayInventoryTextLabelRectangleStartX = inventoryTextLabelInnerRectangle.getPosition().x;
     lockDelayInventoryTextLabelRectangleStartY = inventoryTextLabelInnerRectangle.getPosition().y;
     lockDelayInventoryTextLabelRectangleEndX = inventoryTextLabelOuterRectangle.getPosition().x;
@@ -154,17 +187,27 @@ void Tetris::initialize()
     lockDelayInventoryRectangle.setSize(sf::Vector2f(inventoryNextTetrominoInnerRectangle.getLocalBounds().width, inventoryNextTetrominoInnerRectangle.getLocalBounds().height + inventoryInnerRectangle.getLocalBounds().height));
     lockDelayInventoryRectangle.setFillColor(colorPicker(fallingTetromino->getColor()));
 
-    lockDelaySizeIncreaseStartValue = 0.0f;
-    lockDelaySizeIncreaseEndValue = 20.0f;
+    // Observer
+    managerScore.addObserver(&observerScore);
+    managerCombo.addObserver(&observerCombo);
 
-    durationBeforeFallingTetrominoMovesDown = 0.5f;
-
-    tetrominoHasLanded = false;
-    lockDelayDuration = 1.0f;
-
-    isLockDelayActive = false;
-
+    // Color
     colorChangeCycle = 2.0f;
+    inventoryNextTetrominoInnerRectangleStartColor.r = 25;
+    inventoryNextTetrominoInnerRectangleStartColor.g = 25;
+    inventoryNextTetrominoInnerRectangleStartColor.b = 25;
+
+    inventoryNextTetrominoInnerRectangleEndColor.r = 75;
+    inventoryNextTetrominoInnerRectangleEndColor.g = 75;
+    inventoryNextTetrominoInnerRectangleEndColor.b = 75;
+
+    innerRectangleColor.r = 25;
+    innerRectangleColor.g = 25;
+    innerRectangleColor.b = 25;
+
+    commandMoveDown = new CommandMoveDown(fallingTetromino);
+    durationBeforeFallingTetrominoMovesDown = 0.5f;
+    gameOver = false;
 }
 
 sf::Color Tetris::colorPicker(TetrominoColor color)
@@ -235,7 +278,7 @@ void Tetris::setTetrominoStartingPosition(Tetromino* tetromino, int startRow, in
         }
     }
 
-    fallingTetromino->setSquares(squares);
+    tetromino->setSquares(squares);
 }
 
 bool Tetris::isValidPosition(std::vector<Square> nextPosition)
@@ -270,13 +313,15 @@ void Tetris::lockTetromino()
 
 void Tetris::clearFullLines()
 {
+    bool noLinesCleared = true;
+
     for (int row = 0; row < BOARD_ROWS; ++row)
     {
         bool isFull = true;
 
         for (int col = 0; col < BOARD_COLUMNS; ++col)
         {
-            if (board[row][col] == 0)
+            if (!board[row][col])
             {
                 isFull = false;
                 break;
@@ -285,7 +330,10 @@ void Tetris::clearFullLines()
 
         if (isFull)
         {
+            noLinesCleared = false;
+
             audio.getSfxClearLine().play();
+            managerScore.increaseScore(10);
 
             for (int r = row; r > 0; --r)
             {
@@ -294,10 +342,19 @@ void Tetris::clearFullLines()
 
             board[0] = std::vector<int>(BOARD_COLUMNS, 0);
             --row;
-
-            scoreManager.increaseScore(10);
         }
     }
+    
+    if (noLinesCleared)
+    {
+        managerCombo.resetCombo();
+    }
+    else
+    {
+        managerCombo.increaseCombo(1);
+    }
+
+    comboCheck();
 }
 
 void Tetris::resetFallingTetromino()
@@ -310,15 +367,16 @@ void Tetris::resetFallingTetromino()
     ghostTetromino = new Tetromino(*inventory[0]);
     commandMoveDown = new CommandMoveDown(fallingTetromino);
 
-    lockDelayBoardRectangle.setFillColor(colorPicker(fallingTetromino->getColor()));
-    lockDelayScoreRectangle.setFillColor(colorPicker(fallingTetromino->getColor()));
-    lockDelayInventoryTextLabelRectangle.setFillColor(colorPicker(fallingTetromino->getColor()));
-    lockDelayInventoryRectangle.setFillColor(colorPicker(fallingTetromino->getColor()));
-
     inventory.erase(inventory.begin());
     inventory.push_back(director.createRandomTetromino());
-    setTetrominoStartingPosition(fallingTetromino, 0, 4);
-    setTetrominoStartingPosition(ghostTetromino, 0, 4);
+    setTetrominoStartingPosition(fallingTetromino, -1, 4);
+    setTetrominoStartingPosition(ghostTetromino, -1, 4);
+
+    lockDelayBoardRectangle.setFillColor(colorPicker(fallingTetromino->getColor()));
+    lockDelayScoreRectangle.setFillColor(colorPicker(fallingTetromino->getColor()));
+    lockDelayComboRectangle.setFillColor(colorPicker(fallingTetromino->getColor()));
+    lockDelayInventoryTextLabelRectangle.setFillColor(colorPicker(fallingTetromino->getColor()));
+    lockDelayInventoryRectangle.setFillColor(colorPicker(fallingTetromino->getColor()));
 }
 
 void Tetris::hardDrop()
@@ -369,11 +427,128 @@ void Tetris::lockDelayRectangleReset()
     lockDelayScoreRectangle.setPosition(sf::Vector2f(lockDelayScoreRectangleStartX, lockDelayScoreRectangleStartY));
     lockDelayScoreRectangle.setSize(sf::Vector2f(scoreTextLabelInnerRectangle.getLocalBounds().width, scoreTextLabelInnerRectangle.getLocalBounds().height + scoreValueInnerRectangle.getLocalBounds().height));
 
+    lockDelayComboRectangle.setPosition(sf::Vector2f(lockDelayComboRectangleStartX, lockDelayComboRectangleStartY));
+    lockDelayComboRectangle.setSize(sf::Vector2f(comboTextLabelInnerRectangle.getLocalBounds().width, comboTextLabelInnerRectangle.getLocalBounds().height + comboValueInnerRectangle.getLocalBounds().height));
+
     lockDelayInventoryTextLabelRectangle.setPosition(sf::Vector2f(lockDelayInventoryTextLabelRectangleStartX, lockDelayInventoryTextLabelRectangleStartY));
     lockDelayInventoryTextLabelRectangle.setSize(sf::Vector2f(inventoryTextLabelInnerRectangle.getLocalBounds().width, inventoryTextLabelInnerRectangle.getLocalBounds().height));
 
     lockDelayInventoryRectangle.setPosition(sf::Vector2f(lockDelayInventoryRectangleStartX, lockDelayInventoryRectangleStartY));
     lockDelayInventoryRectangle.setSize(sf::Vector2f(inventoryInnerRectangle.getLocalBounds().width, inventoryInnerRectangle.getLocalBounds().height));
+}
+
+void Tetris::comboCheck()
+{
+    switch (managerCombo.getComboCount())
+    {
+    case 0:
+    {
+        isComboActive = false;
+        break;
+    }
+    case 1:
+    {
+        isComboActive = false;
+        //audio.getSfxCombo_1().play();
+        break;
+    }
+    case 2:
+    {
+        isComboActive = true;
+        audio.getSfxCombo_2().play();
+        break;
+    }
+    case 3:
+    {
+        isComboActive = true;
+        audio.getSfxCombo_3().play();
+        break;
+    }
+    case 4:
+    {
+        isComboActive = true;
+        audio.getSfxCombo_4().play();
+        break;
+    }
+    case 5:
+    {
+        isComboActive = true;
+        audio.getSfxCombo_5().play();
+        break;
+    }
+    case 6:
+    {
+        isComboActive = true;
+        audio.getSfxCombo_6().play();
+        break;
+    }
+    case 7:
+    {
+        isComboActive = true;
+        audio.getSfxCombo_7().play();
+        break;
+    }
+    case 8:
+    {
+        isComboActive = true;
+        audio.getSfxCombo_8().play();
+        break;
+    }
+    case 9:
+    {
+        isComboActive = true;
+        audio.getSfxCombo_9().play();
+        break;
+    }
+    case 10:
+    {
+        isComboActive = true;
+        audio.getSfxCombo_10().play();
+        break;
+    }
+    case 11:
+    {
+        isComboActive = true;
+        audio.getSfxCombo_11().play();
+        break;
+    }
+    case 12:
+    {
+        isComboActive = true;
+        audio.getSfxCombo_12().play();
+        break;
+    }
+    case 13:
+    {
+        isComboActive = true;
+        audio.getSfxCombo_13().play();
+        break;
+    }
+    case 14:
+    {
+        isComboActive = true;
+        audio.getSfxCombo_14().play();
+        break;
+    }
+    case 15:
+    {
+        isComboActive = true;
+        audio.getSfxCombo_15().play();
+        break;
+    }
+    case 16:
+    {
+        isComboActive = true;
+        audio.getSfxCombo_16().play();
+        break;
+    }
+    }
+
+    comboValue.setString(std::to_string(managerCombo.getComboCount()));
+    comboValue.setOrigin(comboValue.getLocalBounds().left + comboValue.getLocalBounds().width / 2.0f,
+        comboValue.getLocalBounds().top + comboValue.getLocalBounds().height / 2.0f);
+    comboValue.setPosition(comboValueInnerRectangle.getPosition().x + comboValueInnerRectangle.getLocalBounds().left + comboValueInnerRectangle.getLocalBounds().width / 2.0f,
+        comboValueInnerRectangle.getPosition().y + comboValueInnerRectangle.getLocalBounds().top + comboValueInnerRectangle.getLocalBounds().height / 2.0f);
 }
 
 void Tetris::handleInput(sf::Event event)
@@ -578,17 +753,17 @@ void Tetris::update(float deltaTime)
             }
         }
 
-        scoreValue.setString(std::to_string(scoreManager.getScore()));
+        scoreValue.setString(std::to_string(managerScore.getScore()));
         scoreValue.setOrigin(scoreValue.getLocalBounds().left + scoreValue.getLocalBounds().width / 2.0f,
             scoreValue.getLocalBounds().top + scoreValue.getLocalBounds().height / 2.0f);
         scoreValue.setPosition(scoreValueInnerRectangle.getPosition().x + scoreValueInnerRectangle.getLocalBounds().left + scoreValueInnerRectangle.getLocalBounds().width / 2.0f,
             scoreValueInnerRectangle.getPosition().y + scoreValueInnerRectangle.getLocalBounds().top + scoreValueInnerRectangle.getLocalBounds().height / 2.0f);
- 
-        if (isLockDelayActive) 
+
+        if (isLockDelayActive)
         {
             float elapsed = lockDelayClock.getElapsedTime().asSeconds();
 
-            if (elapsed <= lockDelayDuration) 
+            if (elapsed <= lockDelayDuration)
             {
                 float t = elapsed / lockDelayDuration;
 
@@ -597,6 +772,9 @@ void Tetris::update(float deltaTime)
 
                 float currentLockDelayScoreRectangleSizeX = lockDelayScoreRectangleStartX + t * (lockDelayScoreRectangleEndX - lockDelayScoreRectangleStartX);
                 float currentLockDelayScoreRectangleSizeY = lockDelayScoreRectangleStartY + t * (lockDelayScoreRectangleEndY - lockDelayScoreRectangleStartY);
+
+                float currentLockDelayComboRectangleSizeX = lockDelayComboRectangleStartX + t * (lockDelayComboRectangleEndX - lockDelayComboRectangleStartX);
+                float currentLockDelayComboRectangleSizeY = lockDelayComboRectangleStartY + t * (lockDelayComboRectangleEndY - lockDelayComboRectangleStartY);
 
                 float currentLockDelayInventoryTextLabelRectangleSizeX = lockDelayInventoryTextLabelRectangleStartX + t * (lockDelayInventoryTextLabelRectangleEndX - lockDelayInventoryTextLabelRectangleStartX);
                 float currentLockDelayInventoryTextLabelRectangleSizeY = lockDelayInventoryTextLabelRectangleStartY + t * (lockDelayInventoryTextLabelRectangleEndY - lockDelayInventoryTextLabelRectangleStartY);
@@ -614,15 +792,19 @@ void Tetris::update(float deltaTime)
                     scoreTextLabelInnerRectangle.getLocalBounds().height + scoreValueInnerRectangle.getLocalBounds().height + currentLockDelaySizeIncreaseValue));
                 lockDelayScoreRectangle.setPosition(currentLockDelayScoreRectangleSizeX, currentLockDelayScoreRectangleSizeY);
 
+                lockDelayComboRectangle.setSize(sf::Vector2f(comboTextLabelInnerRectangle.getLocalBounds().width + currentLockDelaySizeIncreaseValue,
+                    comboTextLabelInnerRectangle.getLocalBounds().height + comboValueInnerRectangle.getLocalBounds().height + currentLockDelaySizeIncreaseValue));
+                lockDelayComboRectangle.setPosition(currentLockDelayComboRectangleSizeX, currentLockDelayComboRectangleSizeY);
+
                 lockDelayInventoryTextLabelRectangle.setSize(sf::Vector2f(inventoryTextLabelInnerRectangle.getLocalBounds().width + currentLockDelaySizeIncreaseValue,
                     inventoryTextLabelInnerRectangle.getLocalBounds().height + currentLockDelaySizeIncreaseValue));
                 lockDelayInventoryTextLabelRectangle.setPosition(currentLockDelayInventoryTextLabelRectangleSizeX, currentLockDelayInventoryTextLabelRectangleSizeY);
-            
+
                 lockDelayInventoryRectangle.setSize(sf::Vector2f(inventoryNextTetrominoInnerRectangle.getLocalBounds().width + currentLockDelaySizeIncreaseValue,
                     inventoryNextTetrominoInnerRectangle.getLocalBounds().height + inventoryInnerRectangle.getLocalBounds().height + currentLockDelaySizeIncreaseValue));
                 lockDelayInventoryRectangle.setPosition(currentLockDelayInventoryRectangleSizeX, currentLockDelayInventoryRectangleSizeY);
             }
-            else 
+            else
             {
                 isLockDelayActive = false;
             }
@@ -631,7 +813,7 @@ void Tetris::update(float deltaTime)
         float elapsed = colorClock.getElapsedTime().asSeconds();
         float progress = fmod(elapsed, colorChangeCycle) / colorChangeCycle;
 
-        if (progress < 0.5f) 
+        if (progress < 0.5f)
         {
             float t = progress * colorChangeCycle;
             sf::Uint8 r = static_cast<sf::Uint8>(inventoryNextTetrominoInnerRectangleStartColor.r + t * (inventoryNextTetrominoInnerRectangleEndColor.r - inventoryNextTetrominoInnerRectangleStartColor.r));
@@ -639,7 +821,7 @@ void Tetris::update(float deltaTime)
             sf::Uint8 b = static_cast<sf::Uint8>(inventoryNextTetrominoInnerRectangleStartColor.b + t * (inventoryNextTetrominoInnerRectangleEndColor.b - inventoryNextTetrominoInnerRectangleStartColor.b));
             inventoryNextTetrominoInnerRectangle.setFillColor(sf::Color(r, g, b));
         }
-        else 
+        else
         {
             float t = (progress - 0.5f) * colorChangeCycle;
             sf::Uint8 r = static_cast<sf::Uint8>(inventoryNextTetrominoInnerRectangleEndColor.r - t * (inventoryNextTetrominoInnerRectangleEndColor.r - inventoryNextTetrominoInnerRectangleStartColor.r));
@@ -670,6 +852,17 @@ void Tetris::render(sf::RenderWindow& window)
         window.draw(scoreValueInnerRectangle);
         window.draw(scoreTextLabel);
         window.draw(scoreValue);
+
+        // Draw Combo
+        if (isComboActive)
+        {
+            window.draw(comboOuterRectangle);
+            window.draw(lockDelayComboRectangle);
+            window.draw(comboTextLabelInnerRectangle);
+            window.draw(comboValueInnerRectangle);
+            window.draw(comboTextLabel);
+            window.draw(comboValue);
+        }
 
         // Draw Inventory
         window.draw(inventoryTextLabelOuterRectangle);
