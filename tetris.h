@@ -48,12 +48,6 @@ private:
 	sf::RectangleShape inventoryOuterRectangle;
 	sf::RectangleShape inventoryNextTetrominoInnerRectangle;
 	sf::RectangleShape inventoryInnerRectangle;
-
-	// Score
-
-
-	// Combo
-
 		
 	// Lock Delay
 	sf::Clock lockDelayClock;
@@ -65,14 +59,11 @@ private:
 	float lockDelayBoardRectangleStartX, lockDelayBoardRectangleStartY, lockDelayBoardRectangleEndX, lockDelayBoardRectangleEndY;
 	sf::RectangleShape lockDelayBoardRectangle;
 
-
-
 	float lockDelayInventoryTextLabelRectangleStartX, lockDelayInventoryTextLabelRectangleStartY, lockDelayInventoryTextLabelRectangleEndX, lockDelayInventoryTextLabelRectangleEndY;
 	sf::RectangleShape lockDelayInventoryTextLabelRectangle;
 
 	float lockDelayInventoryRectangleStartX, lockDelayInventoryRectangleStartY, lockDelayInventoryRectangleEndX, lockDelayInventoryRectangleEndY;
 	sf::RectangleShape lockDelayInventoryRectangle;
-
 
 	// Observer
 	ManagerScore managerScore;
@@ -87,7 +78,6 @@ private:
 	sf::Color inventoryNextTetrominoInnerRectangleEndColor;
 	sf::Color innerRectangleColor;
 
-	CommandMoveDown* commandMoveDown;
 	sf::Clock clockForFallingTetromino;
 	float durationBeforeFallingTetrominoMovesDown;
 

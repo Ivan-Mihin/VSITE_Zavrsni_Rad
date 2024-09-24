@@ -29,16 +29,6 @@ public:
     void execute() override;
 };
 
-class CommandMoveDown : public Command
-{
-private:
-    Tetromino* tetromino;
-
-public:
-    CommandMoveDown(Tetromino* tetromino);
-    void execute() override;
-};
-
 class CommandRotate : public Command
 {
 private:

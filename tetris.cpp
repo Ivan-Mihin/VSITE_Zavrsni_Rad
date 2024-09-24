@@ -2,7 +2,6 @@
 
 void Tetris::initialize()
 {
-
     innerRectangleColor.r = 25;
     innerRectangleColor.g = 25;
     innerRectangleColor.b = 25;
@@ -83,12 +82,6 @@ void Tetris::initialize()
     inventoryInnerRectangle.setSize(sf::Vector2f(150, 540));
     inventoryInnerRectangle.setFillColor(innerRectangleColor);
 
-    // Score
-    
-
-    // Combo
-
-
     // Lock Delay
     isLockDelayActive = false;
     lockDelayDuration = 1.0f;
@@ -135,8 +128,6 @@ void Tetris::initialize()
     inventoryNextTetrominoInnerRectangleEndColor.g = 75;
     inventoryNextTetrominoInnerRectangleEndColor.b = 75;
 
-
-    commandMoveDown = new CommandMoveDown(fallingTetromino);
     durationBeforeFallingTetrominoMovesDown = 0.5f;
     gameOver = false;
 }
@@ -292,11 +283,9 @@ void Tetris::resetFallingTetromino()
 {
     delete fallingTetromino;
     delete ghostTetromino;
-    delete commandMoveDown;
 
     fallingTetromino = new Tetromino(*inventory[0]);
     ghostTetromino = new Tetromino(*inventory[0]);
-    commandMoveDown = new CommandMoveDown(fallingTetromino);
 
     inventory.erase(inventory.begin());
     inventory.push_back(director.createRandomTetromino());
@@ -522,7 +511,10 @@ void Tetris::update(float deltaTime)
 
             if (isValidPosition(nextPosition))
             {
-                commandMoveDown->execute();
+                for (int i = 0; i < 4; i++)
+                {
+                    fallingTetromino->getSquares()[i].setY(fallingTetromino->getSquares()[i].getY() + 1);
+                }
 
                 if (isLockDelayActive)
                 {

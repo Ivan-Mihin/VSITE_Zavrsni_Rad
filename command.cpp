@@ -24,16 +24,6 @@ void CommandMoveRight::execute()
     tetromino->moveRight();
 }
 
-CommandMoveDown::CommandMoveDown(Tetromino* tetromino)
-{
-    this->tetromino = tetromino;
-}
-
-void CommandMoveDown::execute()
-{
-    tetromino->moveDown();
-}
-
 CommandRotate::CommandRotate(Tetromino* tetromino)
 {
     this->tetromino = tetromino;
