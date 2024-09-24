@@ -1,14 +1,31 @@
 #pragma once
+#include <SFML/Graphics.hpp>
 #include "observer.h"
 #include "manager_score.h"
 
 class ObserverScore : public Observer 
 {
 private:
-    int currentScore;
+    int score;
+	sf::Font font;
+	sf::Color innerRectangleColor;
+
+	sf::RectangleShape outerRectangle;
+	sf::RectangleShape textLabelInnerRectangle;
+	sf::RectangleShape valueInnerRectangle;
+	sf::Text scoreTextLabel;
+	sf::Text scoreValue;
+
+	float lockDelayRectangleStartX, lockDelayRectangleStartY, lockDelayRectangleEndX, lockDelayRectangleEndY;
+	sf::RectangleShape lockDelayRectangle;
 
 public:
     ObserverScore();
 
-    void update(int score) override;
+	void setColor(sf::Color color);
+	void setLockDelayRectangle(float t, float currentLockDelaySizeIncreaseValue);
+	void resetLockDelayRectangle();
+
+	void update(int score) override;
+	void draw(sf::RenderWindow& window);
 };

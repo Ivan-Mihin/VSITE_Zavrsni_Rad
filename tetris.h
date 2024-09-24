@@ -50,19 +50,10 @@ private:
 	sf::RectangleShape inventoryInnerRectangle;
 
 	// Score
-	sf::RectangleShape scoreOuterRectangle;
-	sf::RectangleShape scoreTextLabelInnerRectangle;
-	sf::RectangleShape scoreValueInnerRectangle;
-	sf::Text scoreTextLabel;
-	sf::Text scoreValue;
+
 
 	// Combo
-	sf::RectangleShape comboOuterRectangle;
-	sf::RectangleShape comboTextLabelInnerRectangle;
-	sf::RectangleShape comboValueInnerRectangle;
-	sf::Text comboTextLabel;
-	sf::Text comboValue;
-	bool isComboActive;
+
 		
 	// Lock Delay
 	sf::Clock lockDelayClock;
@@ -74,8 +65,7 @@ private:
 	float lockDelayBoardRectangleStartX, lockDelayBoardRectangleStartY, lockDelayBoardRectangleEndX, lockDelayBoardRectangleEndY;
 	sf::RectangleShape lockDelayBoardRectangle;
 
-	float lockDelayScoreRectangleStartX, lockDelayScoreRectangleStartY, lockDelayScoreRectangleEndX, lockDelayScoreRectangleEndY;
-	sf::RectangleShape lockDelayScoreRectangle;
+
 
 	float lockDelayInventoryTextLabelRectangleStartX, lockDelayInventoryTextLabelRectangleStartY, lockDelayInventoryTextLabelRectangleEndX, lockDelayInventoryTextLabelRectangleEndY;
 	sf::RectangleShape lockDelayInventoryTextLabelRectangle;
@@ -83,8 +73,6 @@ private:
 	float lockDelayInventoryRectangleStartX, lockDelayInventoryRectangleStartY, lockDelayInventoryRectangleEndX, lockDelayInventoryRectangleEndY;
 	sf::RectangleShape lockDelayInventoryRectangle;
 
-	float lockDelayComboRectangleStartX, lockDelayComboRectangleStartY, lockDelayComboRectangleEndX, lockDelayComboRectangleEndY;
-	sf::RectangleShape lockDelayComboRectangle;
 
 	// Observer
 	ManagerScore managerScore;
@@ -116,7 +104,7 @@ public:
 	bool isGameOver();
 	void lockDelayRectangleReset();
 	sf::Color colorPicker(TetrominoColor fallingTetromino);
-	void comboCheck();
+
 
 	void handleInput(sf::Event event);
 	void update(float deltaTime);
