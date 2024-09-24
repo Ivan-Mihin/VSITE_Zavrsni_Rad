@@ -8,26 +8,18 @@
 #include "observer_score.h"
 #include "manager_combo.h"
 #include "observer_combo.h"
+#include "board.h"
 
 class Tetris
 {
 private:
-	static const int BOARD_ROWS = 25;
-	static const int BOARD_COLUMNS = 12;
-	static const int TEXTURE_SIZE = 30;
+	const int TEXTURE_SIZE = 30;
 
 	Audio audio;
+	Board board;
 	sf::Texture background;
 	sf::Sprite backgroundSprite;
 	sf::Font font;
-
-	// Board
-	std::vector<std::vector<int>> board;
-	sf::Texture boardTexture;
-	sf::Sprite boardSprite;
-	sf::Texture boardGameOverLineTexture;
-	sf::Sprite boardGameOverLineSprite;
-	sf::RectangleShape boardOuterRectangle;
 
 	// Tetromino
 	TetrominoDirector director;
@@ -55,9 +47,6 @@ private:
 	float lockDelayDuration;
 	float lockDelaySizeIncreaseStartValue;
 	float lockDelaySizeIncreaseEndValue;
-
-	float lockDelayBoardRectangleStartX, lockDelayBoardRectangleStartY, lockDelayBoardRectangleEndX, lockDelayBoardRectangleEndY;
-	sf::RectangleShape lockDelayBoardRectangle;
 
 	float lockDelayInventoryTextLabelRectangleStartX, lockDelayInventoryTextLabelRectangleStartY, lockDelayInventoryTextLabelRectangleEndX, lockDelayInventoryTextLabelRectangleEndY;
 	sf::RectangleShape lockDelayInventoryTextLabelRectangle;

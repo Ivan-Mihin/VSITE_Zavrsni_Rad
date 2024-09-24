@@ -68,7 +68,6 @@ public:
 
     void moveLeft();
     void moveRight();
-    void moveDown();
     void rotate();
 };
 

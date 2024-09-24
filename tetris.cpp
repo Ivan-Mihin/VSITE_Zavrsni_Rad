@@ -16,21 +16,6 @@ void Tetris::initialize()
 
     font.loadFromFile("Resources/Fonts/BaiJamjuree-Regular.ttf");
 
-    // Board
-    board.assign(BOARD_ROWS, std::vector<int>(BOARD_COLUMNS, 0));
-
-    boardTexture.loadFromFile("Resources/Sprites/board.png");
-    boardSprite.setTexture(boardTexture);
-    boardSprite.setPosition(220, 25);
-
-    boardGameOverLineTexture.loadFromFile("Resources/Sprites/game_over_line.png");
-    boardGameOverLineSprite.setTexture(boardGameOverLineTexture);
-    boardGameOverLineSprite.setPosition(220, 85);
-
-    boardOuterRectangle.setPosition(210, 15);
-    boardOuterRectangle.setSize(sf::Vector2f(380, 770));
-    boardOuterRectangle.setFillColor(sf::Color::Black);
-
     // Tetromino
     fallingTetromino = director.createRandomTetromino();
     ghostTetromino = new Tetromino(*fallingTetromino);
@@ -42,6 +27,8 @@ void Tetris::initialize()
 
     setTetrominoStartingPosition(fallingTetromino, 0, 4);
     setTetrominoStartingPosition(ghostTetromino, 0, 4);
+
+    board.setColor(colorPicker(fallingTetromino->getColor()));
 
     tetrominoTexture.loadFromFile("Resources/Sprites/tetromino.png");
     tetrominoSprite.setTexture(tetrominoTexture);
@@ -87,14 +74,6 @@ void Tetris::initialize()
     lockDelayDuration = 1.0f;
     lockDelaySizeIncreaseStartValue = 0.0f;
     lockDelaySizeIncreaseEndValue = 20.0f;
-
-    lockDelayBoardRectangleStartX = boardSprite.getPosition().x;
-    lockDelayBoardRectangleStartY = boardSprite.getPosition().y;
-    lockDelayBoardRectangleEndX = boardOuterRectangle.getPosition().x;
-    lockDelayBoardRectangleEndY = boardOuterRectangle.getPosition().y;
-    lockDelayBoardRectangle.setPosition(sf::Vector2f(lockDelayBoardRectangleStartX, lockDelayBoardRectangleStartY));
-    lockDelayBoardRectangle.setSize(sf::Vector2f(boardSprite.getLocalBounds().width, boardSprite.getLocalBounds().height));
-    lockDelayBoardRectangle.setFillColor(colorPicker(fallingTetromino->getColor()));
 
     lockDelayInventoryTextLabelRectangleStartX = inventoryTextLabelInnerRectangle.getPosition().x;
     lockDelayInventoryTextLabelRectangleStartY = inventoryTextLabelInnerRectangle.getPosition().y;
@@ -207,11 +186,11 @@ bool Tetris::isValidPosition(std::vector<Square> nextPosition)
 {
     for (int i = 0; i < 4; i++)
     {
-        if (nextPosition[i].getX() < 0 || nextPosition[i].getX() >= BOARD_COLUMNS || nextPosition[i].getY()  < 0 || nextPosition[i].getY() >= BOARD_ROWS)
+        if (nextPosition[i].getX() < 0 || nextPosition[i].getX() >= board.BOARD_COLUMNS || nextPosition[i].getY()  < 0 || nextPosition[i].getY() >= board.BOARD_ROWS)
         {
             return false;
         }
-        else if (board[nextPosition[i].getY()][nextPosition[i].getX()])
+        else if (board.getBoard()[nextPosition[i].getY()][nextPosition[i].getX()])
         {
             return false;
         }
@@ -227,7 +206,7 @@ void Tetris::lockTetromino()
         int x = fallingTetromino->getSquares()[i].getX();
         int y = fallingTetromino->getSquares()[i].getY();
 
-        board[y][x] = static_cast<int>(fallingTetromino->getColor());
+        board.getBoard()[y][x] = static_cast<int>(fallingTetromino->getColor());
     }
 
     audio.getSfxFloor().play();
@@ -237,13 +216,13 @@ void Tetris::clearFullLines()
 {
     bool noLinesCleared = true;
 
-    for (int row = 0; row < BOARD_ROWS; ++row)
+    for (int row = 0; row < board.BOARD_ROWS; ++row)
     {
         bool isFull = true;
 
-        for (int col = 0; col < BOARD_COLUMNS; ++col)
+        for (int col = 0; col < board.BOARD_COLUMNS; ++col)
         {
-            if (!board[row][col])
+            if (!board.getBoard()[row][col])
             {
                 isFull = false;
                 break;
@@ -259,10 +238,10 @@ void Tetris::clearFullLines()
 
             for (int r = row; r > 0; --r)
             {
-                board[r] = board[r - 1];
+                board.getBoard()[r] = board.getBoard()[r - 1];
             }
 
-            board[0] = std::vector<int>(BOARD_COLUMNS, 0);
+            board.getBoard()[0] = std::vector<int>(board.BOARD_COLUMNS, 0);
             --row;
         }
     }
@@ -292,7 +271,7 @@ void Tetris::resetFallingTetromino()
     setTetrominoStartingPosition(fallingTetromino, -1, 4);
     setTetrominoStartingPosition(ghostTetromino, -1, 4);
 
-    lockDelayBoardRectangle.setFillColor(colorPicker(fallingTetromino->getColor()));
+    board.setColor(colorPicker(fallingTetromino->getColor()));
     observerScore.setColor(colorPicker(fallingTetromino->getColor()));
     observerCombo.setColor(colorPicker(fallingTetromino->getColor()));
     lockDelayInventoryTextLabelRectangle.setFillColor(colorPicker(fallingTetromino->getColor()));
@@ -325,9 +304,9 @@ void Tetris::hardDrop()
 
 bool Tetris::isGameOver()
 {
-    for (int column = 0; column < BOARD_COLUMNS; ++column)
+    for (int column = 0; column < board.BOARD_COLUMNS; ++column)
     {
-        if (board[2][column])
+        if (board.getBoard()[2][column])
         {
             return true;
         }
@@ -341,9 +320,7 @@ void Tetris::lockDelayRectangleReset()
     lockDelayClock.restart();
     isLockDelayActive = false;
 
-    lockDelayBoardRectangle.setPosition(sf::Vector2f(lockDelayBoardRectangleStartX, lockDelayBoardRectangleStartY));
-    lockDelayBoardRectangle.setSize(sf::Vector2f(boardSprite.getLocalBounds().width, boardSprite.getLocalBounds().height));
-
+    board.resetLockDelayRectangle();
     observerScore.resetLockDelayRectangle();
     observerCombo.resetLockDelayRectangle();
 
@@ -568,9 +545,6 @@ void Tetris::update(float deltaTime)
             {
                 float t = elapsed / lockDelayDuration;
 
-                float currentLockDelayBoardRectangleSizeX = lockDelayBoardRectangleStartX + t * (lockDelayBoardRectangleEndX - lockDelayBoardRectangleStartX);
-                float currentLockDelayBoardRectangleSizeY = lockDelayBoardRectangleStartY + t * (lockDelayBoardRectangleEndY - lockDelayBoardRectangleStartY);
-
                 float currentLockDelayInventoryTextLabelRectangleSizeX = lockDelayInventoryTextLabelRectangleStartX + t * (lockDelayInventoryTextLabelRectangleEndX - lockDelayInventoryTextLabelRectangleStartX);
                 float currentLockDelayInventoryTextLabelRectangleSizeY = lockDelayInventoryTextLabelRectangleStartY + t * (lockDelayInventoryTextLabelRectangleEndY - lockDelayInventoryTextLabelRectangleStartY);
 
@@ -579,12 +553,9 @@ void Tetris::update(float deltaTime)
 
                 float currentLockDelaySizeIncreaseValue = lockDelaySizeIncreaseStartValue + t * (lockDelaySizeIncreaseEndValue - lockDelaySizeIncreaseStartValue);
 
+                board.setLockDelayRectangle(t, currentLockDelaySizeIncreaseValue);
                 observerScore.setLockDelayRectangle(t, currentLockDelaySizeIncreaseValue);
                 observerCombo.setLockDelayRectangle(t, currentLockDelaySizeIncreaseValue);
-
-                lockDelayBoardRectangle.setSize(sf::Vector2f(boardSprite.getLocalBounds().width + currentLockDelaySizeIncreaseValue,
-                    boardSprite.getLocalBounds().height + currentLockDelaySizeIncreaseValue));
-                lockDelayBoardRectangle.setPosition(currentLockDelayBoardRectangleSizeX, currentLockDelayBoardRectangleSizeY);
 
                 lockDelayInventoryTextLabelRectangle.setSize(sf::Vector2f(inventoryTextLabelInnerRectangle.getLocalBounds().width + currentLockDelaySizeIncreaseValue,
                     inventoryTextLabelInnerRectangle.getLocalBounds().height + currentLockDelaySizeIncreaseValue));
@@ -630,10 +601,7 @@ void Tetris::render(sf::RenderWindow& window)
         window.draw(backgroundSprite);
 
         // Draw Board
-        window.draw(boardOuterRectangle);
-        window.draw(lockDelayBoardRectangle);
-        window.draw(boardSprite);
-        window.draw(boardGameOverLineSprite);
+        board.draw(window);
 
         // Draw Score
         observerScore.draw(window);
@@ -708,15 +676,15 @@ void Tetris::render(sf::RenderWindow& window)
         }
 
         // Draw Placed Tetrominos
-        for (int row = 0; row < BOARD_ROWS; ++row)
+        for (int row = 0; row < board.BOARD_ROWS; ++row)
         {
-            for (int column = 0; column < BOARD_COLUMNS; ++column)
+            for (int column = 0; column < board.BOARD_COLUMNS; ++column)
             {
-                if (board[row][column] != 0)
+                if (board.getBoard()[row][column] != 0)
                 {
                     sf::RectangleShape block(sf::Vector2f(TEXTURE_SIZE, TEXTURE_SIZE));
-                    tetrominoSprite.setPosition(boardSprite.getPosition().x + column * TEXTURE_SIZE, boardSprite.getPosition().y + row * TEXTURE_SIZE);
-                    tetrominoSprite.setTextureRect(sf::IntRect(board[row][column] * TEXTURE_SIZE, 0, TEXTURE_SIZE, TEXTURE_SIZE));
+                    tetrominoSprite.setPosition(220 + column * TEXTURE_SIZE, 25 + row * TEXTURE_SIZE);
+                    tetrominoSprite.setTextureRect(sf::IntRect(board.getBoard()[row][column] * TEXTURE_SIZE, 0, TEXTURE_SIZE, TEXTURE_SIZE));
                     window.draw(tetrominoSprite);
                 }
             }
