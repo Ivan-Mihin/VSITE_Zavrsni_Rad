@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <SFML/Graphics.hpp>
+#include "square.h"
 
 class Board
 {
@@ -18,12 +19,14 @@ private:
 
 public:
 	Board();
-	const int BOARD_ROWS = 25;
-	const int BOARD_COLUMNS = 12;
+
+	int BOARD_ROWS = 25;
+	int BOARD_COLUMNS = 12;
 
 	void setColor(sf::Color color);
 	void setLockDelayRectangle(float t, float currentLockDelaySizeIncreaseValue);
 	void resetLockDelayRectangle();
+	bool isValidPosition(std::vector<Square> nextPosition);
 	std::vector<std::vector<int>>& getBoard();
 	void draw(sf::RenderWindow& window);
 };

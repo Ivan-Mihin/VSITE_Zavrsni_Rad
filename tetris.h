@@ -75,11 +75,9 @@ public:
 
 	void initialize();
 	void setTetrominoStartingPosition(Tetromino* tetromino, int startRow, int startColumn);
-	bool isValidPosition(std::vector<Square> nextPosition);
 	void lockTetromino();
 	void clearFullLines();
 	void resetFallingTetromino();
-	void hardDrop();
 	bool isGameOver();
 	void lockDelayRectangleReset();
 	sf::Color colorPicker(TetrominoColor fallingTetromino);

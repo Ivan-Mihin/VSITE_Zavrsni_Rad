@@ -1,31 +1,5 @@
 #include "tetromino.h"
 
-Square::Square(int x, int y)
-{
-    this->x = x;
-    this->y = y;
-}
-
-int Square::getX() const 
-{ 
-    return x; 
-}
-
-int Square::getY() const 
-{ 
-    return y; 
-}
-
-void Square::setX(int x) 
-{ 
-    this->x = x; 
-}
-
-void Square::setY(int y) 
-{ 
-    this->y = y; 
-}
-
 std::vector<std::vector<Square>> Tetromino::setTemporarySquaresMatrix()
 {
     std::vector<std::vector<Square>> temporarySquaresMatrix(shapeMatrix.size(), std::vector<Square>(shapeMatrix[0].size(), Square(99, 99)));
@@ -186,43 +160,29 @@ void Tetromino::moveRight()
     }
 }
 
-//void Tetromino::hardDrop(std::vector<Square> fallingTetrominoSquares)
-//{
-//    std::vector<Square> nextPosition = fallingTetrominoSquares;
-//
-//    while (true)
-//    {
-//        for (int i = 0; i < 4; i++)
-//        {
-//            nextPosition[i].setY(fallingTetrominoSquares[i].getY() + 1);
-//        }
-//
-//        bool isValidPosition = true;
-//
-//        for (int i = 0; i < 4; i++)
-//        {
-//            if (nextPosition[i].getX() < 0 || nextPosition[i].getX() >= board.BOARD_COLUMNS || nextPosition[i].getY() < 0 || nextPosition[i].getY() >= BOARD_ROWS)
-//            {
-//                isValidPosition = false;
-//            }
-//            else if (board[nextPosition[i].getY()][nextPosition[i].getX()])
-//            {
-//                isValidPosition = false;
-//            }
-//        }
-//
-//        if (isValidPosition)
-//        {
-//            fallingTetrominoSquares = nextPosition;
-//        }
-//        else
-//        {
-//            break;
-//        }
-//    }
-//
-//    //audio.getSfxHardDrop().play();
-//}
+void Tetromino::hardDrop(Board board)
+{
+    std::vector<Square> nextPosition = squares;
+
+    while (true)
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            nextPosition[i].setY(squares[i].getY() + 1);
+        }
+
+        if (board.isValidPosition(nextPosition))
+        {
+            squares = nextPosition;
+        }
+        else
+        {
+            break;
+        }
+    }
+
+    //audio.getSfxHardDrop().play();
+}
 
 void Tetromino::rotate()
 {

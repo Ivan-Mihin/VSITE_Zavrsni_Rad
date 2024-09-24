@@ -1,5 +1,7 @@
 #pragma once
 #include <vector>
+#include "square.h"
+#include "board.h"
 
 enum class TetrominoShape
 {
@@ -22,22 +24,6 @@ enum class TetrominoColor
     Cyan = 5,
     Blue = 6,
     Purple = 7
-};
-
-class Square
-{
-private:
-    int x;
-    int y;
-
-public:
-    Square(int x, int y);
-
-    int getX() const;
-    int getY() const;
-
-    void setX(int x);
-    void setY(int y);
 };
 
 class Tetromino 
@@ -68,6 +54,7 @@ public:
 
     void moveLeft();
     void moveRight();
+    void hardDrop(Board board);
     void rotate();
 };
 

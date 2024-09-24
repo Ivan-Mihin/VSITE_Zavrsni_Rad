@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "tetromino.h"
+#include "board.h"
 
 class Command 
 {
@@ -26,6 +27,17 @@ private:
 
 public:
     CommandMoveRight(Tetromino* tetromino);
+    void execute() override;
+};
+
+class CommandHardDrop : public Command
+{
+private:
+    Tetromino* tetromino;
+    Board board;
+
+public:
+    CommandHardDrop(Tetromino* tetromino, Board board);
     void execute() override;
 };
 

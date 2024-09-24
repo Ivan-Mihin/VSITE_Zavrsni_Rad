@@ -182,23 +182,6 @@ void Tetris::setTetrominoStartingPosition(Tetromino* tetromino, int startRow, in
     tetromino->setSquares(squares);
 }
 
-bool Tetris::isValidPosition(std::vector<Square> nextPosition)
-{
-    for (int i = 0; i < 4; i++)
-    {
-        if (nextPosition[i].getX() < 0 || nextPosition[i].getX() >= board.BOARD_COLUMNS || nextPosition[i].getY()  < 0 || nextPosition[i].getY() >= board.BOARD_ROWS)
-        {
-            return false;
-        }
-        else if (board.getBoard()[nextPosition[i].getY()][nextPosition[i].getX()])
-        {
-            return false;
-        }
-    }
-
-    return true;
-}
-
 void Tetris::lockTetromino()
 {
     for (int i = 0; i < fallingTetromino->getSquares().size(); ++i) 
@@ -278,30 +261,6 @@ void Tetris::resetFallingTetromino()
     lockDelayInventoryRectangle.setFillColor(colorPicker(fallingTetromino->getColor()));
 }
 
-void Tetris::hardDrop()
-{
-    std::vector<Square> nextPosition = fallingTetromino->getSquares();
-
-    while (true)
-    {
-        for (int i = 0; i < 4; i++)
-        {
-            nextPosition[i].setY(fallingTetromino->getSquares()[i].getY() + 1);
-        }
-
-        if (isValidPosition(nextPosition))
-        {
-            fallingTetromino->setSquares(nextPosition);
-        }
-        else
-        {
-            break;
-        }
-    }
-
-    audio.getSfxHardDrop().play();
-}
-
 bool Tetris::isGameOver()
 {
     for (int column = 0; column < board.BOARD_COLUMNS; ++column)
@@ -350,7 +309,7 @@ void Tetris::handleInput(sf::Event event)
                     nextPosition[i].setX(fallingTetromino->getSquares()[i].getX() - 1);
                 }
 
-                if (isValidPosition(nextPosition))
+                if (board.isValidPosition(nextPosition))
                 {
                     commandMoveLeft->execute();
                     audio.getSfxMove().play();
@@ -375,7 +334,7 @@ void Tetris::handleInput(sf::Event event)
                     nextPosition[i].setX(fallingTetromino->getSquares()[i].getX() + 1);
                 }
 
-                if (isValidPosition(nextPosition))
+                if (board.isValidPosition(nextPosition))
                 {
                     commandMoveRight->execute();
                     audio.getSfxMove().play();
@@ -395,7 +354,7 @@ void Tetris::handleInput(sf::Event event)
                 CommandRotate* temporaryCommandRotate = new CommandRotate(temporaryTetromino);
                 temporaryCommandRotate->execute();
 
-                if (isValidPosition(temporaryTetromino->getSquares()))
+                if (board.isValidPosition(temporaryTetromino->getSquares()))
                 {
                     fallingTetromino->setShapeMatrix(temporaryTetromino->getShapeMatrix());
                     fallingTetromino->setSquares(temporaryTetromino->getSquares());
@@ -409,7 +368,8 @@ void Tetris::handleInput(sf::Event event)
             }
             case sf::Keyboard::Down:
             {
-                hardDrop();
+                CommandHardDrop* commandHardDrop = new CommandHardDrop(fallingTetromino, board);
+                commandHardDrop->execute();
 
                 if (!isLockDelayActive)
                 {
@@ -462,7 +422,7 @@ void Tetris::update(float deltaTime)
 
         for (int i = 0; i < 4; i++)
         {
-            while (isValidPosition(ghostTetromino->getSquares()))
+            while (board.isValidPosition(ghostTetromino->getSquares()))
             {
                 for (int i = 0; i < 4; i++)
                 {
@@ -486,7 +446,7 @@ void Tetris::update(float deltaTime)
                 nextPosition[i].setY(fallingTetromino->getSquares()[i].getY() + 1);
             }
 
-            if (isValidPosition(nextPosition))
+            if (board.isValidPosition(nextPosition))
             {
                 for (int i = 0; i < 4; i++)
                 {

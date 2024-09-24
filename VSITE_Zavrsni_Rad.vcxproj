@@ -163,6 +163,7 @@
     <ClCompile Include="observer_combo.cpp" />
     <ClCompile Include="observer_score.cpp" />
     <ClCompile Include="manager_score.cpp" />
+    <ClCompile Include="square.cpp" />
     <ClCompile Include="state_game_over.cpp" />
     <ClCompile Include="state_playing.cpp" />
     <ClCompile Include="tetris.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="observer_combo.h" />
     <ClInclude Include="manager_score.h" />
     <ClInclude Include="observer_score.h" />
+    <ClInclude Include="square.h" />
     <ClInclude Include="tetris.h" />
     <ClInclude Include="command.h" />
     <ClInclude Include="game.h" />

@@ -57,6 +57,9 @@
     <ClCompile Include="board.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="square.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tetromino.h">
@@ -102,6 +105,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="board.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="square.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

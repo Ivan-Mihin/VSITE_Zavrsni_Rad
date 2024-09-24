@@ -24,6 +24,17 @@ void CommandMoveRight::execute()
     tetromino->moveRight();
 }
 
+CommandHardDrop::CommandHardDrop(Tetromino* tetromino, Board board)
+{
+    this->tetromino = tetromino;
+    this->board = board;
+}
+
+void CommandHardDrop::execute()
+{
+    tetromino->hardDrop(board);
+}
+
 CommandRotate::CommandRotate(Tetromino* tetromino)
 {
     this->tetromino = tetromino;

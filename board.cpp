@@ -45,6 +45,23 @@ void Board::resetLockDelayRectangle()
     lockDelayRectangle.setSize(sf::Vector2f(sprite.getLocalBounds().width, sprite.getLocalBounds().height));
 }
 
+bool Board::isValidPosition(std::vector<Square> nextPosition)
+{
+    for (int i = 0; i < 4; i++)
+    {
+        if (nextPosition[i].getX() < 0 || nextPosition[i].getX() >= BOARD_COLUMNS || nextPosition[i].getY() < 0 || nextPosition[i].getY() >= BOARD_ROWS)
+        {
+            return false;
+        }
+        else if (board[nextPosition[i].getY()][nextPosition[i].getX()])
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 std::vector<std::vector<int>>& Board::getBoard()
 {
     return board;
