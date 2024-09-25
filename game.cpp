@@ -19,32 +19,14 @@ Game& Game::getInstance()
     return *instance;
 }
 
-void Game::run()
+State* Game::getCurrentState()
 {
-    sf::Clock clock;
+    return states.top();
+}
 
-    while (window.isOpen()) 
-    {
-        sf::Time elapsed = clock.restart();
-        float deltaTime = elapsed.asSeconds();
-
-        sf::Event event;
-        while (window.pollEvent(event)) 
-        {
-            if (event.type == sf::Event::Closed) 
-            {
-                window.close();
-            }
-
-            currentState()->handleInput(event);
-        }
-
-        currentState()->update(deltaTime);
-
-        window.clear();
-        currentState()->render(window);
-        window.display();
-    }
+sf::RenderWindow& Game::getWindow()
+{
+    return window;
 }
 
 void Game::changeState(State* newState) 
@@ -58,26 +40,44 @@ void Game::changeState(State* newState)
     states.push(newState);
 }
 
-void Game::pushState(State* newState) 
+void Game::popState()
 {
-    states.push(newState);
-}
-
-void Game::popState() 
-{
-    if (!states.empty()) 
+    if (!states.empty())
     {
         delete states.top();
         states.pop();
     }
 }
 
-State* Game::currentState() 
+void Game::pushState(State* newState) 
 {
-    return states.top();
+    states.push(newState);
 }
 
-sf::RenderWindow& Game::getWindow()
-{ 
-    return window; 
+void Game::run()
+{
+    sf::Clock clock;
+
+    while (window.isOpen())
+    {
+        sf::Time elapsed = clock.restart();
+        float deltaTime = elapsed.asSeconds();
+
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+            {
+                window.close();
+            }
+
+            getCurrentState()->handleInput(event);
+        }
+
+        getCurrentState()->update(deltaTime);
+
+        window.clear();
+        getCurrentState()->render(window);
+        window.display();
+    }
 }

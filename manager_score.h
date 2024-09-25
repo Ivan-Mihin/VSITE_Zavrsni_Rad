@@ -14,6 +14,7 @@ public:
     void addObserver(Observer* observer);
     void removeObserver(Observer* observer);
     void notifyObservers();
-    void increaseScore(int value);
+
     int getScore() const;
+    void increaseScore(int value);
 };

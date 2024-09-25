@@ -23,13 +23,13 @@ void ManagerScore::notifyObservers()
     }
 }
 
+int ManagerScore::getScore() const
+{
+    return score;
+}
+
 void ManagerScore::increaseScore(int value)
 {
     score += value;
     notifyObservers();
-}
-
-int ManagerScore::getScore() const
-{
-    return score;
 }

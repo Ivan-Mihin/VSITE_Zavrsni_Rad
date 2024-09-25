@@ -1,7 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "tetromino.h"
 #include "board.h"
+#include "tetromino.h"
 
 class Command 
 {

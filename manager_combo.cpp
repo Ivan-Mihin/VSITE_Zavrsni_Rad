@@ -2,7 +2,7 @@
 
 ManagerCombo::ManagerCombo()
 {
-    comboCount = 0;
+    combo = 0;
 }
 
 void ManagerCombo::addObserver(Observer* observer)
@@ -19,23 +19,23 @@ void ManagerCombo::notifyObservers()
 {
     for (Observer* observer : observers)
     {
-        observer->update(comboCount);
+        observer->update(combo);
     }
+}
+
+int ManagerCombo::getCombo() const
+{
+    return combo;
 }
 
 void ManagerCombo::increaseCombo(int value)
 {
-    comboCount += value;
+    combo += value;
     notifyObservers();
 }
 
 
 void ManagerCombo::resetCombo() {
-    comboCount = 0;
+    combo = 0;
     notifyObservers();
-}
-
-int ManagerCombo::getComboCount() const
-{
-    return comboCount;
 }

@@ -2,25 +2,24 @@
 
 StateMainMenu::StateMainMenu(CommandExitGame* commandExitGame) : commandExitGame(commandExitGame)
 {
-    commandStartGame = new CommandStartGame();
+    background.loadFromFile("Resources/Sprites/main_menu_background_2.png");
+    backgroundSprite.setTexture(background);
+    backgroundSprite.setPosition(0, 0);
 
     font.loadFromFile("Resources/Fonts/BaiJamjuree-Regular.ttf");
 
-    mainMenuBackground.loadFromFile("Resources/Sprites/main_menu_background_2.png");
-    mainMenuBackgroundSprite.setTexture(mainMenuBackground);
-    mainMenuBackgroundSprite.setPosition(0, 0);
+    logo.loadFromFile("Resources/Sprites/tetris_logo.png");
+    logoSprite.setTexture(logo);
+    logoSprite.setOrigin(250, 0);
+    logoSprite.setPosition(400, 100);
 
-    tetrisLogo.loadFromFile("Resources/Sprites/tetris_logo.png");
-    tetrisLogoSprite.setTexture(tetrisLogo);
-    tetrisLogoSprite.setOrigin(250, 0);
-    tetrisLogoSprite.setPosition(400, 100);
+    text.setFont(font);
+    text.setString("Press Enter to Start");
+    text.setCharacterSize(65);
+    text.setOrigin(text.getLocalBounds().left + text.getLocalBounds().width / 2.0f, text.getLocalBounds().top + text.getLocalBounds().height / 2.0f);
+    text.setPosition(400, 600);
 
-    startText.setFont(font);
-    startText.setString("Press Enter to Start");
-    startText.setCharacterSize(65);
-    startTextBounds = startText.getLocalBounds();
-    startText.setOrigin(startTextBounds.left + startTextBounds.width / 2.0f, startTextBounds.top + startTextBounds.height / 2.0f);
-    startText.setPosition(400, 600);
+    commandStartGame = new CommandStartGame();
 }
 
 void StateMainMenu::handleInput(sf::Event& event)
@@ -44,12 +43,12 @@ void StateMainMenu::update(float deltaTime)
     float time = elapsed.asSeconds();
     float intensity = (std::sin(time * 2.0f) + 1.0f) / 2.0f * 255;
     sf::Color color(intensity, intensity, intensity);
-    startText.setFillColor(color);
+    text.setFillColor(color);
 }
 
 void StateMainMenu::render(sf::RenderWindow& window)
 {
-    window.draw(mainMenuBackgroundSprite);
-    window.draw(tetrisLogoSprite);
-    window.draw(startText);
+    window.draw(backgroundSprite);
+    window.draw(logoSprite);
+    window.draw(text);
 }

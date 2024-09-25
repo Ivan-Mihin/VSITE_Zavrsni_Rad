@@ -1,22 +1,18 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "state.h"
 #include "command.h"
+#include "state.h"
 
 class StateMainMenu : public State 
 {
 private:
-    sf::Font font;
-    sf::Text startText;
-    sf::FloatRect startTextBounds;
-
+    sf::Texture background;
+    sf::Sprite backgroundSprite;
     sf::Clock clock;
-
-    sf::Texture mainMenuBackground;
-    sf::Sprite mainMenuBackgroundSprite;
-
-    sf::Texture tetrisLogo;
-    sf::Sprite tetrisLogoSprite;
+    sf::Font font;
+    sf::Texture logo;
+    sf::Sprite logoSprite;
+    sf::Text text;
 
     CommandStartGame* commandStartGame;
     CommandExitGame* commandExitGame;

@@ -8,6 +8,7 @@ class StatePlaying : public State
 {
 private:
     Tetris tetrisGame;
+
     CommandExitGame* commandExitGame;
     CommandEndGame* commandEndGame;
 

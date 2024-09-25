@@ -1,8 +1,8 @@
 #include <SFML/Window.hpp>
+#include "command.h"
 #include "game.h"
 #include "state_game_over.h"
 #include "state_playing.h"
-#include "command.h"
 
 CommandMoveLeft::CommandMoveLeft(Tetromino* tetromino)
 {

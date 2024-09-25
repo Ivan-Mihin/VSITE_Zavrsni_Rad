@@ -115,150 +115,14 @@ sf::Color Tetris::colorPicker(TetrominoColor color)
 {
     switch (color)
     {
-    case TetrominoColor::Red:
-    {
-        sf::Color temporaryColor(255, 0, 0);
-        return temporaryColor;
+    case TetrominoColor::Red:   { sf::Color temporaryColor(255, 0, 0);    return temporaryColor; }
+    case TetrominoColor::Orange:{ sf::Color temporaryColor(255, 128, 0);  return temporaryColor; }
+    case TetrominoColor::Yellow:{ sf::Color temporaryColor(255, 255, 0);  return temporaryColor; }
+    case TetrominoColor::Green: { sf::Color temporaryColor(0, 255, 0);    return temporaryColor; }
+    case TetrominoColor::Cyan:  { sf::Color temporaryColor(0, 255, 255);  return temporaryColor; }
+    case TetrominoColor::Blue:  { sf::Color temporaryColor(0, 0, 255);    return temporaryColor; }
+    case TetrominoColor::Purple:{ sf::Color temporaryColor(255, 0, 255);  return temporaryColor; }
     }
-    case TetrominoColor::Orange:
-    {
-        sf::Color temporaryColor(255, 128, 0);
-        return temporaryColor;
-    }
-    case TetrominoColor::Yellow:
-    {
-        sf::Color temporaryColor(255, 255, 0);
-        return temporaryColor;
-    }
-    case TetrominoColor::Green:
-    {
-        sf::Color temporaryColor(0, 255, 0);
-        return temporaryColor;
-    }
-    case TetrominoColor::Cyan:
-    {
-        sf::Color temporaryColor(0, 255, 255);
-        return temporaryColor;
-    }
-    case TetrominoColor::Blue:
-    {
-        sf::Color temporaryColor(0, 0, 255);
-        return temporaryColor;
-    }
-    case TetrominoColor::Purple:
-    {
-        sf::Color temporaryColor(255, 0, 255);
-        return temporaryColor;
-    }
-    default:
-    {
-        return sf::Color::Black;
-    }
-    }
-}
-
-void Tetris::setTetrominoStartingPosition(Tetromino* tetromino, int startRow, int startColumn)
-{
-    std::vector<Square> squares;
-
-    for (int i = 0; i < tetromino->getShapeMatrix().size(); ++i)
-    {
-        for (int j = 0; j < tetromino->getShapeMatrix()[i].size(); ++j)
-        {
-            if (tetromino->getShapeMatrix()[i][j] == 1)
-            {
-                if (tetromino->getShape() == TetrominoShape::Shape_O)
-                {
-                    squares.push_back(Square(j + startColumn + 1, i + startRow));
-                }
-                else
-                {
-                    squares.push_back(Square(j + startColumn, i + startRow));
-                }
-            }
-        }
-    }
-
-    tetromino->setSquares(squares);
-}
-
-void Tetris::lockTetromino()
-{
-    for (int i = 0; i < fallingTetromino->getSquares().size(); ++i) 
-    {
-        int x = fallingTetromino->getSquares()[i].getX();
-        int y = fallingTetromino->getSquares()[i].getY();
-
-        board.getBoard()[y][x] = static_cast<int>(fallingTetromino->getColor());
-    }
-
-    audio.getSfxFloor().play();
-}
-
-void Tetris::clearFullLines()
-{
-    bool noLinesCleared = true;
-
-    for (int row = 0; row < board.BOARD_ROWS; ++row)
-    {
-        bool isFull = true;
-
-        for (int col = 0; col < board.BOARD_COLUMNS; ++col)
-        {
-            if (!board.getBoard()[row][col])
-            {
-                isFull = false;
-                break;
-            }
-        }
-
-        if (isFull)
-        {
-            noLinesCleared = false;
-
-            audio.getSfxClearLine().play();
-            managerScore.increaseScore(10);
-
-            for (int r = row; r > 0; --r)
-            {
-                board.getBoard()[r] = board.getBoard()[r - 1];
-            }
-
-            board.getBoard()[0] = std::vector<int>(board.BOARD_COLUMNS, 0);
-            --row;
-        }
-    }
-    
-    if (noLinesCleared)
-    {
-        managerCombo.resetCombo();
-    }
-    else
-    {
-        managerCombo.increaseCombo(1);
-    }
-
-    observerCombo.playComboSound();
-}
-
-void Tetris::resetFallingTetromino()
-{
-    delete fallingTetromino;
-    delete ghostTetromino;
-
-    fallingTetromino = new Tetromino(*inventory[0]);
-    ghostTetromino = new Tetromino(*inventory[0]);
-
-    inventory.erase(inventory.begin());
-    inventory.push_back(director.createRandomTetromino());
-    setTetrominoStartingPosition(fallingTetromino, -1, 4);
-    setTetrominoStartingPosition(ghostTetromino, -1, 4);
-
-    board.setColor(colorPicker(fallingTetromino->getColor()));
-    observerScore.setColor(colorPicker(fallingTetromino->getColor()));
-    observerCombo.setColor(colorPicker(fallingTetromino->getColor()));
-    lockDelayInventoryTextLabelRectangle.setFillColor(colorPicker(fallingTetromino->getColor()));
-    lockDelayInventoryRectangle.setFillColor(colorPicker(fallingTetromino->getColor()));
 }
 
 bool Tetris::isGameOver()
@@ -290,6 +154,64 @@ void Tetris::lockDelayRectangleReset()
     lockDelayInventoryRectangle.setSize(sf::Vector2f(inventoryInnerRectangle.getLocalBounds().width, inventoryInnerRectangle.getLocalBounds().height));
 }
 
+void Tetris::lockTetromino()
+{
+    for (int i = 0; i < fallingTetromino->getSquares().size(); ++i)
+    {
+        int x = fallingTetromino->getSquares()[i].getX();
+        int y = fallingTetromino->getSquares()[i].getY();
+
+        board.getBoard()[y][x] = static_cast<int>(fallingTetromino->getColor());
+    }
+
+    audio.getSfxFloor().play();
+}
+
+void Tetris::resetFallingTetromino()
+{
+    delete fallingTetromino;
+    delete ghostTetromino;
+
+    fallingTetromino = new Tetromino(*inventory[0]);
+    ghostTetromino = new Tetromino(*inventory[0]);
+    inventory.erase(inventory.begin());
+    inventory.push_back(director.createRandomTetromino());
+
+    setTetrominoStartingPosition(fallingTetromino, -1, 4);
+    setTetrominoStartingPosition(ghostTetromino, -1, 4);
+
+    board.setColor(colorPicker(fallingTetromino->getColor()));
+    observerScore.setColor(colorPicker(fallingTetromino->getColor()));
+    observerCombo.setColor(colorPicker(fallingTetromino->getColor()));
+    lockDelayInventoryTextLabelRectangle.setFillColor(colorPicker(fallingTetromino->getColor()));
+    lockDelayInventoryRectangle.setFillColor(colorPicker(fallingTetromino->getColor()));
+}
+
+void Tetris::setTetrominoStartingPosition(Tetromino* tetromino, int startRow, int startColumn)
+{
+    std::vector<Square> squares;
+
+    for (int i = 0; i < tetromino->getShapeMatrix().size(); ++i)
+    {
+        for (int j = 0; j < tetromino->getShapeMatrix()[i].size(); ++j)
+        {
+            if (tetromino->getShapeMatrix()[i][j] == 1)
+            {
+                if (tetromino->getShape() == TetrominoShape::Shape_O)
+                {
+                    squares.push_back(Square(j + startColumn + 1, i + startRow));
+                }
+                else
+                {
+                    squares.push_back(Square(j + startColumn, i + startRow));
+                }
+            }
+        }
+    }
+
+    tetromino->setSquares(squares);
+}
+
 void Tetris::handleInput(sf::Event event)
 {
     if (!isGameOver())
@@ -304,7 +226,7 @@ void Tetris::handleInput(sf::Event event)
                 std::vector<Square> nextPosition;
                 nextPosition = fallingTetromino->getSquares();
 
-                for (int i = 0; i < 4; i++)
+                for (int i = 0; i < 4; ++i)
                 {
                     nextPosition[i].setX(fallingTetromino->getSquares()[i].getX() - 1);
                 }
@@ -329,7 +251,7 @@ void Tetris::handleInput(sf::Event event)
                 std::vector<Square> nextPosition;
                 nextPosition = fallingTetromino->getSquares();
 
-                for (int i = 0; i < 4; i++)
+                for (int i = 0; i < 4; ++i)
                 {
                     nextPosition[i].setX(fallingTetromino->getSquares()[i].getX() + 1);
                 }
@@ -397,7 +319,7 @@ void Tetris::handleInput(sf::Event event)
                         }
                         else
                         {
-                            clearFullLines();
+                            board.clearFullLines(&managerScore, &managerCombo, &observerCombo);
                             resetFallingTetromino();
                         }
                     }
@@ -420,17 +342,17 @@ void Tetris::update(float deltaTime)
     {
         ghostTetromino->setSquares(fallingTetromino->getSquares());
 
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 4; ++i)
         {
             while (board.isValidPosition(ghostTetromino->getSquares()))
             {
-                for (int i = 0; i < 4; i++)
+                for (int i = 0; i < 4; ++i)
                 {
                     ghostTetromino->getSquares()[i].setY(ghostTetromino->getSquares()[i].getY() + 1);
                 }
             }
 
-            for (int j = 0; j < 4; j++)
+            for (int j = 0; j < 4; ++j)
             {
                 ghostTetromino->getSquares()[j].setY(ghostTetromino->getSquares()[j].getY() - 1);
             }
@@ -441,14 +363,14 @@ void Tetris::update(float deltaTime)
             std::vector<Square> nextPosition;
             nextPosition = fallingTetromino->getSquares();
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 4; ++i)
             {
                 nextPosition[i].setY(fallingTetromino->getSquares()[i].getY() + 1);
             }
 
             if (board.isValidPosition(nextPosition))
             {
-                for (int i = 0; i < 4; i++)
+                for (int i = 0; i < 4; ++i)
                 {
                     fallingTetromino->getSquares()[i].setY(fallingTetromino->getSquares()[i].getY() + 1);
                 }
@@ -488,14 +410,13 @@ void Tetris::update(float deltaTime)
                         }
                         else
                         {
-                            clearFullLines();
+                            board.clearFullLines(&managerScore, &managerCombo, &observerCombo);
                             resetFallingTetromino();
                         }
                     }
                 }
             }
         }
-
 
         if (isLockDelayActive)
         {

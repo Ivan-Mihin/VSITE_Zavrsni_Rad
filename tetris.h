@@ -2,13 +2,14 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
 #include "audio.h"
-#include "tetromino.h"
-#include "command.h"
-#include "manager_score.h"
-#include "observer_score.h"
-#include "manager_combo.h"
-#include "observer_combo.h"
 #include "board.h"
+#include "command.h"
+#include "manager_combo.h"
+#include "manager_score.h"
+#include "observer_combo.h"
+#include "observer_score.h"
+#include "tetromino.h"
+#include "tetromino_builder.h"
 
 class Tetris
 {
@@ -42,8 +43,8 @@ private:
 	sf::RectangleShape inventoryInnerRectangle;
 		
 	// Lock Delay
-	sf::Clock lockDelayClock;
 	bool isLockDelayActive;
+	sf::Clock lockDelayClock;
 	float lockDelayDuration;
 	float lockDelaySizeIncreaseStartValue;
 	float lockDelaySizeIncreaseEndValue;
@@ -74,14 +75,13 @@ public:
 	bool gameOver;
 
 	void initialize();
-	void setTetrominoStartingPosition(Tetromino* tetromino, int startRow, int startColumn);
-	void lockTetromino();
-	void clearFullLines();
-	void resetFallingTetromino();
+
+	sf::Color colorPicker(TetrominoColor fallingTetromino);
 	bool isGameOver();
 	void lockDelayRectangleReset();
-	sf::Color colorPicker(TetrominoColor fallingTetromino);
-
+	void lockTetromino();
+	void resetFallingTetromino();
+	void setTetrominoStartingPosition(Tetromino* tetromino, int startRow, int startColumn);
 
 	void handleInput(sf::Event event);
 	void update(float deltaTime);

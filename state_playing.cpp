@@ -2,9 +2,9 @@
 
 StatePlaying::StatePlaying(CommandExitGame* commandExitGame) : commandExitGame(commandExitGame)
 {
-    commandEndGame = new CommandEndGame();
-
     tetrisGame.initialize();
+
+    commandEndGame = new CommandEndGame();
 }
 
 void StatePlaying::handleInput(sf::Event& event)

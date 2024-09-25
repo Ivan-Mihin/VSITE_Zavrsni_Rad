@@ -1,22 +1,18 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "command.h"
 #include "state.h"
-#include "game.h"
 
 class StateGameOver : public State 
 {
 private:
-    sf::Font font;
-    sf::Text gameOverText;
-    sf::FloatRect gameOverTextBounds;
-
+    sf::Texture background;
+    sf::Sprite backgroundSprite;
     sf::Clock clock;
-
-    sf::Texture gameOverBackground;
-    sf::Sprite gameOverBackgroundSprite;
-
-    sf::Texture gameOverLogo;
-    sf::Sprite gameOverLogoSprite;
+    sf::Font font;
+    sf::Texture logo;
+    sf::Sprite logoSprite;
+    sf::Text text;
 
     CommandStartGame* commandStartGame;
     CommandExitGame* commandExitGame;

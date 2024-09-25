@@ -7,14 +7,15 @@ class ObserverScore : public Observer
 {
 private:
     int score;
+
 	sf::Font font;
 	sf::Color innerRectangleColor;
 
 	sf::RectangleShape outerRectangle;
 	sf::RectangleShape textLabelInnerRectangle;
 	sf::RectangleShape valueInnerRectangle;
-	sf::Text scoreTextLabel;
-	sf::Text scoreValue;
+	sf::Text textLabel;
+	sf::Text value;
 
 	float lockDelayRectangleStartX, lockDelayRectangleStartY, lockDelayRectangleEndX, lockDelayRectangleEndY;
 	sf::RectangleShape lockDelayRectangle;
@@ -22,10 +23,9 @@ private:
 public:
     ObserverScore();
 
+	void draw(sf::RenderWindow& window);
+	void resetLockDelayRectangle();
 	void setColor(sf::Color color);
 	void setLockDelayRectangle(float t, float currentLockDelaySizeIncreaseValue);
-	void resetLockDelayRectangle();
-
 	void update(int score) override;
-	void draw(sf::RenderWindow& window);
 };

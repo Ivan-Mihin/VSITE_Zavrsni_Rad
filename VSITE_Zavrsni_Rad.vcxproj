@@ -172,6 +172,7 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="tetromino.cpp" />
+    <ClCompile Include="tetromino_builder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="audio.h" />
@@ -190,6 +191,7 @@
     <ClInclude Include="state_main_menu.h" />
     <ClInclude Include="state_playing.h" />
     <ClInclude Include="tetromino.h" />
+    <ClInclude Include="tetromino_builder.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

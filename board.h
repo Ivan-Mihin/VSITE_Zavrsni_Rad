@@ -1,6 +1,9 @@
 #pragma once
 #include <vector>
 #include <SFML/Graphics.hpp>
+#include "manager_score.h"
+#include "manager_combo.h"
+#include "observer_combo.h"
 #include "square.h"
 
 class Board
@@ -23,10 +26,12 @@ public:
 	int BOARD_ROWS = 25;
 	int BOARD_COLUMNS = 12;
 
+	std::vector<std::vector<int>>& getBoard();
+
+	void clearFullLines(ManagerScore* ms, ManagerCombo* mc, ObserverCombo* oc);
+	void draw(sf::RenderWindow& window);
+	bool isValidPosition(std::vector<Square> nextPosition);
+	void resetLockDelayRectangle();
 	void setColor(sf::Color color);
 	void setLockDelayRectangle(float t, float currentLockDelaySizeIncreaseValue);
-	void resetLockDelayRectangle();
-	bool isValidPosition(std::vector<Square> nextPosition);
-	std::vector<std::vector<int>>& getBoard();
-	void draw(sf::RenderWindow& window);
 };

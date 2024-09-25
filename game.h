@@ -17,15 +17,16 @@ private:
     CommandExitGame* commandExitGame;
 
 public:
-    static Game& getInstance();
-
     Game(const Game&) = delete;
     Game& operator=(const Game&) = delete;
 
-    void run();
-    void changeState(State* newState);
-    void pushState(State* newState);
-    void popState();
-    State* currentState();
+    static Game& getInstance();
+
+    State* getCurrentState();
     sf::RenderWindow& getWindow();
+
+    void changeState(State* newState);
+    void popState();
+    void pushState(State* newState);
+    void run();
 };

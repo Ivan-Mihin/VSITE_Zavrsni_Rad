@@ -5,7 +5,7 @@
 class ManagerCombo
 {
 private:
-    int comboCount;
+    int combo;
     std::vector<Observer*> observers;
 
 public:
@@ -14,7 +14,8 @@ public:
     void addObserver(Observer* observer);
     void removeObserver(Observer* observer);
     void notifyObservers();
+
+    int getCombo() const;
     void increaseCombo(int value);
     void resetCombo();
-    int getComboCount() const;
 };
