@@ -221,6 +221,7 @@ void Tetris::handleInput(sf::Event event)
             switch (event.key.code)
             {
             case sf::Keyboard::Left:
+            case sf::Keyboard::A:
             {        
                 CommandMoveLeft* commandMoveLeft = new CommandMoveLeft(fallingTetromino);
                 std::vector<Square> nextPosition;
@@ -246,6 +247,7 @@ void Tetris::handleInput(sf::Event event)
                 break;
             }
             case sf::Keyboard::Right:
+            case sf::Keyboard::D:
             {
                 CommandMoveRight* commandMoveRight = new CommandMoveRight(fallingTetromino);
                 std::vector<Square> nextPosition;
@@ -271,6 +273,7 @@ void Tetris::handleInput(sf::Event event)
                 break;
             }
             case sf::Keyboard::Up:
+            case sf::Keyboard::W:
             {
                 Tetromino* temporaryTetromino = new Tetromino(*fallingTetromino);
                 CommandRotate* temporaryCommandRotate = new CommandRotate(temporaryTetromino);
@@ -289,6 +292,7 @@ void Tetris::handleInput(sf::Event event)
                 break;
             }
             case sf::Keyboard::Down:
+            case sf::Keyboard::S:
             {
                 CommandHardDrop* commandHardDrop = new CommandHardDrop(fallingTetromino, board);
                 commandHardDrop->execute();
