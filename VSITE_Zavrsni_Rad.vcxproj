@@ -159,6 +159,7 @@
   <ItemGroup>
     <ClCompile Include="audio.cpp" />
     <ClCompile Include="board.cpp" />
+    <ClCompile Include="held_tetromino.cpp" />
     <ClCompile Include="manager_combo.cpp" />
     <ClCompile Include="observer_combo.cpp" />
     <ClCompile Include="observer_score.cpp" />
@@ -177,6 +178,7 @@
   <ItemGroup>
     <ClInclude Include="audio.h" />
     <ClInclude Include="board.h" />
+    <ClInclude Include="held_tetromino.h" />
     <ClInclude Include="manager_combo.h" />
     <ClInclude Include="observer.h" />
     <ClInclude Include="observer_combo.h" />

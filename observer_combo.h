@@ -28,7 +28,7 @@ public:
 	void draw(sf::RenderWindow& window);
 	void playComboSound();
 	void resetLockDelayRectangle();
-	void setColor(sf::Color color);
+	void setLockDelayColor(sf::Color color);
 	void setLockDelayRectangle(float t, float currentLockDelaySizeIncreaseValue);
 	void update(int combo) override;
 };

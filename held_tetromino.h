@@ -1,31 +1,36 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "observer.h"
-#include "manager_score.h"
+#include "Tetromino.h"
 
-class ObserverScore : public Observer 
+class HeldTetromino
 {
 private:
-    int score;
-
 	sf::Font font;
 	sf::Color innerRectangleColor;
 
 	sf::RectangleShape outerRectangle;
 	sf::RectangleShape textLabelInnerRectangle;
-	sf::RectangleShape valueInnerRectangle;
+	sf::RectangleShape tetrominoInnerRectangle;
 	sf::Text textLabel;
-	sf::Text value;
+	sf::Clock clock;
+	sf::Text noHeldTetromino;
+	Tetromino* tetromino;
+	sf::Texture texture;
+	sf::Sprite sprite;
 
 	float lockDelayRectangleStartX, lockDelayRectangleStartY, lockDelayRectangleEndX, lockDelayRectangleEndY;
 	sf::RectangleShape lockDelayRectangle;
 
 public:
-    ObserverScore();
+	HeldTetromino();
+
+	bool isTetrominoHeld;
 
 	void draw(sf::RenderWindow& window);
+	void drawNoHeldTetrominoText();
+	Tetromino* getTetromino();
 	void resetLockDelayRectangle();
 	void setLockDelayColor(sf::Color color);
 	void setLockDelayRectangle(float t, float currentLockDelaySizeIncreaseValue);
-	void update(int score) override;
+	void setTetromino(Tetromino* tetromino);
 };

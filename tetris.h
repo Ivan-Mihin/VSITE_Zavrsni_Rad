@@ -4,6 +4,7 @@
 #include "audio.h"
 #include "board.h"
 #include "command.h"
+#include "held_tetromino.h"
 #include "manager_combo.h"
 #include "manager_score.h"
 #include "observer_combo.h"
@@ -26,6 +27,7 @@ private:
 	TetrominoDirector director;
 	Tetromino* fallingTetromino;
 	Tetromino* ghostTetromino;
+	HeldTetromino* heldTetromino;
 	std::vector<Tetromino*> inventory;
 	sf::Texture tetrominoTexture;
 	sf::Sprite tetrominoSprite;
@@ -81,7 +83,7 @@ public:
 	void lockDelayRectangleReset();
 	void lockTetromino();
 	void resetFallingTetromino();
-	void setTetrominoStartingPosition(Tetromino* tetromino, int startRow, int startColumn);
+	void setTetrominoPosition(Tetromino* tetromino, int startRow, int startColumn);
 
 	void handleInput(sf::Event event);
 	void update(float deltaTime);

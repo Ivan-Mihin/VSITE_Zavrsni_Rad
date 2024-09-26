@@ -64,7 +64,7 @@ void ObserverScore::resetLockDelayRectangle()
     lockDelayRectangle.setSize(sf::Vector2f(textLabelInnerRectangle.getLocalBounds().width, textLabelInnerRectangle.getLocalBounds().height + valueInnerRectangle.getLocalBounds().height));
 }
 
-void ObserverScore::setColor(sf::Color color)
+void ObserverScore::setLockDelayColor(sf::Color color)
 {
     lockDelayRectangle.setFillColor(color);
 }

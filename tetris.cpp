@@ -19,14 +19,16 @@ void Tetris::initialize()
     // Tetromino
     fallingTetromino = director.createRandomTetromino();
     ghostTetromino = new Tetromino(*fallingTetromino);
+    heldTetromino = new HeldTetromino();
+    heldTetromino->setLockDelayColor(colorPicker(fallingTetromino->getColor()));
 
 	for (int i = 0; i < 7; ++i)
 	{
 		inventory.push_back(director.createRandomTetromino());
 	}
 
-    setTetrominoStartingPosition(fallingTetromino, 0, 4);
-    setTetrominoStartingPosition(ghostTetromino, 0, 4);
+    setTetrominoPosition(fallingTetromino, 0, 4);
+    setTetrominoPosition(ghostTetromino, 0, 4);
 
     board.setColor(colorPicker(fallingTetromino->getColor()));
 
@@ -94,8 +96,8 @@ void Tetris::initialize()
     // Observer
     managerScore.addObserver(&observerScore);
     managerCombo.addObserver(&observerCombo);
-    observerScore.setColor(colorPicker(fallingTetromino->getColor()));
-    observerCombo.setColor(colorPicker(fallingTetromino->getColor()));
+    observerScore.setLockDelayColor(colorPicker(fallingTetromino->getColor()));
+    observerCombo.setLockDelayColor(colorPicker(fallingTetromino->getColor()));
 
     // Color
     colorChangeCycle = 2.0f;
@@ -108,6 +110,7 @@ void Tetris::initialize()
     inventoryNextTetrominoInnerRectangleEndColor.b = 75;
 
     durationBeforeFallingTetrominoMovesDown = 0.5f;
+
     gameOver = false;
 }
 
@@ -145,6 +148,7 @@ void Tetris::lockDelayRectangleReset()
 
     board.resetLockDelayRectangle();
     observerScore.resetLockDelayRectangle();
+    heldTetromino->resetLockDelayRectangle();
     observerCombo.resetLockDelayRectangle();
 
     lockDelayInventoryTextLabelRectangle.setPosition(sf::Vector2f(lockDelayInventoryTextLabelRectangleStartX, lockDelayInventoryTextLabelRectangleStartY));
@@ -177,17 +181,20 @@ void Tetris::resetFallingTetromino()
     inventory.erase(inventory.begin());
     inventory.push_back(director.createRandomTetromino());
 
-    setTetrominoStartingPosition(fallingTetromino, -1, 4);
-    setTetrominoStartingPosition(ghostTetromino, -1, 4);
+    setTetrominoPosition(fallingTetromino, 0, 4);
+    setTetrominoPosition(ghostTetromino, 0, 4);
 
     board.setColor(colorPicker(fallingTetromino->getColor()));
-    observerScore.setColor(colorPicker(fallingTetromino->getColor()));
-    observerCombo.setColor(colorPicker(fallingTetromino->getColor()));
+    observerScore.setLockDelayColor(colorPicker(fallingTetromino->getColor()));
+    heldTetromino->setLockDelayColor(colorPicker(fallingTetromino->getColor()));
+    observerCombo.setLockDelayColor(colorPicker(fallingTetromino->getColor()));
     lockDelayInventoryTextLabelRectangle.setFillColor(colorPicker(fallingTetromino->getColor()));
     lockDelayInventoryRectangle.setFillColor(colorPicker(fallingTetromino->getColor()));
+
+    clockForFallingTetromino.restart();
 }
 
-void Tetris::setTetrominoStartingPosition(Tetromino* tetromino, int startRow, int startColumn)
+void Tetris::setTetrominoPosition(Tetromino* tetromino, int startRow, int startColumn)
 {
     std::vector<Square> squares;
 
@@ -331,9 +338,31 @@ void Tetris::handleInput(sf::Event event)
 
                 break;
             }
-            default:
+            case sf::Keyboard::Space:
             {
-                break;
+                if (!heldTetromino->isTetrominoHeld)
+                {
+                    heldTetromino->isTetrominoHeld = true;
+                    heldTetromino->setTetromino(new Tetromino(*fallingTetromino));
+                    resetFallingTetromino();
+                }
+                else
+                {
+                    Tetromino* temporaryTetromino = new Tetromino(*fallingTetromino);
+                    fallingTetromino = new Tetromino(*heldTetromino->getTetromino());
+                    heldTetromino->setTetromino(new Tetromino(*temporaryTetromino));
+
+                    setTetrominoPosition(fallingTetromino, 0, 4);
+                    ghostTetromino->setColor(fallingTetromino->getColor());
+                    board.setColor(colorPicker(fallingTetromino->getColor()));
+                    observerScore.setLockDelayColor(colorPicker(fallingTetromino->getColor()));
+                    heldTetromino->setLockDelayColor(colorPicker(fallingTetromino->getColor()));
+                    observerCombo.setLockDelayColor(colorPicker(fallingTetromino->getColor()));
+                    lockDelayInventoryTextLabelRectangle.setFillColor(colorPicker(fallingTetromino->getColor()));
+                    lockDelayInventoryRectangle.setFillColor(colorPicker(fallingTetromino->getColor()));
+
+                    delete temporaryTetromino;
+                }
             }
             }
         }
@@ -428,7 +457,7 @@ void Tetris::update(float deltaTime)
 
             if (elapsed <= lockDelayDuration)
             {
-                float t = elapsed / lockDelayDuration;
+                float t = (1 - std::cos((elapsed / lockDelayDuration) * 3.14159265358979323846)) / 2;
 
                 float currentLockDelayInventoryTextLabelRectangleSizeX = lockDelayInventoryTextLabelRectangleStartX + t * (lockDelayInventoryTextLabelRectangleEndX - lockDelayInventoryTextLabelRectangleStartX);
                 float currentLockDelayInventoryTextLabelRectangleSizeY = lockDelayInventoryTextLabelRectangleStartY + t * (lockDelayInventoryTextLabelRectangleEndY - lockDelayInventoryTextLabelRectangleStartY);
@@ -440,6 +469,7 @@ void Tetris::update(float deltaTime)
 
                 board.setLockDelayRectangle(t, currentLockDelaySizeIncreaseValue);
                 observerScore.setLockDelayRectangle(t, currentLockDelaySizeIncreaseValue);
+                heldTetromino->setLockDelayRectangle(t, currentLockDelaySizeIncreaseValue);
                 observerCombo.setLockDelayRectangle(t, currentLockDelaySizeIncreaseValue);
 
                 lockDelayInventoryTextLabelRectangle.setSize(sf::Vector2f(inventoryTextLabelInnerRectangle.getLocalBounds().width + currentLockDelaySizeIncreaseValue,
@@ -461,7 +491,7 @@ void Tetris::update(float deltaTime)
 
         if (progress < 0.5f)
         {
-            float t = progress * colorChangeCycle;
+            float t = progress * 2;
             sf::Uint8 r = static_cast<sf::Uint8>(inventoryNextTetrominoInnerRectangleStartColor.r + t * (inventoryNextTetrominoInnerRectangleEndColor.r - inventoryNextTetrominoInnerRectangleStartColor.r));
             sf::Uint8 g = static_cast<sf::Uint8>(inventoryNextTetrominoInnerRectangleStartColor.g + t * (inventoryNextTetrominoInnerRectangleEndColor.g - inventoryNextTetrominoInnerRectangleStartColor.g));
             sf::Uint8 b = static_cast<sf::Uint8>(inventoryNextTetrominoInnerRectangleStartColor.b + t * (inventoryNextTetrominoInnerRectangleEndColor.b - inventoryNextTetrominoInnerRectangleStartColor.b));
@@ -469,11 +499,16 @@ void Tetris::update(float deltaTime)
         }
         else
         {
-            float t = (progress - 0.5f) * colorChangeCycle;
+            float t = (progress - 0.5f) * 2;
             sf::Uint8 r = static_cast<sf::Uint8>(inventoryNextTetrominoInnerRectangleEndColor.r - t * (inventoryNextTetrominoInnerRectangleEndColor.r - inventoryNextTetrominoInnerRectangleStartColor.r));
             sf::Uint8 g = static_cast<sf::Uint8>(inventoryNextTetrominoInnerRectangleEndColor.g - t * (inventoryNextTetrominoInnerRectangleEndColor.g - inventoryNextTetrominoInnerRectangleStartColor.g));
             sf::Uint8 b = static_cast<sf::Uint8>(inventoryNextTetrominoInnerRectangleEndColor.b - t * (inventoryNextTetrominoInnerRectangleEndColor.b - inventoryNextTetrominoInnerRectangleStartColor.b));
             inventoryNextTetrominoInnerRectangle.setFillColor(sf::Color(r, g, b));
+        }
+
+        if (!heldTetromino->isTetrominoHeld)
+        {
+            heldTetromino->drawNoHeldTetrominoText();
         }
     }
 }
@@ -490,6 +525,9 @@ void Tetris::render(sf::RenderWindow& window)
 
         // Draw Score
         observerScore.draw(window);
+
+        // Draw Held Tetromino
+        heldTetromino->draw(window);
 
         // Draw Combo
         observerCombo.draw(window);
@@ -549,11 +587,8 @@ void Tetris::render(sf::RenderWindow& window)
                         }
 
                         tetrominoSprite.setTextureRect(sf::IntRect((int)inventory[index]->getColor() * TEXTURE_SIZE, 0, TEXTURE_SIZE, TEXTURE_SIZE));
-
                         tetrominoSprite.setPosition(inventoryNextTetrominoInnerRectangle.getGlobalBounds().left + offsetFromInventoryInnerRectangle + additionalOffsetX + TEXTURE_SIZE * row,
                             inventoryNextTetrominoInnerRectangle.getGlobalBounds().top + offsetFromInventoryInnerRectangle + additionalOffsetY + (3 * TEXTURE_SIZE * index) + TEXTURE_SIZE * column);
-
-                        //tetrominoSprite.setPosition(605 + offsetFromBoardX + TEXTURE_SIZE * row, 84 + offsetFromBoardY + (90 * index) + TEXTURE_SIZE * column);
                         window.draw(tetrominoSprite);
                     }
                 }

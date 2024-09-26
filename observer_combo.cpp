@@ -10,7 +10,7 @@ ObserverCombo::ObserverCombo()
     innerRectangleColor.g = 25;
     innerRectangleColor.b = 25;
 
-    outerRectangle.setPosition(20, 185);
+    outerRectangle.setPosition(20, 645);
     outerRectangle.setSize(sf::Vector2f(170, 140));
     outerRectangle.setFillColor(sf::Color::Black);
 
@@ -92,7 +92,7 @@ void ObserverCombo::resetLockDelayRectangle()
     lockDelayRectangle.setSize(sf::Vector2f(textLabelInnerRectangle.getLocalBounds().width, textLabelInnerRectangle.getLocalBounds().height + valueInnerRectangle.getLocalBounds().height));
 }
 
-void ObserverCombo::setColor(sf::Color color)
+void ObserverCombo::setLockDelayColor(sf::Color color)
 {
     lockDelayRectangle.setFillColor(color);
 }
