@@ -19,6 +19,7 @@ private:
 
 public:
     StateGameOver(CommandExitGame* commandExitGame);
+    ~StateGameOver();
 
     void handleInput(sf::Event& event) override;
     void update(float deltaTime) override;

@@ -5,6 +5,10 @@
 class HeldTetromino
 {
 private:
+	Tetromino* tetromino;
+	sf::Texture texture;
+	sf::Sprite sprite;
+
 	sf::Font font;
 	sf::Color innerRectangleColor;
 
@@ -12,17 +16,15 @@ private:
 	sf::RectangleShape textLabelInnerRectangle;
 	sf::RectangleShape tetrominoInnerRectangle;
 	sf::Text textLabel;
-	sf::Clock clock;
 	sf::Text noHeldTetromino;
-	Tetromino* tetromino;
-	sf::Texture texture;
-	sf::Sprite sprite;
+	sf::Clock clock;
 
 	float lockDelayRectangleStartX, lockDelayRectangleStartY, lockDelayRectangleEndX, lockDelayRectangleEndY;
 	sf::RectangleShape lockDelayRectangle;
 
 public:
 	HeldTetromino();
+	~HeldTetromino();
 
 	bool isTetrominoHeld;
 

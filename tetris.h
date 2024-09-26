@@ -74,6 +74,8 @@ private:
 	float durationBeforeFallingTetrominoMovesDown;
 
 public:
+	~Tetris();
+
 	bool gameOver;
 
 	void initialize();

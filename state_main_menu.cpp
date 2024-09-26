@@ -22,6 +22,11 @@ StateMainMenu::StateMainMenu(CommandExitGame* commandExitGame) : commandExitGame
     commandStartGame = new CommandStartGame();
 }
 
+StateMainMenu::~StateMainMenu()
+{
+    delete commandStartGame;
+}
+
 void StateMainMenu::handleInput(sf::Event& event)
 {
     if (event.type == sf::Event::KeyPressed)

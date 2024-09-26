@@ -19,6 +19,7 @@ private:
 
 public:
     StateMainMenu(CommandExitGame* commandExitGame);
+    ~StateMainMenu();
 
     void handleInput(sf::Event& event) override;
     void update(float deltaTime) override;

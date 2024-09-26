@@ -2,6 +2,10 @@
 
 HeldTetromino::HeldTetromino()
 {
+    texture.loadFromFile("Resources/Sprites/tetromino.png");
+    sprite.setTexture(texture);
+    sprite.setTextureRect(sf::IntRect(0, 0, 30, 30));
+
     font.loadFromFile("Resources/Fonts/BaiJamjuree-Regular.ttf");
 
     innerRectangleColor.r = 25;
@@ -36,10 +40,6 @@ HeldTetromino::HeldTetromino()
     noHeldTetromino.setPosition(tetrominoInnerRectangle.getPosition().x + tetrominoInnerRectangle.getLocalBounds().left + tetrominoInnerRectangle.getLocalBounds().width / 2.0f,
         tetrominoInnerRectangle.getPosition().y + tetrominoInnerRectangle.getLocalBounds().top + tetrominoInnerRectangle.getLocalBounds().height / 2.0f);
 
-    texture.loadFromFile("Resources/Sprites/tetromino.png");
-    sprite.setTexture(texture);
-    sprite.setTextureRect(sf::IntRect(0, 0, 30, 30));
-
     lockDelayRectangleStartX = textLabelInnerRectangle.getPosition().x;
     lockDelayRectangleStartY = textLabelInnerRectangle.getPosition().y;
     lockDelayRectangleEndX = outerRectangle.getPosition().x;
@@ -48,6 +48,11 @@ HeldTetromino::HeldTetromino()
     lockDelayRectangle.setSize(sf::Vector2f(textLabelInnerRectangle.getLocalBounds().width, textLabelInnerRectangle.getLocalBounds().height + tetrominoInnerRectangle.getLocalBounds().height));
 
     isTetrominoHeld = false;
+}
+
+HeldTetromino::~HeldTetromino()
+{
+    delete tetromino;
 }
 
 void HeldTetromino::draw(sf::RenderWindow& window)

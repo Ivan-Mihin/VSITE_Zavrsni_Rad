@@ -22,6 +22,11 @@ StateGameOver::StateGameOver(CommandExitGame* commandExitGame) : commandExitGame
     commandStartGame = new CommandStartGame();
 }
 
+StateGameOver::~StateGameOver()
+{
+    delete commandStartGame;
+}
+
 void StateGameOver::handleInput(sf::Event& event)
 {
     if (event.type == sf::Event::KeyPressed)

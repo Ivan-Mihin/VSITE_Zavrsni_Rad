@@ -7,7 +7,26 @@ Game::Game() : window(sf::VideoMode(800, 800), "Tetris!") , commandExitGame(new 
     changeState(new StateMainMenu(commandExitGame));
 }
 
+Game::~Game()
+{
+    while (!states.empty()) 
+    {
+        State* state = states.top();
+        delete state;
+        states.pop();
+    }
+
+    delete commandStartGame;
+    delete commandExitGame;
+}
+
 Game* Game::instance = nullptr;
+
+void Game::destroy() 
+{
+    delete instance;
+    instance = nullptr;
+}
 
 Game& Game::getInstance() 
 {

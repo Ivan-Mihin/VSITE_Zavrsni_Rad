@@ -5,6 +5,16 @@ ManagerCombo::ManagerCombo()
     combo = 0;
 }
 
+ManagerCombo::~ManagerCombo()
+{
+    for (Observer* observer : observers) 
+    {
+        delete observer;
+    }
+
+    observers.clear();
+}
+
 void ManagerCombo::addObserver(Observer* observer)
 {
     observers.push_back(observer);

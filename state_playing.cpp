@@ -7,6 +7,11 @@ StatePlaying::StatePlaying(CommandExitGame* commandExitGame) : commandExitGame(c
     commandEndGame = new CommandEndGame();
 }
 
+StatePlaying::~StatePlaying()
+{
+    delete commandEndGame;
+}
+
 void StatePlaying::handleInput(sf::Event& event)
 {
     if (event.type == sf::Event::KeyPressed)

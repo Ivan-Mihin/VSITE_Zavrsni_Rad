@@ -17,9 +17,12 @@ private:
     CommandExitGame* commandExitGame;
 
 public:
+    ~Game();
+
     Game(const Game&) = delete;
     Game& operator=(const Game&) = delete;
 
+    static void destroy();
     static Game& getInstance();
 
     State* getCurrentState();

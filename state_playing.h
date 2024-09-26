@@ -14,6 +14,7 @@ private:
 
 public:
     StatePlaying(CommandExitGame* commandExitGame);
+    ~StatePlaying();
 
     void handleInput(sf::Event& event) override;
     void update(float deltaTime) override;

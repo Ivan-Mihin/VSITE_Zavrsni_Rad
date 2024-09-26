@@ -1,5 +1,17 @@
 #include "tetris.h"
 
+Tetris::~Tetris()
+{
+    delete fallingTetromino;
+    delete ghostTetromino;
+    delete heldTetromino;
+
+    for (Tetromino* tetromino : inventory)
+    {
+        delete tetromino;
+    }
+}
+
 void Tetris::initialize()
 {
     innerRectangleColor.r = 25;
@@ -323,14 +335,6 @@ void Tetris::handleInput(sf::Event event)
                         if (isGameOver())
                         {
                             gameOver = true;
-
-                            delete fallingTetromino;
-                            delete ghostTetromino;
-
-                            for (Tetromino* tetromino : inventory)
-                            {
-                                delete tetromino;
-                            }
                         }
                         else
                         {
@@ -340,6 +344,7 @@ void Tetris::handleInput(sf::Event event)
                     }
                 }
 
+                delete commandHardDrop;
                 break;
             }
             case sf::Keyboard::Space:
@@ -398,62 +403,25 @@ void Tetris::handleInput(sf::Event event)
                 }
                 else
                 {
-                    Tetromino* temporaryTetromino;
+                    Tetromino* temporaryTetromino = nullptr;
 
                     switch (fallingTetromino->getShape())
                     {
-                    case TetrominoShape::Shape_I:
-                    {
-                        IShapeBuilder iShapeTetromino;
-                        temporaryTetromino = director.createTetromino(iShapeTetromino);
-                        break;
-                    }
-                    case TetrominoShape::Shape_J:
-                    {
-                        JShapeBuilder jShapeTetromino;
-                        temporaryTetromino = director.createTetromino(jShapeTetromino);
-                        break;
-                    }
-                    case TetrominoShape::Shape_L:
-                    {
-                        LShapeBuilder lShapeTetromino;
-                        temporaryTetromino = director.createTetromino(lShapeTetromino);
-                        break;
-                    }
-                    case TetrominoShape::Shape_O:
-                    {
-                        OShapeBuilder oShapeTetromino;
-                        temporaryTetromino = director.createTetromino(oShapeTetromino);
-                        break;
-                    }
-                    case TetrominoShape::Shape_S:
-                    {
-                        SShapeBuilder sShapeTetromino;
-                        temporaryTetromino = director.createTetromino(sShapeTetromino);
-                        break;
-                    }
-                    case TetrominoShape::Shape_T:
-                    {
-                        TShapeBuilder tShapeTetromino;
-                        temporaryTetromino = director.createTetromino(tShapeTetromino);
-                        break;
-                    }
-                    case TetrominoShape::Shape_Z:
-                    {
-                        ZShapeBuilder zShapeTetromino;
-                        temporaryTetromino = director.createTetromino(zShapeTetromino);
-                        break;
-                    }
-                    default:
-                    {
-                        IShapeBuilder iShapeTetromino;
-                        temporaryTetromino = director.createTetromino(iShapeTetromino);
-                        break;
-                    }
+                    case TetrominoShape::Shape_I: { IShapeBuilder iShapeTetromino; temporaryTetromino = director.createTetromino(iShapeTetromino); break; }
+                    case TetrominoShape::Shape_J: { JShapeBuilder jShapeTetromino; temporaryTetromino = director.createTetromino(jShapeTetromino); break; }
+                    case TetrominoShape::Shape_L: { LShapeBuilder lShapeTetromino; temporaryTetromino = director.createTetromino(lShapeTetromino); break; }
+                    case TetrominoShape::Shape_O: { OShapeBuilder oShapeTetromino; temporaryTetromino = director.createTetromino(oShapeTetromino); break; }
+                    case TetrominoShape::Shape_S: { SShapeBuilder sShapeTetromino; temporaryTetromino = director.createTetromino(sShapeTetromino); break; }
+                    case TetrominoShape::Shape_T: { TShapeBuilder tShapeTetromino; temporaryTetromino = director.createTetromino(tShapeTetromino); break; }
+                    case TetrominoShape::Shape_Z: { ZShapeBuilder zShapeTetromino; temporaryTetromino = director.createTetromino(zShapeTetromino); break; }
                     }
 
-                    fallingTetromino = new Tetromino(*heldTetromino->getTetromino());
-                    heldTetromino->setTetromino(new Tetromino(*temporaryTetromino));
+                    if (temporaryTetromino != nullptr)
+                    {
+                        delete fallingTetromino;
+                        fallingTetromino = new Tetromino(*heldTetromino->getTetromino());
+                        heldTetromino->setTetromino(new Tetromino(*temporaryTetromino));
+                    }
 
                     setTetrominoPosition(fallingTetromino, 0, 4);
                     ghostTetromino->setColor(fallingTetromino->getColor());
@@ -530,15 +498,6 @@ void Tetris::update(float deltaTime)
                         if (isGameOver())
                         {
                             gameOver = true;
-
-                            delete fallingTetromino;
-                            delete ghostTetromino;
-                            delete heldTetromino;
-
-                            for (Tetromino* tetromino : inventory)
-                            {
-                                delete tetromino;
-                            }
                         }
                         else
                         {

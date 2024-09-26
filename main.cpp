@@ -8,6 +8,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
     Game& game = Game::getInstance();
     game.run();
+    Game::destroy();
 
     return 0;
 }
