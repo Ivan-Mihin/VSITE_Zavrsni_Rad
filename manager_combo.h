@@ -10,7 +10,6 @@ private:
 
 public:
     ManagerCombo();
-    ~ManagerCombo();
 
     void addObserver(Observer* observer);
     void removeObserver(Observer* observer);

@@ -5,16 +5,6 @@ ManagerScore::ManagerScore()
     score = 0;
 }
 
-ManagerScore::~ManagerScore()
-{
-    for (Observer* observer : observers)
-    {
-        delete observer;
-    }
-
-    observers.clear();
-}
-
 void ManagerScore::addObserver(Observer* observer)
 {
     observers.push_back(observer);

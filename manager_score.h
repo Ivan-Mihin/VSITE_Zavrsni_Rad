@@ -10,7 +10,6 @@ private:
 
 public:
     ManagerScore();
-    ~ManagerScore();
 
     void addObserver(Observer* observer);
     void removeObserver(Observer* observer);
