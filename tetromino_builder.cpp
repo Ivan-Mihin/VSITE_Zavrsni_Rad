@@ -9,7 +9,7 @@ void TetrominoBuilder::buildSquares()
     {
         for (int j = 0; j < shapeMatrix[i].size(); ++j)
         {
-            if (shapeMatrix[i][j] == 1)
+            if (shapeMatrix[i][j])
             {
                 squares.push_back(Square(j, i));
             }
@@ -33,7 +33,7 @@ void IShapeBuilder::buildShapeMatrix()
 {
     tetromino->setShapeMatrix({
         {0, 0, 0, 0},
-        {1, 1, 1, 1},
+        {1, 2, 3, 4},
         {0, 0, 0, 0},
         {0, 0, 0, 0}
         });
@@ -52,8 +52,8 @@ void IShapeBuilder::setShape()
 void JShapeBuilder::buildShapeMatrix()
 {
     tetromino->setShapeMatrix({
-        {1, 0, 0},
-        {1, 1, 1},
+        {4, 0, 0},
+        {3, 2, 1},
         {0, 0, 0}
         });
 }
@@ -71,8 +71,8 @@ void JShapeBuilder::setShape()
 void LShapeBuilder::buildShapeMatrix()
 {
     tetromino->setShapeMatrix({
-        {0, 0, 1},
-        {1, 1, 1},
+        {0, 0, 4},
+        {1, 2, 3},
         {0, 0, 0}
         });
 }
@@ -90,8 +90,8 @@ void LShapeBuilder::setShape()
 void OShapeBuilder::buildShapeMatrix()
 {
     tetromino->setShapeMatrix({
-        {1, 1},
-        {1, 1}
+        {1, 2},
+        {4, 3}
         });
 }
 
@@ -108,8 +108,8 @@ void OShapeBuilder::setShape()
 void SShapeBuilder::buildShapeMatrix()
 {
     tetromino->setShapeMatrix({
-        {0, 1, 1},
-        {1, 1, 0},
+        {0, 2, 1},
+        {4, 3, 0},
         {0, 0, 0}
         });
 }
@@ -127,8 +127,8 @@ void SShapeBuilder::setShape()
 void TShapeBuilder::buildShapeMatrix()
 {
     tetromino->setShapeMatrix({
-        {0, 1, 0},
-        {1, 1, 1},
+        {0, 4, 0},
+        {3, 2, 1},
         {0, 0, 0}
         });
 }
@@ -146,8 +146,8 @@ void TShapeBuilder::setShape()
 void ZShapeBuilder::buildShapeMatrix()
 {
     tetromino->setShapeMatrix({
-        {1, 1, 0},
-        {0, 1, 1},
+        {1, 2, 0},
+        {0, 3, 4},
         {0, 0, 0}
         });
 }

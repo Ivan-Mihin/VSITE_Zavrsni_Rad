@@ -82,6 +82,7 @@ public:
 	bool isGameOver();
 	void lockDelayRectangleReset();
 	void lockTetromino();
+	void resetColors();
 	void resetFallingTetromino();
 	void setTetrominoPosition(Tetromino* tetromino, int startRow, int startColumn);
 
