@@ -27,5 +27,5 @@ public:
 	void resetLockDelayRectangle();
 	void setLockDelayColor(sf::Color color);
 	void setLockDelayRectangle(float t, float currentLockDelaySizeIncreaseValue);
-	void update(int score) override;
+	void update(std::pair<std::string, int> updateData) override;
 };

@@ -1,11 +1,13 @@
 #pragma once
+#include <string>
+#include <utility>
 #include <vector>
 #include "observer.h"
 
 class ManagerCombo
 {
 private:
-    int combo;
+    std::pair<std::string, int> combo;
     std::vector<Observer*> observers;
 
 public:

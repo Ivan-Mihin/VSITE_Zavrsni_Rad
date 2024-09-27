@@ -79,9 +79,9 @@ void ObserverScore::setLockDelayRectangle(float t, float currentLockDelaySizeInc
     lockDelayRectangle.setPosition(currentLockDelayScoreRectangleSizeX, currentLockDelayScoreRectangleSizeY);
 }
 
-void ObserverScore::update(int score)
+void ObserverScore::update(std::pair<std::string, int> updateData)
 {
-    this->score = score;
+    this->score = updateData.second;
 
     value.setString(std::to_string(this->score));
     value.setOrigin(value.getLocalBounds().left + value.getLocalBounds().width / 2.0f, value.getLocalBounds().top + value.getLocalBounds().height / 2.0f);

@@ -161,7 +161,9 @@
     <ClCompile Include="board.cpp" />
     <ClCompile Include="held_tetromino.cpp" />
     <ClCompile Include="manager_combo.cpp" />
+    <ClCompile Include="manager_difficulty.cpp" />
     <ClCompile Include="observer_combo.cpp" />
+    <ClCompile Include="observer_difficulty.cpp" />
     <ClCompile Include="observer_score.cpp" />
     <ClCompile Include="manager_score.cpp" />
     <ClCompile Include="square.cpp" />
@@ -180,9 +182,11 @@
     <ClInclude Include="board.h" />
     <ClInclude Include="held_tetromino.h" />
     <ClInclude Include="manager_combo.h" />
+    <ClInclude Include="manager_difficulty.h" />
     <ClInclude Include="observer.h" />
     <ClInclude Include="observer_combo.h" />
     <ClInclude Include="manager_score.h" />
+    <ClInclude Include="observer_difficulty.h" />
     <ClInclude Include="observer_score.h" />
     <ClInclude Include="square.h" />
     <ClInclude Include="tetris.h" />

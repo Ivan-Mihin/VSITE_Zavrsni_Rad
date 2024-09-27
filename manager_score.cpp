@@ -1,9 +1,7 @@
 #include "manager_score.h"
+#include "observer_difficulty.h"
 
-ManagerScore::ManagerScore()
-{
-    score = 0;
-}
+ManagerScore::ManagerScore() : score("score", 0) {}
 
 void ManagerScore::addObserver(Observer* observer)
 {
@@ -25,11 +23,11 @@ void ManagerScore::notifyObservers()
 
 int ManagerScore::getScore() const
 {
-    return score;
+    return score.second;
 }
 
 void ManagerScore::increaseScore(int value)
 {
-    score += value;
+    score.second += value;
     notifyObservers();
 }

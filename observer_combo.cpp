@@ -92,6 +92,16 @@ void ObserverCombo::resetLockDelayRectangle()
     lockDelayRectangle.setSize(sf::Vector2f(textLabelInnerRectangle.getLocalBounds().width, textLabelInnerRectangle.getLocalBounds().height + valueInnerRectangle.getLocalBounds().height));
 }
 
+void ObserverCombo::setValueColor()
+{
+    sf::Time elapsed = clock.getElapsedTime();
+    float time = elapsed.asSeconds();
+    float intensity = (std::sin(time * 5.0f) + 1.0f) / 2.0f * 230.0f + 25.0f;
+    sf::Color color(intensity, intensity, intensity);
+    textLabel.setFillColor(color);
+    value.setFillColor(color);
+}
+
 void ObserverCombo::setLockDelayColor(sf::Color color)
 {
     lockDelayRectangle.setFillColor(color);
@@ -107,9 +117,9 @@ void ObserverCombo::setLockDelayRectangle(float t, float currentLockDelaySizeInc
     lockDelayRectangle.setPosition(currentLockDelayRectangleSizeX, currentLockDelayRectangleSizeY);
 }
 
-void ObserverCombo::update(int combo)
+void ObserverCombo::update(std::pair<std::string, int> updateData)
 {
-    this->combo = combo;
+    this->combo = updateData.second;
 
     value.setString(std::to_string(this->combo));
     value.setOrigin(value.getLocalBounds().left + value.getLocalBounds().width / 2.0f, value.getLocalBounds().top + value.getLocalBounds().height / 2.0f);

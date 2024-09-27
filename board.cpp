@@ -29,7 +29,7 @@ std::vector<std::vector<int>>& Board::getBoard()
     return board;
 }
 
-void Board::clearFullLines(ManagerScore* ms, ManagerCombo* mc, ObserverCombo* oc)
+void Board::clearFullLines(ManagerScore* managerScore, ManagerCombo* managerCombo, ObserverCombo* observerCombo)
 {
     bool noLinesCleared = true;
 
@@ -51,7 +51,7 @@ void Board::clearFullLines(ManagerScore* ms, ManagerCombo* mc, ObserverCombo* oc
             noLinesCleared = false;
 
             //audio.getSfxClearLine().play();
-            ms->increaseScore(10);
+            managerScore->increaseScore(100);
 
             for (int i = row; i > 0; --i)
             {
@@ -65,14 +65,15 @@ void Board::clearFullLines(ManagerScore* ms, ManagerCombo* mc, ObserverCombo* oc
 
     if (noLinesCleared)
     {
-        mc->resetCombo();
+        //managerScore->increaseScore(10 * managerCombo->getCombo());
+        managerCombo->resetCombo();
     }
     else
     {
-        mc->increaseCombo(1);
+        managerCombo->increaseCombo(1);
     }
 
-    oc->playComboSound();
+    observerCombo->playComboSound();
 }
 
 void Board::draw(sf::RenderWindow& window)

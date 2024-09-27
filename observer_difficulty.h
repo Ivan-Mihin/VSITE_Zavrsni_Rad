@@ -1,33 +1,35 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "audio.h"
-#include "manager_combo.h"
+#include "manager_difficulty.h"
 #include "observer.h"
 
-class ObserverCombo : public Observer
+class ObserverDifficulty : public Observer
 {
 private:
-    int combo;
+	int difficulty;
+	int score;
+	ManagerDifficulty& managerDifficulty;
 
-	Audio audio;
-	sf::Clock clock;
 	sf::Font font;
 	sf::Color innerRectangleColor;
 
 	sf::RectangleShape outerRectangle;
-	sf::RectangleShape textLabelInnerRectangle;
-	sf::RectangleShape valueInnerRectangle;
-	sf::Text textLabel;
-	sf::Text value;
+	sf::RectangleShape textLabel1InnerRectangle;
+	sf::RectangleShape textLabel2InnerRectangle;
+	sf::Text textLabel1;
+	sf::Text textLabel2;
 
 	float lockDelayRectangleStartX, lockDelayRectangleStartY, lockDelayRectangleEndX, lockDelayRectangleEndY;
 	sf::RectangleShape lockDelayRectangle;
 
+	sf::Clock clock;
+	float duration;
+	bool didDifficultyIncrease;
+
 public:
-    ObserverCombo();
+	ObserverDifficulty(ManagerDifficulty& manager);
 
 	void draw(sf::RenderWindow& window);
-	void playComboSound();
 	void resetLockDelayRectangle();
 	void setValueColor();
 	void setLockDelayColor(sf::Color color);

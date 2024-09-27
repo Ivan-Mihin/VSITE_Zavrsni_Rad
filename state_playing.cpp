@@ -2,8 +2,6 @@
 
 StatePlaying::StatePlaying(CommandExitGame* commandExitGame) : commandExitGame(commandExitGame)
 {
-    tetrisGame.initialize();
-
     commandEndGame = new CommandEndGame();
 }
 

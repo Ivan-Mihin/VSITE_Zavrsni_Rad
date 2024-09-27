@@ -4,19 +4,19 @@
 #include <vector>
 #include "observer.h"
 
-class ManagerScore
+class ManagerDifficulty
 {
 private:
-    std::pair<std::string, int> score;
+    std::pair<std::string, int> difficulty;
     std::vector<Observer*> observers;
 
 public:
-    ManagerScore();
+    ManagerDifficulty();
 
     void addObserver(Observer* observer);
     void removeObserver(Observer* observer);
     void notifyObservers();
 
-    int getScore() const;
-    void increaseScore(int value);
+    int getDifficulty() const;
+    void increaseDifficulty();
 };

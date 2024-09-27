@@ -4,5 +4,5 @@ class Observer
 {
 public:
     virtual ~Observer() {}
-    virtual void update(int score) = 0;
+    virtual void update(std::pair<std::string, int> updateData) = 0;
 };

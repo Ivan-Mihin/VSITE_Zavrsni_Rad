@@ -6,8 +6,10 @@
 #include "command.h"
 #include "held_tetromino.h"
 #include "manager_combo.h"
+#include "manager_difficulty.h"
 #include "manager_score.h"
 #include "observer_combo.h"
+#include "observer_difficulty.h"
 #include "observer_score.h"
 #include "tetromino.h"
 #include "tetromino_builder.h"
@@ -60,8 +62,12 @@ private:
 	// Observer
 	ManagerScore managerScore;
 	ObserverScore observerScore;
+
 	ManagerCombo managerCombo;
 	ObserverCombo observerCombo;
+
+	ManagerDifficulty managerDifficulty;
+	ObserverDifficulty observerDifficulty;
 
 	// Color
 	sf::Clock colorClock;
@@ -74,11 +80,10 @@ private:
 	float durationBeforeFallingTetrominoMovesDown;
 
 public:
+	Tetris();
 	~Tetris();
 
 	bool gameOver;
-
-	void initialize();
 
 	sf::Color colorPicker(TetrominoColor fallingTetromino);
 	bool isGameOver();

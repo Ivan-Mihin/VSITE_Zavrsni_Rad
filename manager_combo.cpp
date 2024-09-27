@@ -1,9 +1,6 @@
 #include "manager_combo.h"
 
-ManagerCombo::ManagerCombo()
-{
-    combo = 0;
-}
+ManagerCombo::ManagerCombo() : combo("combo", 0) {}
 
 void ManagerCombo::addObserver(Observer* observer)
 {
@@ -25,17 +22,17 @@ void ManagerCombo::notifyObservers()
 
 int ManagerCombo::getCombo() const
 {
-    return combo;
+    return combo.second;
 }
 
 void ManagerCombo::increaseCombo(int value)
 {
-    combo += value;
+    combo.second += value;
     notifyObservers();
 }
 
 
 void ManagerCombo::resetCombo() {
-    combo = 0;
+    combo.second = 0;
     notifyObservers();
 }

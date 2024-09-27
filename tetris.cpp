@@ -1,18 +1,6 @@
 #include "tetris.h"
 
-Tetris::~Tetris()
-{
-    delete fallingTetromino;
-    delete ghostTetromino;
-    delete heldTetromino;
-
-    for (Tetromino* tetromino : inventory)
-    {
-        delete tetromino;
-    }
-}
-
-void Tetris::initialize()
+Tetris::Tetris() : observerDifficulty(managerDifficulty)
 {
     innerRectangleColor.r = 25;
     innerRectangleColor.g = 25;
@@ -34,10 +22,10 @@ void Tetris::initialize()
     heldTetromino = new HeldTetromino();
     heldTetromino->setLockDelayColor(colorPicker(fallingTetromino->getColor()));
 
-	for (int i = 0; i < 7; ++i)
-	{
-		inventory.push_back(director.createRandomTetromino());
-	}
+    for (int i = 0; i < 7; ++i)
+    {
+        inventory.push_back(director.createRandomTetromino());
+    }
 
     setTetrominoPosition(fallingTetromino, 0, 4);
     setTetrominoPosition(ghostTetromino, 0, 4);
@@ -106,10 +94,15 @@ void Tetris::initialize()
     lockDelayInventoryRectangle.setFillColor(colorPicker(fallingTetromino->getColor()));
 
     // Observer
-    managerScore.addObserver(&observerScore);
     managerCombo.addObserver(&observerCombo);
-    observerScore.setLockDelayColor(colorPicker(fallingTetromino->getColor()));
     observerCombo.setLockDelayColor(colorPicker(fallingTetromino->getColor()));
+
+    managerDifficulty.addObserver(&observerDifficulty);
+    observerDifficulty.setLockDelayColor(colorPicker(fallingTetromino->getColor()));
+
+    managerScore.addObserver(&observerScore);
+    managerScore.addObserver(&observerDifficulty);
+    observerScore.setLockDelayColor(colorPicker(fallingTetromino->getColor()));
 
     // Color
     colorChangeCycle = 2.0f;
@@ -124,6 +117,18 @@ void Tetris::initialize()
     durationBeforeFallingTetrominoMovesDown = 0.5f;
 
     gameOver = false;
+}
+
+Tetris::~Tetris()
+{
+    delete fallingTetromino;
+    delete ghostTetromino;
+    delete heldTetromino;
+
+    for (Tetromino* tetromino : inventory)
+    {
+        delete tetromino;
+    }
 }
 
 sf::Color Tetris::colorPicker(TetrominoColor color)
@@ -161,6 +166,7 @@ void Tetris::lockDelayRectangleReset()
     board.resetLockDelayRectangle();
     observerScore.resetLockDelayRectangle();
     heldTetromino->resetLockDelayRectangle();
+    observerDifficulty.resetLockDelayRectangle();
     observerCombo.resetLockDelayRectangle();
 
     lockDelayInventoryTextLabelRectangle.setPosition(sf::Vector2f(lockDelayInventoryTextLabelRectangleStartX, lockDelayInventoryTextLabelRectangleStartY));
@@ -188,6 +194,7 @@ void Tetris::resetColors()
     board.setColor(colorPicker(fallingTetromino->getColor()));
     observerScore.setLockDelayColor(colorPicker(fallingTetromino->getColor()));
     heldTetromino->setLockDelayColor(colorPicker(fallingTetromino->getColor()));
+    observerDifficulty.setLockDelayColor(colorPicker(fallingTetromino->getColor()));
     observerCombo.setLockDelayColor(colorPicker(fallingTetromino->getColor()));
     lockDelayInventoryTextLabelRectangle.setFillColor(colorPicker(fallingTetromino->getColor()));
     lockDelayInventoryRectangle.setFillColor(colorPicker(fallingTetromino->getColor()));
@@ -259,11 +266,11 @@ void Tetris::handleInput(sf::Event event)
                 {
                     commandMoveLeft->execute();
                     audio.getSfxMove().play();
-                }
 
-                if (isLockDelayActive)
-                {
-                    lockDelayRectangleReset();
+                    if (isLockDelayActive)
+                    {
+                        lockDelayRectangleReset();
+                    }
                 }
 
                 delete commandMoveLeft;
@@ -285,11 +292,11 @@ void Tetris::handleInput(sf::Event event)
                 {
                     commandMoveRight->execute();
                     audio.getSfxMove().play();
-                }
 
-                if (isLockDelayActive)
-                {
-                    lockDelayRectangleReset();
+                    if (isLockDelayActive)
+                    {
+                        lockDelayRectangleReset();
+                    }
                 }
 
                 delete commandMoveRight;
@@ -355,48 +362,13 @@ void Tetris::handleInput(sf::Event event)
 
                     switch (fallingTetromino->getShape())
                     {
-                    case TetrominoShape::Shape_I:
-                    {
-                        IShapeBuilder iShapeTetromino;
-                        heldTetromino->setTetromino(director.createTetromino(iShapeTetromino));
-                        break;
-                    }
-                    case TetrominoShape::Shape_J:
-                    {
-                        JShapeBuilder jShapeTetromino;
-                        heldTetromino->setTetromino(director.createTetromino(jShapeTetromino));
-                        break;
-                    }
-                    case TetrominoShape::Shape_L:
-                    {
-                        LShapeBuilder lShapeTetromino;
-                        heldTetromino->setTetromino(director.createTetromino(lShapeTetromino));
-                        break;
-                    }
-                    case TetrominoShape::Shape_O:
-                    {
-                        OShapeBuilder oShapeTetromino;
-                        heldTetromino->setTetromino(director.createTetromino(oShapeTetromino));
-                        break;
-                    }
-                    case TetrominoShape::Shape_S:
-                    {
-                        SShapeBuilder sShapeTetromino;
-                        heldTetromino->setTetromino(director.createTetromino(sShapeTetromino));
-                        break;
-                    }
-                    case TetrominoShape::Shape_T:
-                    {
-                        TShapeBuilder tShapeTetromino;
-                        heldTetromino->setTetromino(director.createTetromino(tShapeTetromino));
-                        break;
-                    }
-                    case TetrominoShape::Shape_Z:
-                    {
-                        ZShapeBuilder zShapeTetromino;
-                        heldTetromino->setTetromino(director.createTetromino(zShapeTetromino));
-                        break;
-                    }
+                    case TetrominoShape::Shape_I: { IShapeBuilder iShapeTetromino; heldTetromino->setTetromino(director.createTetromino(iShapeTetromino)); break; }
+                    case TetrominoShape::Shape_J: { JShapeBuilder jShapeTetromino; heldTetromino->setTetromino(director.createTetromino(jShapeTetromino)); break; }
+                    case TetrominoShape::Shape_L: { LShapeBuilder lShapeTetromino; heldTetromino->setTetromino(director.createTetromino(lShapeTetromino)); break; }
+                    case TetrominoShape::Shape_O: { OShapeBuilder oShapeTetromino; heldTetromino->setTetromino(director.createTetromino(oShapeTetromino)); break; }
+                    case TetrominoShape::Shape_S: { SShapeBuilder sShapeTetromino; heldTetromino->setTetromino(director.createTetromino(sShapeTetromino)); break; }
+                    case TetrominoShape::Shape_T: { TShapeBuilder tShapeTetromino; heldTetromino->setTetromino(director.createTetromino(tShapeTetromino)); break; }
+                    case TetrominoShape::Shape_Z: { ZShapeBuilder zShapeTetromino; heldTetromino->setTetromino(director.createTetromino(zShapeTetromino)); break; }
                     }
 
                     resetFallingTetromino();
@@ -528,6 +500,7 @@ void Tetris::update(float deltaTime)
                 board.setLockDelayRectangle(t, currentLockDelaySizeIncreaseValue);
                 observerScore.setLockDelayRectangle(t, currentLockDelaySizeIncreaseValue);
                 heldTetromino->setLockDelayRectangle(t, currentLockDelaySizeIncreaseValue);
+                observerDifficulty.setLockDelayRectangle(t, currentLockDelaySizeIncreaseValue);
                 observerCombo.setLockDelayRectangle(t, currentLockDelaySizeIncreaseValue);
 
                 lockDelayInventoryTextLabelRectangle.setSize(sf::Vector2f(inventoryTextLabelInnerRectangle.getLocalBounds().width + currentLockDelaySizeIncreaseValue,
@@ -564,6 +537,8 @@ void Tetris::update(float deltaTime)
             inventoryNextTetrominoInnerRectangle.setFillColor(sf::Color(r, g, b));
         }
 
+        observerCombo.setValueColor();
+
         if (!heldTetromino->isTetrominoHeld)
         {
             heldTetromino->drawNoHeldTetrominoText();
@@ -586,6 +561,9 @@ void Tetris::render(sf::RenderWindow& window)
 
         // Draw Held Tetromino
         heldTetromino->draw(window);
+
+        // Draw Difficulty
+        observerDifficulty.draw(window);
 
         // Draw Combo
         observerCombo.draw(window);
