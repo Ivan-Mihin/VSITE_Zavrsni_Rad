@@ -15,16 +15,18 @@ Tetris::Tetris() : observerDifficulty(managerDifficulty)
     backgroundSprite.setPosition(0, 0);
 
     font.loadFromFile("Resources/Fonts/BaiJamjuree-Regular.ttf");
-
+    OShapeBuilder o;
+    fallingTetromino = director.createTetromino(o);
     // Tetromino
-    fallingTetromino = director.createRandomTetromino();
+    //fallingTetromino = director.createRandomTetromino();
     ghostTetromino = new Tetromino(*fallingTetromino);
     heldTetromino = new HeldTetromino();
     heldTetromino->setLockDelayColor(colorPicker(fallingTetromino->getColor()));
 
     for (int i = 0; i < 7; ++i)
     {
-        inventory.push_back(director.createRandomTetromino());
+        inventory.push_back(director.createTetromino(o));
+        //inventory.push_back(director.createRandomTetromino());
     }
 
     setTetrominoPosition(fallingTetromino, 0, 4);
@@ -114,9 +116,11 @@ Tetris::Tetris() : observerDifficulty(managerDifficulty)
     inventoryNextTetrominoInnerRectangleEndColor.g = 75;
     inventoryNextTetrominoInnerRectangleEndColor.b = 75;
 
-    durationBeforeFallingTetrominoMovesDown = 0.5f;
+    tetrominoDropDelay = 0.5f;
 
     gameOver = false;
+
+    gameTime.restart();
 }
 
 Tetris::~Tetris()
@@ -149,7 +153,7 @@ bool Tetris::isGameOver()
 {
     for (int column = 0; column < board.BOARD_COLUMNS; ++column)
     {
-        if (board.getBoard()[2][column])
+        if (board.getBoard()[board.getGameOverRow()][column])
         {
             return true;
         }
@@ -185,7 +189,7 @@ void Tetris::lockTetromino()
 
         board.getBoard()[y][x] = static_cast<int>(fallingTetromino->getColor());
     }
-
+    setTetrominoSpeed();
     audio.getSfxFloor().play();
 }
 
@@ -240,6 +244,17 @@ void Tetris::setTetrominoPosition(Tetromino* tetromino, int startRow, int startC
     }
 
     tetromino->setSquares(squares);
+}
+
+void Tetris::setTetrominoSpeed()
+{
+    switch (managerDifficulty.getDifficulty())
+    {
+    case 2: { tetrominoDropDelay = 0.4; break; }
+    case 3: { tetrominoDropDelay = 0.3; break; }
+    case 4: { tetrominoDropDelay = 0.2; break; }
+    case 5: { tetrominoDropDelay = 0.1; break; }
+    }
 }
 
 void Tetris::handleInput(sf::Event event)
@@ -429,7 +444,7 @@ void Tetris::update(float deltaTime)
             }
         }
 
-        if (clockForFallingTetromino.getElapsedTime().asSeconds() >= durationBeforeFallingTetrominoMovesDown)
+        if (clockForFallingTetromino.getElapsedTime().asSeconds() >= tetrominoDropDelay)
         {
             std::vector<Square> nextPosition;
             nextPosition = fallingTetromino->getSquares();
@@ -542,6 +557,27 @@ void Tetris::update(float deltaTime)
         if (!heldTetromino->isTetrominoHeld)
         {
             heldTetromino->drawNoHeldTetrominoText();
+        }
+
+        if (static_cast<int>(gameTime.getElapsedTime().asSeconds()) >= 300)
+        {
+            board.setGameOverRow(7);
+        }
+        else if (static_cast<int>(gameTime.getElapsedTime().asSeconds()) >= 240)
+        {
+            board.setGameOverRow(6);
+        }
+        else if (static_cast<int>(gameTime.getElapsedTime().asSeconds()) >= 180)
+        {
+            board.setGameOverRow(5);
+        }
+        else if (static_cast<int>(gameTime.getElapsedTime().asSeconds()) >= 120)
+        {
+            board.setGameOverRow(4);
+        }
+        else if (static_cast<int>(gameTime.getElapsedTime().asSeconds()) >= 60)
+        {
+            board.setGameOverRow(3);
         }
     }
 }

@@ -70,6 +70,7 @@ private:
 	ObserverDifficulty observerDifficulty;
 
 	// Color
+	sf::Clock gameTime;
 	sf::Clock colorClock;
 	float colorChangeCycle;
 	sf::Color inventoryNextTetrominoInnerRectangleStartColor;
@@ -77,7 +78,7 @@ private:
 	sf::Color innerRectangleColor;
 
 	sf::Clock clockForFallingTetromino;
-	float durationBeforeFallingTetrominoMovesDown;
+	float tetrominoDropDelay;
 
 public:
 	Tetris();
@@ -92,6 +93,7 @@ public:
 	void resetColors();
 	void resetFallingTetromino();
 	void setTetrominoPosition(Tetromino* tetromino, int startRow, int startColumn);
+	void setTetrominoSpeed();
 
 	void handleInput(sf::Event event);
 	void update(float deltaTime);

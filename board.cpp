@@ -14,7 +14,7 @@ Board::Board()
 
     gameOverLineTexture.loadFromFile("Resources/Sprites/game_over_line.png");
     gameOverLineSprite.setTexture(gameOverLineTexture);
-    gameOverLineSprite.setPosition(220, 85);
+    gameOverLineSprite.setPosition(220, 25);
 
     lockDelayRectangleStartX = sprite.getPosition().x;
     lockDelayRectangleStartY = sprite.getPosition().y;
@@ -22,11 +22,51 @@ Board::Board()
     lockDelayRectangleEndY = outerRectangle.getPosition().y;
     lockDelayRectangle.setPosition(sf::Vector2f(lockDelayRectangleStartX, lockDelayRectangleStartY));
     lockDelayRectangle.setSize(sf::Vector2f(sprite.getLocalBounds().width, sprite.getLocalBounds().height));
+
+    gameOverRow = 2;
 }
 
 std::vector<std::vector<int>>& Board::getBoard()
 {
     return board;
+}
+
+int Board::getGameOverRow() const
+{
+    return gameOverRow;
+}
+
+void Board::setGameOverRow(int value)
+{
+    gameOverRow = value;
+}
+
+void Board::allClearCheck(ManagerScore* managerScore)
+{
+    bool isAllCleared = true;
+
+    for (int row = BOARD_ROWS - 1; row >= 0; --row)
+    {
+        for (int column = 0; column < BOARD_COLUMNS; ++column)
+        {
+            if (getBoard()[row][column])
+            {
+                isAllCleared = false;
+                break;
+            }
+        }
+
+        if (!isAllCleared)
+        {
+            break;
+        }
+    }
+
+    if (isAllCleared)
+    {
+        //audio.getSfxAllClear().play();
+        managerScore->increaseScore(3000);
+    }
 }
 
 void Board::clearFullLines(ManagerScore* managerScore, ManagerCombo* managerCombo, ObserverCombo* observerCombo)
@@ -37,7 +77,7 @@ void Board::clearFullLines(ManagerScore* managerScore, ManagerCombo* managerComb
     {
         bool isFull = true;
 
-        for (int column= 0; column < BOARD_COLUMNS; ++column)
+        for (int column = 0; column < BOARD_COLUMNS; ++column)
         {
             if (!getBoard()[row][column])
             {
@@ -65,7 +105,11 @@ void Board::clearFullLines(ManagerScore* managerScore, ManagerCombo* managerComb
 
     if (noLinesCleared)
     {
-        //managerScore->increaseScore(10 * managerCombo->getCombo());
+        if (managerCombo->getCombo() >= 2)
+        {
+            managerScore->increaseScore(100 * managerCombo->getCombo() * managerCombo->getCombo() / 2);
+        }
+        
         managerCombo->resetCombo();
     }
     else
@@ -74,6 +118,8 @@ void Board::clearFullLines(ManagerScore* managerScore, ManagerCombo* managerComb
     }
 
     observerCombo->playComboSound();
+
+    allClearCheck(managerScore);
 }
 
 void Board::draw(sf::RenderWindow& window)
@@ -81,6 +127,8 @@ void Board::draw(sf::RenderWindow& window)
     window.draw(outerRectangle);
     window.draw(lockDelayRectangle);
     window.draw(sprite);
+
+    gameOverLineSprite.setPosition(220, 25 + 30 * gameOverRow);
     window.draw(gameOverLineSprite);
 }
 

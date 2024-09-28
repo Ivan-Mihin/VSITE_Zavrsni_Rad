@@ -20,6 +20,8 @@ private:
 	float lockDelayRectangleStartX, lockDelayRectangleStartY, lockDelayRectangleEndX, lockDelayRectangleEndY;
 	sf::RectangleShape lockDelayRectangle;
 
+	int gameOverRow;
+
 public:
 	Board();
 
@@ -27,7 +29,10 @@ public:
 	int BOARD_COLUMNS = 12;
 
 	std::vector<std::vector<int>>& getBoard();
+	int getGameOverRow() const;
+	void setGameOverRow(int value);
 
+	void allClearCheck(ManagerScore* managerScore);
 	void clearFullLines(ManagerScore* ms, ManagerCombo* mc, ObserverCombo* oc);
 	void draw(sf::RenderWindow& window);
 	bool isValidPosition(std::vector<Square> nextPosition);
