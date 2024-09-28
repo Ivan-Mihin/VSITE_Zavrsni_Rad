@@ -1,4 +1,5 @@
 #pragma once
+#include <functional>
 #include <SFML/Graphics.hpp>
 #include "manager_difficulty.h"
 #include "observer.h"
@@ -6,7 +7,8 @@
 class ObserverDifficulty : public Observer
 {
 private:
-	int difficulty;
+	int scoreDifficulty;
+	int timeDifficulty;
 	int score;
 	ManagerDifficulty& managerDifficulty;
 
@@ -35,4 +37,6 @@ public:
 	void setLockDelayColor(sf::Color color);
 	void setLockDelayRectangle(float t, float currentLockDelaySizeIncreaseValue);
 	void update(std::pair<std::string, int> updateData) override;
+	void updateDifficultyBasedOnScore();
+	void updateDifficultyBasedOnTime(float timeValue, std::function<int()> getGameOverRow, std::function<void(int)> setGameOverRow);
 };

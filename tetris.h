@@ -4,6 +4,7 @@
 #include "audio.h"
 #include "board.h"
 #include "command.h"
+#include "game_time.h"
 #include "held_tetromino.h"
 #include "manager_combo.h"
 #include "manager_difficulty.h"
@@ -70,7 +71,7 @@ private:
 	ObserverDifficulty observerDifficulty;
 
 	// Color
-	sf::Clock gameTime;
+	GameTime gameTime;
 	sf::Clock colorClock;
 	float colorChangeCycle;
 	sf::Color inventoryNextTetrominoInnerRectangleStartColor;

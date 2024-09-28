@@ -15,18 +15,18 @@ Tetris::Tetris() : observerDifficulty(managerDifficulty)
     backgroundSprite.setPosition(0, 0);
 
     font.loadFromFile("Resources/Fonts/BaiJamjuree-Regular.ttf");
-    OShapeBuilder o;
-    fallingTetromino = director.createTetromino(o);
+    //OShapeBuilder o;
+    //fallingTetromino = director.createTetromino(o);
     // Tetromino
-    //fallingTetromino = director.createRandomTetromino();
+    fallingTetromino = director.createRandomTetromino();
     ghostTetromino = new Tetromino(*fallingTetromino);
     heldTetromino = new HeldTetromino();
     heldTetromino->setLockDelayColor(colorPicker(fallingTetromino->getColor()));
 
-    for (int i = 0; i < 7; ++i)
+    for (int i = 0; i < 5; ++i)
     {
-        inventory.push_back(director.createTetromino(o));
-        //inventory.push_back(director.createRandomTetromino());
+        //inventory.push_back(director.createTetromino(o));
+        inventory.push_back(director.createRandomTetromino());
     }
 
     setTetrominoPosition(fallingTetromino, 0, 4);
@@ -43,7 +43,7 @@ Tetris::Tetris() : observerDifficulty(managerDifficulty)
     ghostTetrominoSprite.setTextureRect(sf::IntRect(0, 0, TEXTURE_SIZE, TEXTURE_SIZE));
 
     // Inventory Text Label
-    inventoryTextLabelOuterRectangle.setPosition(610, 15);
+    inventoryTextLabelOuterRectangle.setPosition(610, 225);
     inventoryTextLabelOuterRectangle.setSize(sf::Vector2f(170, 80));
     inventoryTextLabelOuterRectangle.setFillColor(sf::Color::Black);
 
@@ -61,8 +61,8 @@ Tetris::Tetris() : observerDifficulty(managerDifficulty)
         inventoryTextLabelOuterRectangle.getPosition().y + inventoryTextLabelOuterRectangle.getLocalBounds().top + inventoryTextLabelOuterRectangle.getLocalBounds().height / 2.0f);
 
     // Inventory
-    inventoryOuterRectangle.setPosition(610, 135);
-    inventoryOuterRectangle.setSize(sf::Vector2f(170, 650));
+    inventoryOuterRectangle.setPosition(610, 315);
+    inventoryOuterRectangle.setSize(sf::Vector2f(170, 470));
     inventoryOuterRectangle.setFillColor(sf::Color::Black);
 
     inventoryNextTetrominoInnerRectangle.setPosition(inventoryOuterRectangle.getPosition().x + 10, inventoryOuterRectangle.getPosition().y + 10);
@@ -70,7 +70,7 @@ Tetris::Tetris() : observerDifficulty(managerDifficulty)
     inventoryNextTetrominoInnerRectangle.setFillColor(innerRectangleColor);
 
     inventoryInnerRectangle.setPosition(inventoryOuterRectangle.getPosition().x + 10, inventoryOuterRectangle.getPosition().y + 10 + inventoryNextTetrominoInnerRectangle.getSize().y);
-    inventoryInnerRectangle.setSize(sf::Vector2f(150, 540));
+    inventoryInnerRectangle.setSize(sf::Vector2f(150, 360));
     inventoryInnerRectangle.setFillColor(innerRectangleColor);
 
     // Lock Delay
@@ -94,6 +94,8 @@ Tetris::Tetris() : observerDifficulty(managerDifficulty)
     lockDelayInventoryRectangle.setPosition(sf::Vector2f(lockDelayInventoryRectangleStartX, lockDelayInventoryRectangleStartY));
     lockDelayInventoryRectangle.setSize(sf::Vector2f(inventoryNextTetrominoInnerRectangle.getLocalBounds().width, inventoryNextTetrominoInnerRectangle.getLocalBounds().height + inventoryInnerRectangle.getLocalBounds().height));
     lockDelayInventoryRectangle.setFillColor(colorPicker(fallingTetromino->getColor()));
+
+    gameTime.setLockDelayColor(colorPicker(fallingTetromino->getColor()));
 
     // Observer
     managerCombo.addObserver(&observerCombo);
@@ -119,8 +121,6 @@ Tetris::Tetris() : observerDifficulty(managerDifficulty)
     tetrominoDropDelay = 0.5f;
 
     gameOver = false;
-
-    gameTime.restart();
 }
 
 Tetris::~Tetris()
@@ -172,6 +172,7 @@ void Tetris::lockDelayRectangleReset()
     heldTetromino->resetLockDelayRectangle();
     observerDifficulty.resetLockDelayRectangle();
     observerCombo.resetLockDelayRectangle();
+    gameTime.resetLockDelayRectangle();
 
     lockDelayInventoryTextLabelRectangle.setPosition(sf::Vector2f(lockDelayInventoryTextLabelRectangleStartX, lockDelayInventoryTextLabelRectangleStartY));
     lockDelayInventoryTextLabelRectangle.setSize(sf::Vector2f(inventoryTextLabelInnerRectangle.getLocalBounds().width, inventoryTextLabelInnerRectangle.getLocalBounds().height));
@@ -200,6 +201,7 @@ void Tetris::resetColors()
     heldTetromino->setLockDelayColor(colorPicker(fallingTetromino->getColor()));
     observerDifficulty.setLockDelayColor(colorPicker(fallingTetromino->getColor()));
     observerCombo.setLockDelayColor(colorPicker(fallingTetromino->getColor()));
+    gameTime.setLockDelayColor(colorPicker(fallingTetromino->getColor()));
     lockDelayInventoryTextLabelRectangle.setFillColor(colorPicker(fallingTetromino->getColor()));
     lockDelayInventoryRectangle.setFillColor(colorPicker(fallingTetromino->getColor()));
 }
@@ -248,7 +250,7 @@ void Tetris::setTetrominoPosition(Tetromino* tetromino, int startRow, int startC
 
 void Tetris::setTetrominoSpeed()
 {
-    switch (managerDifficulty.getDifficulty())
+    switch (managerDifficulty.getScoreDifficulty())
     {
     case 2: { tetrominoDropDelay = 0.4; break; }
     case 3: { tetrominoDropDelay = 0.3; break; }
@@ -517,6 +519,7 @@ void Tetris::update(float deltaTime)
                 heldTetromino->setLockDelayRectangle(t, currentLockDelaySizeIncreaseValue);
                 observerDifficulty.setLockDelayRectangle(t, currentLockDelaySizeIncreaseValue);
                 observerCombo.setLockDelayRectangle(t, currentLockDelaySizeIncreaseValue);
+                gameTime.setLockDelayRectangle(t, currentLockDelaySizeIncreaseValue);
 
                 lockDelayInventoryTextLabelRectangle.setSize(sf::Vector2f(inventoryTextLabelInnerRectangle.getLocalBounds().width + currentLockDelaySizeIncreaseValue,
                     inventoryTextLabelInnerRectangle.getLocalBounds().height + currentLockDelaySizeIncreaseValue));
@@ -559,26 +562,9 @@ void Tetris::update(float deltaTime)
             heldTetromino->drawNoHeldTetrominoText();
         }
 
-        if (static_cast<int>(gameTime.getElapsedTime().asSeconds()) >= 300)
-        {
-            board.setGameOverRow(7);
-        }
-        else if (static_cast<int>(gameTime.getElapsedTime().asSeconds()) >= 240)
-        {
-            board.setGameOverRow(6);
-        }
-        else if (static_cast<int>(gameTime.getElapsedTime().asSeconds()) >= 180)
-        {
-            board.setGameOverRow(5);
-        }
-        else if (static_cast<int>(gameTime.getElapsedTime().asSeconds()) >= 120)
-        {
-            board.setGameOverRow(4);
-        }
-        else if (static_cast<int>(gameTime.getElapsedTime().asSeconds()) >= 60)
-        {
-            board.setGameOverRow(3);
-        }
+        gameTime.setTimeAsString();
+
+        observerDifficulty.updateDifficultyBasedOnTime(gameTime.getTimeAsFloat(), [this]() { return this->board.getGameOverRow(); }, [this](int newRow) { this->board.setGameOverRow(newRow); });
     }
 }
 
@@ -603,6 +589,9 @@ void Tetris::render(sf::RenderWindow& window)
 
         // Draw Combo
         observerCombo.draw(window);
+
+        // Draw Clock
+        gameTime.draw(window);
 
         // Draw Inventory
         window.draw(inventoryTextLabelOuterRectangle);

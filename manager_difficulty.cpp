@@ -1,6 +1,6 @@
 #include "manager_difficulty.h"
 
-ManagerDifficulty::ManagerDifficulty() : difficulty("difficulty", 1) {}
+ManagerDifficulty::ManagerDifficulty() : scoreDifficulty("difficulty-score", 1) , timeDifficulty("difficulty-time", 1) {}
 
 void ManagerDifficulty::addObserver(Observer* observer)
 {
@@ -16,17 +16,29 @@ void ManagerDifficulty::notifyObservers()
 {
     for (Observer* observer : observers)
     {
-        observer->update(difficulty);
+        observer->update(scoreDifficulty);
+        observer->update(timeDifficulty);
     }
 }
 
-int ManagerDifficulty::getDifficulty() const
+int ManagerDifficulty::getScoreDifficulty() const
 {
-    return difficulty.second;
+    return scoreDifficulty.second;
 }
 
-void ManagerDifficulty::increaseDifficulty()
+int ManagerDifficulty::getTimeDifficulty() const
 {
-    ++difficulty.second;
+    return timeDifficulty.second;
+}
+
+void ManagerDifficulty::increaseScoreDifficulty()
+{
+    ++scoreDifficulty.second;
+    notifyObservers();
+}
+
+void ManagerDifficulty::increaseTimeDifficulty()
+{
+    ++timeDifficulty.second;
     notifyObservers();
 }

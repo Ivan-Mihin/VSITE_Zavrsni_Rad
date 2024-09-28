@@ -7,7 +7,8 @@
 class ManagerDifficulty
 {
 private:
-    std::pair<std::string, int> difficulty;
+    std::pair<std::string, int> scoreDifficulty;
+    std::pair<std::string, int> timeDifficulty;
     std::vector<Observer*> observers;
 
 public:
@@ -17,6 +18,8 @@ public:
     void removeObserver(Observer* observer);
     void notifyObservers();
 
-    int getDifficulty() const;
-    void increaseDifficulty();
+    int getScoreDifficulty() const;
+    int getTimeDifficulty() const;
+    void increaseScoreDifficulty();
+    void increaseTimeDifficulty();
 };

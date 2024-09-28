@@ -2,7 +2,8 @@
 
 ObserverDifficulty::ObserverDifficulty(ManagerDifficulty& manager) : managerDifficulty(manager)
 {
-    difficulty = 1;
+    scoreDifficulty = 1;
+    timeDifficulty = 1;
     score = 0;
 
     font.loadFromFile("Resources/Fonts/BaiJamjuree-Regular.ttf");
@@ -92,25 +93,46 @@ void ObserverDifficulty::setLockDelayRectangle(float t, float currentLockDelaySi
 
 void ObserverDifficulty::update(std::pair<std::string, int> updateData)
 {
-    if (updateData.first == "difficulty")
+    if (updateData.first == "difficulty-score")
     {
         if (updateData.second <= 5)
         {
-            this->difficulty = updateData.second;
+            scoreDifficulty = updateData.second;
         }
     }
+    else if (updateData.first == "difficulty-time")
+    {
+        if (updateData.second <= 9)
+        {
+            timeDifficulty = updateData.second;
+        }
+    }  
     else if (updateData.first == "score")
     {
         score = updateData.second;
-        const int SCORE_THRESHOLDS[] = { 3000, 7000, 12000, 18000, 25000 };
-        const int MAX_DIFFICULTY_LEVEL = sizeof(SCORE_THRESHOLDS) / sizeof(SCORE_THRESHOLDS[0]);
+        updateDifficultyBasedOnScore();
+    }
+}
 
-        if (difficulty < MAX_DIFFICULTY_LEVEL && score >= SCORE_THRESHOLDS[difficulty - 1])
-        {
-            managerDifficulty.increaseDifficulty();
+void ObserverDifficulty::updateDifficultyBasedOnScore()
+{
+    const int SCORE_THRESHOLDS[] = { 3000, 7000, 12000, 18000, 25000 };
+    const int MAX_DIFFICULTY_LEVEL = sizeof(SCORE_THRESHOLDS) / sizeof(SCORE_THRESHOLDS[0]);
 
-            didDifficultyIncrease = true;
-            clock.restart();
-        }
+    if (scoreDifficulty < MAX_DIFFICULTY_LEVEL && score >= SCORE_THRESHOLDS[scoreDifficulty - 1])
+    {
+        managerDifficulty.increaseScoreDifficulty();
+
+        didDifficultyIncrease = true;
+        clock.restart();
+    }
+}
+
+void ObserverDifficulty::updateDifficultyBasedOnTime(float timeValue, std::function<int()> getGameOverRow, std::function<void(int)> setGameOverRow)
+{
+    if (static_cast<int>(timeValue >= timeDifficulty * 60))
+    {
+        setGameOverRow(getGameOverRow() + 1);
+        managerDifficulty.increaseTimeDifficulty();
     }
 }
