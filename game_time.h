@@ -5,6 +5,8 @@ class GameTime
 {
 private:
 	sf::Clock clock;
+	sf::Time lastTime;
+	sf::Time interval;
 
 	sf::Font font;
 	sf::Color innerRectangleColor;
@@ -21,6 +23,7 @@ private:
 public:
 	GameTime();
 
+	bool didOneSecondElapse();
 	void draw(sf::RenderWindow& window);
 	float getTimeAsFloat();
 	void resetLockDelayRectangle();

@@ -112,7 +112,6 @@ void HeldTetromino::drawNoHeldTetrominoText()
     noHeldTetromino.setFillColor(color);
 }
 
-
 Tetromino* HeldTetromino::getTetromino()
 {
     return tetromino;

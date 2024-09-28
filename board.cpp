@@ -118,7 +118,6 @@ void Board::clearFullLines(ManagerScore* managerScore, ManagerCombo* managerComb
     }
 
     observerCombo->playComboSound();
-
     allClearCheck(managerScore);
 }
 
@@ -168,4 +167,15 @@ void Board::setLockDelayRectangle(float t, float currentLockDelaySizeIncreaseVal
     lockDelayRectangle.setSize(sf::Vector2f(sprite.getLocalBounds().width + currentLockDelaySizeIncreaseValue,
         sprite.getLocalBounds().height + currentLockDelaySizeIncreaseValue));
     lockDelayRectangle.setPosition(currentLockDelayRectangleSizeX, currentLockDelayRectangleSizeY);
+}
+
+void Board::setGameOverRowBasedOnTime(ManagerDifficulty* managerDifficulty)
+{
+    switch (managerDifficulty->getTimeDifficulty())
+    {
+    case 2: { setGameOverRow(3); break; }
+    case 3: { setGameOverRow(4); break; }
+    case 4: { setGameOverRow(5); break; }
+    case 5: { setGameOverRow(6); break; }
+    }
 }

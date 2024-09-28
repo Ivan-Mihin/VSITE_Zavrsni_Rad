@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include "manager_score.h"
 #include "manager_combo.h"
+#include "manager_difficulty.h"
 #include "observer_combo.h"
 #include "square.h"
 
@@ -39,4 +40,5 @@ public:
 	void resetLockDelayRectangle();
 	void setColor(sf::Color color);
 	void setLockDelayRectangle(float t, float currentLockDelaySizeIncreaseValue);
+	void setGameOverRowBasedOnTime(ManagerDifficulty* managerDifficulty);
 };

@@ -190,7 +190,7 @@ void Tetris::lockTetromino()
 
         board.getBoard()[y][x] = static_cast<int>(fallingTetromino->getColor());
     }
-    setTetrominoSpeed();
+
     audio.getSfxFloor().play();
 }
 
@@ -564,7 +564,13 @@ void Tetris::update(float deltaTime)
 
         gameTime.setTimeAsString();
 
-        observerDifficulty.updateDifficultyBasedOnTime(gameTime.getTimeAsFloat(), [this]() { return this->board.getGameOverRow(); }, [this](int newRow) { this->board.setGameOverRow(newRow); });
+        setTetrominoSpeed();
+
+        if (gameTime.didOneSecondElapse())
+        {
+            observerDifficulty.updateDifficultyBasedOnTime(gameTime.getTimeAsFloat());
+            board.setGameOverRowBasedOnTime(&managerDifficulty);
+        }
     }
 }
 

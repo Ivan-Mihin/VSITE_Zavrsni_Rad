@@ -13,7 +13,7 @@ ObserverDifficulty::ObserverDifficulty(ManagerDifficulty& manager) : managerDiff
     innerRectangleColor.b = 25;
 
     outerRectangle.setPosition(20, 375);
-    outerRectangle.setSize(sf::Vector2f(170, 120));
+    outerRectangle.setSize(sf::Vector2f(170, 170));
     outerRectangle.setFillColor(sf::Color::Black);
 
     textLabel1InnerRectangle.setPosition(outerRectangle.getPosition().x + 10, outerRectangle.getPosition().y + 10);
@@ -22,12 +22,16 @@ ObserverDifficulty::ObserverDifficulty(ManagerDifficulty& manager) : managerDiff
 
     textLabel2InnerRectangle.setPosition(outerRectangle.getPosition().x + 10, outerRectangle.getPosition().y + 10 + textLabel1InnerRectangle.getSize().y);
     textLabel2InnerRectangle.setSize(sf::Vector2f(150, 50));
-    textLabel2InnerRectangle.setFillColor(innerRectangleColor);
+    textLabel2InnerRectangle.setFillColor(sf::Color::Red);
+
+    textLabel3InnerRectangle.setPosition(outerRectangle.getPosition().x + 10, outerRectangle.getPosition().y + 10 + textLabel1InnerRectangle.getSize().y + textLabel2InnerRectangle.getSize().y);
+    textLabel3InnerRectangle.setSize(sf::Vector2f(150, 50));
+    textLabel3InnerRectangle.setFillColor(innerRectangleColor);
 
     textLabel1.setFont(font);
     textLabel1.setCharacterSize(30);
     textLabel1.setFillColor(sf::Color::White);
-    textLabel1.setString("Difficulty");
+    textLabel1.setString("Score");
     textLabel1.setOrigin(textLabel1.getLocalBounds().left + textLabel1.getLocalBounds().width / 2.0f,
         textLabel1.getLocalBounds().top + textLabel1.getLocalBounds().height / 2.0f);
     textLabel1.setPosition(textLabel1InnerRectangle.getPosition().x + textLabel1InnerRectangle.getLocalBounds().left + textLabel1InnerRectangle.getLocalBounds().width / 2.0f,
@@ -36,11 +40,20 @@ ObserverDifficulty::ObserverDifficulty(ManagerDifficulty& manager) : managerDiff
     textLabel2.setFont(font);
     textLabel2.setCharacterSize(30);
     textLabel2.setFillColor(sf::Color::White);
-    textLabel2.setString("Increase");
+    textLabel2.setString("Threshold");
     textLabel2.setOrigin(textLabel2.getLocalBounds().left + textLabel2.getLocalBounds().width / 2.0f,
         textLabel2.getLocalBounds().top + textLabel2.getLocalBounds().height / 2.0f);
     textLabel2.setPosition(textLabel2InnerRectangle.getPosition().x + textLabel2InnerRectangle.getLocalBounds().left + textLabel2InnerRectangle.getLocalBounds().width / 2.0f,
         textLabel2InnerRectangle.getPosition().y + textLabel2InnerRectangle.getLocalBounds().top + textLabel2InnerRectangle.getLocalBounds().height / 2.0f);
+
+    textLabel3.setFont(font);
+    textLabel3.setCharacterSize(30);
+    textLabel3.setFillColor(sf::Color::White);
+    textLabel3.setString("Reached");
+    textLabel3.setOrigin(textLabel3.getLocalBounds().left + textLabel3.getLocalBounds().width / 2.0f,
+        textLabel3.getLocalBounds().top + textLabel3.getLocalBounds().height / 2.0f + 5);
+    textLabel3.setPosition(textLabel3InnerRectangle.getPosition().x + textLabel3InnerRectangle.getLocalBounds().left + textLabel3InnerRectangle.getLocalBounds().width / 2.0f,
+        textLabel3InnerRectangle.getPosition().y + textLabel3InnerRectangle.getLocalBounds().top + textLabel3InnerRectangle.getLocalBounds().height / 2.0f);
 
     lockDelayRectangleStartX = textLabel1InnerRectangle.getPosition().x;
     lockDelayRectangleStartY = textLabel1InnerRectangle.getPosition().y;
@@ -49,7 +62,7 @@ ObserverDifficulty::ObserverDifficulty(ManagerDifficulty& manager) : managerDiff
     lockDelayRectangle.setPosition(sf::Vector2f(lockDelayRectangleStartX, lockDelayRectangleStartY));
     lockDelayRectangle.setSize(sf::Vector2f(textLabel1InnerRectangle.getLocalBounds().width, textLabel1InnerRectangle.getLocalBounds().height + textLabel2InnerRectangle.getLocalBounds().height));
 
-    duration = 5.0f;
+    duration = 2.0f;
     didDifficultyIncrease = false;
 }
 
@@ -61,8 +74,10 @@ void ObserverDifficulty::draw(sf::RenderWindow& window)
         window.draw(lockDelayRectangle);
         window.draw(textLabel1InnerRectangle);
         window.draw(textLabel2InnerRectangle);
+        window.draw(textLabel3InnerRectangle);
         window.draw(textLabel1);
         window.draw(textLabel2);
+        window.draw(textLabel3);
     }
     else
     {
@@ -87,7 +102,7 @@ void ObserverDifficulty::setLockDelayRectangle(float t, float currentLockDelaySi
     float currentLockDelayRectangleSizeY = lockDelayRectangleStartY + t * (lockDelayRectangleEndY - lockDelayRectangleStartY);
 
     lockDelayRectangle.setSize(sf::Vector2f(textLabel1InnerRectangle.getLocalBounds().width + currentLockDelaySizeIncreaseValue,
-        textLabel1InnerRectangle.getLocalBounds().height + textLabel2InnerRectangle.getLocalBounds().height + currentLockDelaySizeIncreaseValue));
+        textLabel1InnerRectangle.getLocalBounds().height + textLabel2InnerRectangle.getLocalBounds().height + textLabel3InnerRectangle.getLocalBounds().height + currentLockDelaySizeIncreaseValue));
     lockDelayRectangle.setPosition(currentLockDelayRectangleSizeX, currentLockDelayRectangleSizeY);
 }
 
@@ -95,14 +110,14 @@ void ObserverDifficulty::update(std::pair<std::string, int> updateData)
 {
     if (updateData.first == "difficulty-score")
     {
-        if (updateData.second <= 5)
+        if (updateData.second <= 6)
         {
             scoreDifficulty = updateData.second;
         }
     }
     else if (updateData.first == "difficulty-time")
     {
-        if (updateData.second <= 9)
+        if (updateData.second <= 6)
         {
             timeDifficulty = updateData.second;
         }
@@ -117,22 +132,23 @@ void ObserverDifficulty::update(std::pair<std::string, int> updateData)
 void ObserverDifficulty::updateDifficultyBasedOnScore()
 {
     const int SCORE_THRESHOLDS[] = { 3000, 7000, 12000, 18000, 25000 };
-    const int MAX_DIFFICULTY_LEVEL = sizeof(SCORE_THRESHOLDS) / sizeof(SCORE_THRESHOLDS[0]);
 
-    if (scoreDifficulty < MAX_DIFFICULTY_LEVEL && score >= SCORE_THRESHOLDS[scoreDifficulty - 1])
+    if (scoreDifficulty < MAX_SCORE_DIFFICULTY_LEVEL && score >= SCORE_THRESHOLDS[scoreDifficulty - 1])
     {
         managerDifficulty.increaseScoreDifficulty();
-
         didDifficultyIncrease = true;
         clock.restart();
     }
 }
 
-void ObserverDifficulty::updateDifficultyBasedOnTime(float timeValue, std::function<int()> getGameOverRow, std::function<void(int)> setGameOverRow)
+void ObserverDifficulty::updateDifficultyBasedOnTime(float timeValue)
 {
-    if (static_cast<int>(timeValue >= timeDifficulty * 60))
+    const int TIME_THRESHOLDS[] = { 60, 120, 180, 240, 300 };
+
+    if (timeDifficulty < MAX_TIME_DIFFICULTY_LEVEL && static_cast<int>(timeValue) >= TIME_THRESHOLDS[timeDifficulty - 1])
     {
-        setGameOverRow(getGameOverRow() + 1);
         managerDifficulty.increaseTimeDifficulty();
+        didDifficultyIncrease = true;
+        clock.restart();
     }
 }

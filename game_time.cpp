@@ -2,6 +2,9 @@
 
 GameTime::GameTime()
 {
+    lastTime = clock.getElapsedTime();
+    interval = sf::seconds(1);
+
     font.loadFromFile("Resources/Fonts/BaiJamjuree-Regular.ttf");
 
     innerRectangleColor.r = 25;
@@ -54,6 +57,19 @@ void GameTime::draw(sf::RenderWindow& window)
     window.draw(valueInnerRectangle);
     window.draw(textLabel);
     window.draw(value);
+}
+
+bool GameTime::didOneSecondElapse()
+{
+    sf::Time currentTime = clock.getElapsedTime();
+
+    if (currentTime - lastTime >= interval) 
+    {
+        lastTime += interval;
+        return true;
+    }
+
+    return false;
 }
 
 float GameTime::getTimeAsFloat()

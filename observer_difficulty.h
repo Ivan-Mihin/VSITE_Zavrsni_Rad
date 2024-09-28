@@ -11,6 +11,8 @@ private:
 	int timeDifficulty;
 	int score;
 	ManagerDifficulty& managerDifficulty;
+	const int MAX_SCORE_DIFFICULTY_LEVEL = 6;
+	const int MAX_TIME_DIFFICULTY_LEVEL = 6;
 
 	sf::Font font;
 	sf::Color innerRectangleColor;
@@ -18,8 +20,10 @@ private:
 	sf::RectangleShape outerRectangle;
 	sf::RectangleShape textLabel1InnerRectangle;
 	sf::RectangleShape textLabel2InnerRectangle;
+	sf::RectangleShape textLabel3InnerRectangle;
 	sf::Text textLabel1;
 	sf::Text textLabel2;
+	sf::Text textLabel3;
 
 	float lockDelayRectangleStartX, lockDelayRectangleStartY, lockDelayRectangleEndX, lockDelayRectangleEndY;
 	sf::RectangleShape lockDelayRectangle;
@@ -38,5 +42,5 @@ public:
 	void setLockDelayRectangle(float t, float currentLockDelaySizeIncreaseValue);
 	void update(std::pair<std::string, int> updateData) override;
 	void updateDifficultyBasedOnScore();
-	void updateDifficultyBasedOnTime(float timeValue, std::function<int()> getGameOverRow, std::function<void(int)> setGameOverRow);
+	void updateDifficultyBasedOnTime(float timeValue);
 };
