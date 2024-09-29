@@ -341,7 +341,7 @@ void Tetris::handleInput(sf::Event event)
             case sf::Keyboard::Down:
             case sf::Keyboard::S:
             {
-                CommandHardDrop* commandHardDrop = new CommandHardDrop(fallingTetromino, board);
+                CommandHardDrop* commandHardDrop = new CommandHardDrop(fallingTetromino, &board);
                 commandHardDrop->execute();
 
                 if (!isLockDelayActive)

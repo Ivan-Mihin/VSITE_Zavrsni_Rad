@@ -152,7 +152,7 @@ void Tetromino::setSquares(const std::vector<Square>& squares)
     this->squares = squares;
 }
 
-void Tetromino::hardDrop(Board board)
+void Tetromino::hardDrop(Board* board)
 {
     std::vector<Square> nextPosition = squares;
 
@@ -163,7 +163,7 @@ void Tetromino::hardDrop(Board board)
             nextPosition[i].setY(squares[i].getY() + 1);
         }
 
-        if (board.isValidPosition(nextPosition))
+        if (board->isValidPosition(nextPosition))
         {
             audioMovement.getSfxHardDrop().play();
             squares = nextPosition;

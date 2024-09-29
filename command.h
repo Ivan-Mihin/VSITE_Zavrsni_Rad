@@ -34,10 +34,10 @@ class CommandHardDrop : public Command
 {
 private:
     Tetromino* tetromino;
-    Board board;
+    Board* board;
 
 public:
-    CommandHardDrop(Tetromino* tetromino, Board board);
+    CommandHardDrop(Tetromino* tetromino, Board* board);
     void execute() override;
 };
 

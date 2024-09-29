@@ -54,7 +54,7 @@ public:
     void setShapeMatrix(const std::vector<std::vector<int>>& shapeMatrix);
     void setSquares(const std::vector<Square>& squares);
 
-    void hardDrop(Board board);
+    void hardDrop(Board* board);
     void moveLeft();
     void moveRight();
     void rotate();
