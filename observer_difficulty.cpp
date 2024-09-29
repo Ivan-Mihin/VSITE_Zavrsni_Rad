@@ -157,7 +157,7 @@ void ObserverDifficulty::setLockDelayRectangle(float t, float currentLockDelaySi
     lockDelayRectangle.setPosition(currentLockDelayRectangleSizeX, currentLockDelayRectangleSizeY);
 }
 
-void ObserverDifficulty::setTextColor(sf::Text* textLabel)
+void ObserverDifficulty::setTextColor(sf::Text* text)
 {
     float elapsedTime = clockForChangingColor.getElapsedTime().asSeconds();
 
@@ -169,7 +169,7 @@ void ObserverDifficulty::setTextColor(sf::Text* textLabel)
 
     float intensity = (std::sin((elapsedTime * 3.141592f) - 3.141592f / 2.0f) + 1.0f) / 2.0f * 230.0f + 25.0f;
     sf::Color color(intensity, intensity, intensity);
-    textLabel->setFillColor(color);
+    text->setFillColor(color);
 }
 
 void ObserverDifficulty::update(std::pair<std::string, int> updateData)

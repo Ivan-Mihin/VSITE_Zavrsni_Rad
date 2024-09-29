@@ -4,6 +4,7 @@ ObserverScore::ObserverScore()
 {
     score = 0;
 
+    // Draw
     font.loadFromFile("Resources/Fonts/BaiJamjuree-Regular.ttf");
 
     innerRectangleColor.r = 25;
@@ -55,6 +56,11 @@ void ObserverScore::draw(sf::RenderWindow& window)
     window.draw(textLabelInnerRectangle);
     window.draw(valueInnerRectangle);
     window.draw(textLabel);
+
+    value.setString(std::to_string(score));
+    value.setOrigin(value.getLocalBounds().left + value.getLocalBounds().width / 2.0f, value.getLocalBounds().top + value.getLocalBounds().height / 2.0f);
+    value.setPosition(valueInnerRectangle.getPosition().x + valueInnerRectangle.getLocalBounds().left + valueInnerRectangle.getLocalBounds().width / 2.0f,
+        valueInnerRectangle.getPosition().y + valueInnerRectangle.getLocalBounds().top + valueInnerRectangle.getLocalBounds().height / 2.0f);
     window.draw(value);
 }
 
@@ -81,10 +87,5 @@ void ObserverScore::setLockDelayRectangle(float t, float currentLockDelaySizeInc
 
 void ObserverScore::update(std::pair<std::string, int> updateData)
 {
-    this->score = updateData.second;
-
-    value.setString(std::to_string(this->score));
-    value.setOrigin(value.getLocalBounds().left + value.getLocalBounds().width / 2.0f, value.getLocalBounds().top + value.getLocalBounds().height / 2.0f);
-    value.setPosition(valueInnerRectangle.getPosition().x + valueInnerRectangle.getLocalBounds().left + valueInnerRectangle.getLocalBounds().width / 2.0f,
-        valueInnerRectangle.getPosition().y + valueInnerRectangle.getLocalBounds().top + valueInnerRectangle.getLocalBounds().height / 2.0f);
+    score = updateData.second;
 }

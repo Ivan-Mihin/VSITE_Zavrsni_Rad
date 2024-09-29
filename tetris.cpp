@@ -555,8 +555,6 @@ void Tetris::update(float deltaTime)
             inventoryNextTetrominoInnerRectangle.setFillColor(sf::Color(r, g, b));
         }
 
-        observerCombo.setValueColor();
-
         if (!heldTetromino->isTetrominoHeld)
         {
             heldTetromino->drawNoHeldTetrominoText();

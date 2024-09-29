@@ -56,8 +56,20 @@ void ObserverCombo::draw(sf::RenderWindow& window)
         window.draw(lockDelayRectangle);
         window.draw(textLabelInnerRectangle);
         window.draw(valueInnerRectangle);
+
+        setTextColor(&textLabel);
         window.draw(textLabel);
+
+        value.setString(std::to_string(combo));
+        value.setOrigin(value.getLocalBounds().left + value.getLocalBounds().width / 2.0f, value.getLocalBounds().top + value.getLocalBounds().height / 2.0f);
+        value.setPosition(valueInnerRectangle.getPosition().x + valueInnerRectangle.getLocalBounds().left + valueInnerRectangle.getLocalBounds().width / 2.0f,
+            valueInnerRectangle.getPosition().y + valueInnerRectangle.getLocalBounds().top + valueInnerRectangle.getLocalBounds().height / 2.0f);
+        setTextColor(&value);
         window.draw(value);
+    }
+    else 
+    {
+        clockForChangingColor.restart();
     }
 }
 
@@ -92,14 +104,12 @@ void ObserverCombo::resetLockDelayRectangle()
     lockDelayRectangle.setSize(sf::Vector2f(textLabelInnerRectangle.getLocalBounds().width, textLabelInnerRectangle.getLocalBounds().height + valueInnerRectangle.getLocalBounds().height));
 }
 
-void ObserverCombo::setValueColor()
+void ObserverCombo::setTextColor(sf::Text* text) 
 {
-    sf::Time elapsed = clock.getElapsedTime();
-    float time = elapsed.asSeconds();
-    float intensity = (std::sin(time * 5.0f) + 1.0f) / 2.0f * 230.0f + 25.0f;
+    float elapsedTime = clockForChangingColor.getElapsedTime().asSeconds();
+    float intensity = (std::sin((elapsedTime * 3.141592f) - 3.141592f / 2.0f) + 1.0f) / 2.0f * 230.0f + 25.0f;
     sf::Color color(intensity, intensity, intensity);
-    textLabel.setFillColor(color);
-    value.setFillColor(color);
+    text->setFillColor(color);
 }
 
 void ObserverCombo::setLockDelayColor(sf::Color color)
@@ -119,10 +129,5 @@ void ObserverCombo::setLockDelayRectangle(float t, float currentLockDelaySizeInc
 
 void ObserverCombo::update(std::pair<std::string, int> updateData)
 {
-    this->combo = updateData.second;
-
-    value.setString(std::to_string(this->combo));
-    value.setOrigin(value.getLocalBounds().left + value.getLocalBounds().width / 2.0f, value.getLocalBounds().top + value.getLocalBounds().height / 2.0f);
-    value.setPosition(valueInnerRectangle.getPosition().x + valueInnerRectangle.getLocalBounds().left + valueInnerRectangle.getLocalBounds().width / 2.0f,
-        valueInnerRectangle.getPosition().y + valueInnerRectangle.getLocalBounds().top + valueInnerRectangle.getLocalBounds().height / 2.0f);
+    combo = updateData.second;
 }

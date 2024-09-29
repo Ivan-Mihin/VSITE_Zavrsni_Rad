@@ -9,19 +9,22 @@ class ObserverCombo : public Observer
 private:
     int combo;
 
-	Audio audio;
-	sf::Clock clock;
+	// Draw
 	sf::Font font;
 	sf::Color innerRectangleColor;
-
 	sf::RectangleShape outerRectangle;
-	sf::RectangleShape textLabelInnerRectangle;
-	sf::RectangleShape valueInnerRectangle;
-	sf::Text textLabel;
-	sf::Text value;
-
-	float lockDelayRectangleStartX, lockDelayRectangleStartY, lockDelayRectangleEndX, lockDelayRectangleEndY;
+	sf::RectangleShape textLabelInnerRectangle, valueInnerRectangle;
+	sf::Text textLabel, value;
 	sf::RectangleShape lockDelayRectangle;
+	float lockDelayRectangleStartX, lockDelayRectangleStartY, lockDelayRectangleEndX, lockDelayRectangleEndY;
+
+	// Clock
+	sf::Clock clockForChangingColor;
+
+	// Audio
+	Audio audio;
+
+	void setTextColor(sf::Text* text);
 
 public:
     ObserverCombo();
@@ -29,7 +32,6 @@ public:
 	void draw(sf::RenderWindow& window);
 	void playComboSound();
 	void resetLockDelayRectangle();
-	void setValueColor();
 	void setLockDelayColor(sf::Color color);
 	void setLockDelayRectangle(float t, float currentLockDelaySizeIncreaseValue);
 	void update(std::pair<std::string, int> updateData) override;

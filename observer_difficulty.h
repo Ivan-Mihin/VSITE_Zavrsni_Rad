@@ -29,9 +29,8 @@ private:
 	sf::Clock clockForChangingColor;
 	const float duration = 6.0f;
 
-	void setTextColor(sf::Text* textLabel);
+	void setTextColor(sf::Text* text);
 	void updateDifficultyBasedOnScore();
-	void update(std::pair<std::string, int> updateData) override;
 
 public:
 	ObserverDifficulty(ManagerDifficulty& manager);
@@ -40,5 +39,6 @@ public:
 	void resetLockDelayRectangle();
 	void setLockDelayColor(sf::Color color);
 	void setLockDelayRectangle(float t, float currentLockDelaySizeIncreaseValue);
+	void update(std::pair<std::string, int> updateData) override;
 	void updateDifficultyBasedOnTime(float timeValue);
 };
