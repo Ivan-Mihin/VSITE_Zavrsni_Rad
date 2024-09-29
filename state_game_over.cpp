@@ -2,6 +2,10 @@
 
 StateGameOver::StateGameOver(CommandExitGame* commandExitGame) : commandExitGame(commandExitGame)
 {
+    audioThemeSong.getSfxTetrisThemeSong().setLoop(true);
+    audioThemeSong.getSfxTetrisThemeSong().setVolume(15);
+    audioThemeSong.getSfxTetrisThemeSong().play();
+
     background.loadFromFile("Resources/Sprites/main_menu_background_2.png");
     backgroundSprite.setTexture(background);
     backgroundSprite.setPosition(0, 0);

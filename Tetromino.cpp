@@ -165,6 +165,7 @@ void Tetromino::hardDrop(Board board)
 
         if (board.isValidPosition(nextPosition))
         {
+            audioMovement.getSfxHardDrop().play();
             squares = nextPosition;
         }
         else
@@ -172,8 +173,6 @@ void Tetromino::hardDrop(Board board)
             break;
         }
     }
-
-    //audio.getSfxHardDrop().play();
 }
 
 void Tetromino::moveLeft() 

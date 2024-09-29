@@ -2,13 +2,13 @@
 
 Tetris::Tetris() : observerDifficulty(managerDifficulty)
 {
+    audioThemeSong.getSfxTetrisThemeSong().setLoop(true);
+    audioThemeSong.getSfxTetrisThemeSong().setVolume(15);
+    audioThemeSong.getSfxTetrisThemeSong().play();
+
     innerRectangleColor.r = 25;
     innerRectangleColor.g = 25;
     innerRectangleColor.b = 25;
-
-    audio.getSfxTetrisThemeSong().setLoop(true);
-    audio.getSfxTetrisThemeSong().setVolume(15);
-    audio.getSfxTetrisThemeSong().play();
 
     background.loadFromFile("Resources/Sprites/main_menu_background.png");
     backgroundSprite.setTexture(background);
@@ -191,7 +191,7 @@ void Tetris::lockTetromino()
         board.getBoard()[y][x] = static_cast<int>(fallingTetromino->getColor());
     }
 
-    audio.getSfxFloor().play();
+    audioMovement.getSfxFloor().play();
 }
 
 void Tetris::resetColors()
@@ -282,7 +282,7 @@ void Tetris::handleInput(sf::Event event)
                 if (board.isValidPosition(nextPosition))
                 {
                     commandMoveLeft->execute();
-                    audio.getSfxMove().play();
+                    audioMovement.getSfxMove().play();
 
                     if (isLockDelayActive)
                     {
@@ -308,7 +308,7 @@ void Tetris::handleInput(sf::Event event)
                 if (board.isValidPosition(nextPosition))
                 {
                     commandMoveRight->execute();
-                    audio.getSfxMove().play();
+                    audioMovement.getSfxMove().play();
 
                     if (isLockDelayActive)
                     {
@@ -331,7 +331,7 @@ void Tetris::handleInput(sf::Event event)
                     fallingTetromino->setShapeMatrix(temporaryTetromino->getShapeMatrix());
                     fallingTetromino->setSquares(temporaryTetromino->getSquares());
 
-                    audio.getSfxRotate().play();
+                    audioMovement.getSfxRotate().play();
                 }
 
                 delete temporaryTetromino;
@@ -373,6 +373,8 @@ void Tetris::handleInput(sf::Event event)
             }
             case sf::Keyboard::Space:
             {
+                audioMovement.getSfxHold().play();
+
                 if (!heldTetromino->isTetrominoHeld)
                 {
                     heldTetromino->isTetrominoHeld = true;

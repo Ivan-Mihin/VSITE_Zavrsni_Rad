@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <SFML/Graphics.hpp>
+#include "audio.h"
 #include "manager_score.h"
 #include "manager_combo.h"
 #include "manager_difficulty.h"
@@ -22,6 +23,9 @@ private:
 	sf::RectangleShape lockDelayRectangle;
 
 	int gameOverRow;
+
+	AudioBoard audioBoard;
+	AudioCombo audioCombo;
 
 public:
 	Board();

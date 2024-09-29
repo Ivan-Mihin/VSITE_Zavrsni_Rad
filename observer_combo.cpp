@@ -79,21 +79,21 @@ void ObserverCombo::playComboSound()
     {
         switch (combo)
         {
-        case 2:  audio.getSfxCombo_2().play();  break;
-        case 3:  audio.getSfxCombo_3().play();  break;
-        case 4:  audio.getSfxCombo_4().play();  break;
-        case 5:  audio.getSfxCombo_5().play();  break;
-        case 6:  audio.getSfxCombo_6().play();  break;
-        case 7:  audio.getSfxCombo_7().play();  break;
-        case 8:  audio.getSfxCombo_8().play();  break;
-        case 9:  audio.getSfxCombo_9().play();  break;
-        case 10: audio.getSfxCombo_10().play(); break;
-        case 11: audio.getSfxCombo_11().play(); break;
-        case 12: audio.getSfxCombo_12().play(); break;
-        case 13: audio.getSfxCombo_13().play(); break;
-        case 14: audio.getSfxCombo_14().play(); break;
-        case 15: audio.getSfxCombo_15().play(); break;
-        case 16: audio.getSfxCombo_16().play(); break;
+        case 2:  audioCombo.getSfxCombo_2().play();  break;
+        case 3:  audioCombo.getSfxCombo_3().play();  break;
+        case 4:  audioCombo.getSfxCombo_4().play();  break;
+        case 5:  audioCombo.getSfxCombo_5().play();  break;
+        case 6:  audioCombo.getSfxCombo_6().play();  break;
+        case 7:  audioCombo.getSfxCombo_7().play();  break;
+        case 8:  audioCombo.getSfxCombo_8().play();  break;
+        case 9:  audioCombo.getSfxCombo_9().play();  break;
+        case 10: audioCombo.getSfxCombo_10().play(); break;
+        case 11: audioCombo.getSfxCombo_11().play(); break;
+        case 12: audioCombo.getSfxCombo_12().play(); break;
+        case 13: audioCombo.getSfxCombo_13().play(); break;
+        case 14: audioCombo.getSfxCombo_14().play(); break;
+        case 15: audioCombo.getSfxCombo_15().play(); break;
+        case 16: audioCombo.getSfxCombo_16().play(); break;
         }
     }
 }

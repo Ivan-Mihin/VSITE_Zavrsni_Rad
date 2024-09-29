@@ -64,7 +64,7 @@ void Board::allClearCheck(ManagerScore* managerScore)
 
     if (isAllCleared)
     {
-        //audio.getSfxAllClear().play();
+        audioBoard.getSfxAllClear().play();
         managerScore->increaseScore(3000);
     }
 }
@@ -90,7 +90,7 @@ void Board::clearFullLines(ManagerScore* managerScore, ManagerCombo* managerComb
         {
             noLinesCleared = false;
 
-            //audio.getSfxClearLine().play();
+            audioBoard.getSfxClearLine().play();
             managerScore->increaseScore(100);
 
             for (int i = row; i > 0; --i)
@@ -108,9 +108,9 @@ void Board::clearFullLines(ManagerScore* managerScore, ManagerCombo* managerComb
         if (managerCombo->getCombo() >= 2)
         {
             managerScore->increaseScore(100 * managerCombo->getCombo() * managerCombo->getCombo() / 2);
-        }
-        
-        managerCombo->resetCombo();
+            managerCombo->resetCombo();
+            audioCombo.getSfxComboBreak().play();
+        }  
     }
     else
     {

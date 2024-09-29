@@ -1,118 +1,80 @@
 #pragma once
 #include <SFML/Audio.hpp>
 
-class Audio
+class AudioCombo
 {
 private:
-	sf::SoundBuffer buffer_all_clear;
-	sf::SoundBuffer buffer_clear_four_lines;
-	sf::SoundBuffer buffer_clear_four_lines_combo;
-	sf::SoundBuffer buffer_clear_four_lines_combo_broken;
-	sf::SoundBuffer buffer_clear_line;
-	sf::SoundBuffer buffer_clear_t_spin;
-	sf::SoundBuffer buffer_combo_1;
-	sf::SoundBuffer buffer_combo_2;
-	sf::SoundBuffer buffer_combo_3;
-	sf::SoundBuffer buffer_combo_4;
-	sf::SoundBuffer buffer_combo_5;
-	sf::SoundBuffer buffer_combo_6;
-	sf::SoundBuffer buffer_combo_7;
-	sf::SoundBuffer buffer_combo_8;
-	sf::SoundBuffer buffer_combo_9;
-	sf::SoundBuffer buffer_combo_10;
-	sf::SoundBuffer buffer_combo_11;
-	sf::SoundBuffer buffer_combo_12;
-	sf::SoundBuffer buffer_combo_13;
-	sf::SoundBuffer buffer_combo_14;
-	sf::SoundBuffer buffer_combo_15;
-	sf::SoundBuffer buffer_combo_16;
-	sf::SoundBuffer buffer_combo_1_power;
-	sf::SoundBuffer buffer_combo_2_power;
-	sf::SoundBuffer buffer_combo_3_power;
-	sf::SoundBuffer buffer_combo_4_power;
-	sf::SoundBuffer buffer_combo_5_power;
-	sf::SoundBuffer buffer_combo_6_power;
-	sf::SoundBuffer buffer_combo_7_power;
-	sf::SoundBuffer buffer_combo_8_power;
-	sf::SoundBuffer buffer_combo_9_power;
-	sf::SoundBuffer buffer_combo_10_power;
-	sf::SoundBuffer buffer_combo_11_power;
-	sf::SoundBuffer buffer_combo_12_power;
-	sf::SoundBuffer buffer_combo_13_power;
-	sf::SoundBuffer buffer_combo_14_power;
-	sf::SoundBuffer buffer_combo_15_power;
-	sf::SoundBuffer buffer_combo_16_power;
-	sf::SoundBuffer buffer_combobreak;
-	sf::SoundBuffer buffer_final_t_spin;
-	sf::SoundBuffer buffer_floor;
-	sf::SoundBuffer buffer_hard_drop;
-	sf::SoundBuffer buffer_hit;
-	sf::SoundBuffer buffer_hold;
-	sf::SoundBuffer buffer_move;
-	sf::SoundBuffer buffer_rotate;
-	sf::SoundBuffer buffer_side_hit;
-	sf::SoundBuffer buffer_tetris_theme_song;
+	sf::SoundBuffer bufferCombo_1;
+	sf::SoundBuffer bufferCombo_2;
+	sf::SoundBuffer bufferCombo_3;
+	sf::SoundBuffer bufferCombo_4;
+	sf::SoundBuffer bufferCombo_5;
+	sf::SoundBuffer bufferCombo_6;
+	sf::SoundBuffer bufferCombo_7;
+	sf::SoundBuffer bufferCombo_8;
+	sf::SoundBuffer bufferCombo_9;
+	sf::SoundBuffer bufferCombo_10;
+	sf::SoundBuffer bufferCombo_11;
+	sf::SoundBuffer bufferCombo_12;
+	sf::SoundBuffer bufferCombo_13;
+	sf::SoundBuffer bufferCombo_14;
+	sf::SoundBuffer bufferCombo_15;
+	sf::SoundBuffer bufferCombo_16;
+	sf::SoundBuffer bufferPowerCombo_1;
+	sf::SoundBuffer bufferPowerCombo_2;
+	sf::SoundBuffer bufferPowerCombo_3;
+	sf::SoundBuffer bufferPowerCombo_4;
+	sf::SoundBuffer bufferPowerCombo_5;
+	sf::SoundBuffer bufferPowerCombo_6;
+	sf::SoundBuffer bufferPowerCombo_7;
+	sf::SoundBuffer bufferPowerCombo_8;
+	sf::SoundBuffer bufferPowerCombo_9;
+	sf::SoundBuffer bufferPowerCombo_10;
+	sf::SoundBuffer bufferPowerCombo_11;
+	sf::SoundBuffer bufferPowerCombo_12;
+	sf::SoundBuffer bufferPowerCombo_13;
+	sf::SoundBuffer bufferPowerCombo_14;
+	sf::SoundBuffer bufferPowerCombo_15;
+	sf::SoundBuffer bufferPowerCombo_16;
+	sf::SoundBuffer bufferComboBreak;
 
-	sf::Sound sfx_all_clear;
-	sf::Sound sfx_clear_four_lines;
-	sf::Sound sfx_clear_four_lines_combo;
-	sf::Sound sfx_clear_four_lines_combo_broken;
-	sf::Sound sfx_clear_line;
-	sf::Sound sfx_clear_t_spin;
-	sf::Sound sfx_combo_1;
-	sf::Sound sfx_combo_2;
-	sf::Sound sfx_combo_3;
-	sf::Sound sfx_combo_4;
-	sf::Sound sfx_combo_5;
-	sf::Sound sfx_combo_6;
-	sf::Sound sfx_combo_7;
-	sf::Sound sfx_combo_8;
-	sf::Sound sfx_combo_9;
-	sf::Sound sfx_combo_10;
-	sf::Sound sfx_combo_11;
-	sf::Sound sfx_combo_12;
-	sf::Sound sfx_combo_13;
-	sf::Sound sfx_combo_14;
-	sf::Sound sfx_combo_15;
-	sf::Sound sfx_combo_16;
-	sf::Sound sfx_combo_1_power;
-	sf::Sound sfx_combo_2_power;
-	sf::Sound sfx_combo_3_power;
-	sf::Sound sfx_combo_4_power;
-	sf::Sound sfx_combo_5_power;
-	sf::Sound sfx_combo_6_power;
-	sf::Sound sfx_combo_7_power;
-	sf::Sound sfx_combo_8_power;
-	sf::Sound sfx_combo_9_power;
-	sf::Sound sfx_combo_10_power;
-	sf::Sound sfx_combo_11_power;
-	sf::Sound sfx_combo_12_power;
-	sf::Sound sfx_combo_13_power;
-	sf::Sound sfx_combo_14_power;
-	sf::Sound sfx_combo_15_power;
-	sf::Sound sfx_combo_16_power;
-	sf::Sound sfx_combo_break;
-	sf::Sound sfx_final_t_spin;
-	sf::Sound sfx_floor;
-	sf::Sound sfx_hard_drop;
-	sf::Sound sfx_hit;
-	sf::Sound sfx_hold;
-	sf::Sound sfx_move;
-	sf::Sound sfx_rotate;
-	sf::Sound sfx_side_hit;
-	sf::Sound sfx_tetris_theme_song;
-
+	sf::Sound sfxCombo_1;
+	sf::Sound sfxCombo_2;
+	sf::Sound sfxCombo_3;
+	sf::Sound sfxCombo_4;
+	sf::Sound sfxCombo_5;
+	sf::Sound sfxCombo_6;
+	sf::Sound sfxCombo_7;
+	sf::Sound sfxCombo_8;
+	sf::Sound sfxCombo_9;
+	sf::Sound sfxCombo_10;
+	sf::Sound sfxCombo_11;
+	sf::Sound sfxCombo_12;
+	sf::Sound sfxCombo_13;
+	sf::Sound sfxCombo_14;
+	sf::Sound sfxCombo_15;
+	sf::Sound sfxCombo_16;
+	sf::Sound sfxPowerCombo_1;
+	sf::Sound sfxPowerCombo_2;
+	sf::Sound sfxPowerCombo_3;
+	sf::Sound sfxPowerCombo_4;
+	sf::Sound sfxPowerCombo_5;
+	sf::Sound sfxPowerCombo_6;
+	sf::Sound sfxPowerCombo_7;
+	sf::Sound sfxPowerCombo_8;
+	sf::Sound sfxPowerCombo_9;
+	sf::Sound sfxPowerCombo_10;
+	sf::Sound sfxPowerCombo_11;
+	sf::Sound sfxPowerCombo_12;
+	sf::Sound sfxPowerCombo_13;
+	sf::Sound sfxPowerCombo_14;
+	sf::Sound sfxPowerCombo_15;
+	sf::Sound sfxPowerCombo_16;
+	sf::Sound sfxComboBreak;
 
 public:
-	Audio();
-	~Audio();
+	AudioCombo();
 
-	sf::Sound& getSfxAllClear();
-	sf::Sound& getSfxClearFourLines();
-	sf::Sound& getSfxClearFourLinesCombo();
-	sf::Sound& getSfxClearFourLinesComboBroken();
-	sf::Sound& getSfxClearLine();
-	sf::Sound& getSfxClearTSpin();
 	sf::Sound& getSfxCombo_1();
 	sf::Sound& getSfxCombo_2();
 	sf::Sound& getSfxCombo_3();
@@ -129,24 +91,47 @@ public:
 	sf::Sound& getSfxCombo_14();
 	sf::Sound& getSfxCombo_15();
 	sf::Sound& getSfxCombo_16();
-	sf::Sound& getSfxCombo_1_power();
-	sf::Sound& getSfxCombo_2_power();
-	sf::Sound& getSfxCombo_3_power();
-	sf::Sound& getSfxCombo_4_power();
-	sf::Sound& getSfxCombo_5_power();
-	sf::Sound& getSfxCombo_6_power();
-	sf::Sound& getSfxCombo_7_power();
-	sf::Sound& getSfxCombo_8_power();
-	sf::Sound& getSfxCombo_9_power();
-	sf::Sound& getSfxCombo_10_power();
-	sf::Sound& getSfxCombo_11_power();
-	sf::Sound& getSfxCombo_12_power();
-	sf::Sound& getSfxCombo_13_power();
-	sf::Sound& getSfxCombo_14_power();
-	sf::Sound& getSfxCombo_15_power();
-	sf::Sound& getSfxCombo_16_power();
+	sf::Sound& getSfxPowerCombo_1();
+	sf::Sound& getSfxPowerCombo_2();
+	sf::Sound& getSfxPowerCombo_3();
+	sf::Sound& getSfxPowerCombo_4();
+	sf::Sound& getSfxPowerCombo_5();
+	sf::Sound& getSfxPowerCombo_6();
+	sf::Sound& getSfxPowerCombo_7();
+	sf::Sound& getSfxPowerCombo_8();
+	sf::Sound& getSfxPowerCombo_9();
+	sf::Sound& getSfxPowerCombo_10();
+	sf::Sound& getSfxPowerCombo_11();
+	sf::Sound& getSfxPowerCombo_12();
+	sf::Sound& getSfxPowerCombo_13();
+	sf::Sound& getSfxPowerCombo_14();
+	sf::Sound& getSfxPowerCombo_15();
+	sf::Sound& getSfxPowerCombo_16();
 	sf::Sound& getSfxComboBreak();
-	sf::Sound& getSfxFinalTSpin();
+};
+
+class AudioMovement
+{
+private:
+	sf::SoundBuffer bufferFloor;
+	sf::SoundBuffer bufferHardDrop;
+	sf::SoundBuffer bufferHit;
+	sf::SoundBuffer bufferHold;
+	sf::SoundBuffer bufferMove;
+	sf::SoundBuffer bufferRotate;
+	sf::SoundBuffer bufferSideHit;
+
+	sf::Sound sfxFloor;
+	sf::Sound sfxHardDrop;
+	sf::Sound sfxHit;
+	sf::Sound sfxHold;
+	sf::Sound sfxMove;
+	sf::Sound sfxRotate;
+	sf::Sound sfxSideHit;
+
+public:
+	AudioMovement();
+
 	sf::Sound& getSfxFloor();
 	sf::Sound& getSfxHardDrop();
 	sf::Sound& getSfxHit();
@@ -154,5 +139,35 @@ public:
 	sf::Sound& getSfxMove();
 	sf::Sound& getSfxRotate();
 	sf::Sound& getSfxSideHit();
+};
+
+class AudioBoard
+{
+private:
+	sf::SoundBuffer bufferClearLine;
+	sf::SoundBuffer bufferClearFourLines;
+	sf::SoundBuffer bufferAllClear;
+
+	sf::Sound sfxClearLine;
+	sf::Sound sfxClearFourLines;
+	sf::Sound sfxAllClear;
+
+public:
+	AudioBoard();
+
+	sf::Sound& getSfxClearLine();
+	sf::Sound& getSfxClearFourLines();
+	sf::Sound& getSfxAllClear();
+};
+
+class AudioThemeSong
+{
+private:
+	sf::SoundBuffer bufferTetrisThemeSong;
+	sf::Sound sfxTetrisThemeSong;
+
+public:
+	AudioThemeSong();
+
 	sf::Sound& getSfxTetrisThemeSong();
 };

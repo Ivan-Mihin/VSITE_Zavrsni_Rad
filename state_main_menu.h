@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "audio.h"
 #include "command.h"
 #include "state.h"
 
@@ -13,6 +14,7 @@ private:
     sf::Texture logo;
     sf::Sprite logoSprite;
     sf::Text text;
+    AudioThemeSong audioThemeSong;
 
     CommandStartGame* commandStartGame;
     CommandExitGame* commandExitGame;

@@ -22,7 +22,7 @@ private:
 	sf::Clock clockForChangingColor;
 
 	// Audio
-	Audio audio;
+	AudioCombo audioCombo;
 
 	void setTextColor(sf::Text* text);
 

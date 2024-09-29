@@ -20,11 +20,14 @@ class Tetris
 private:
 	const int TEXTURE_SIZE = 30;
 
-	Audio audio;
 	Board board;
 	sf::Texture background;
 	sf::Sprite backgroundSprite;
 	sf::Font font;
+
+	// Audio
+	AudioThemeSong audioThemeSong;
+	AudioMovement audioMovement;
 
 	// Tetromino
 	TetrominoDirector director;

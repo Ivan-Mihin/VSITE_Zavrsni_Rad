@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include "audio.h"
 #include "board.h"
 #include "square.h"
 
@@ -33,6 +34,7 @@ private:
     TetrominoShape shape;
     std::vector<std::vector<int>> shapeMatrix;
     std::vector<Square> squares;
+    AudioMovement audioMovement;
 
     std::vector<std::vector<int>> rotateShapeMatrix();
     std::vector<Square> rotateSquaresPositions(std::vector<std::vector<Square>> temporarySquaresMatrix);
