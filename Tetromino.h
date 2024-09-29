@@ -1,4 +1,5 @@
 #pragma once
+#include <functional>
 #include <vector>
 #include "audio.h"
 #include "board.h"
@@ -43,6 +44,7 @@ private:
 public:
     Tetromino() {}
     Tetromino(const Tetromino& tetrominoCopy);
+    Tetromino& operator=(const Tetromino& other);
 
     TetrominoColor getColor() const;
     TetrominoShape getShape() const;
@@ -54,7 +56,7 @@ public:
     void setShapeMatrix(const std::vector<std::vector<int>>& shapeMatrix);
     void setSquares(const std::vector<Square>& squares);
 
-    void hardDrop(Board* board);
+    void hardDrop(std::function<bool(const std::vector<Square>&)> isValidPosition);
     void moveLeft();
     void moveRight();
     void rotate();

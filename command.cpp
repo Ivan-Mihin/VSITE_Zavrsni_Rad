@@ -32,7 +32,7 @@ CommandHardDrop::CommandHardDrop(Tetromino* tetromino, Board* board)
 
 void CommandHardDrop::execute()
 {
-    tetromino->hardDrop(board);
+    tetromino->hardDrop([this](const std::vector<Square>& nextPosition) { return board->isValidPosition(nextPosition); });
 }
 
 CommandRotate::CommandRotate(Tetromino* tetromino)

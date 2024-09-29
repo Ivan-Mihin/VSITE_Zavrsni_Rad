@@ -8,6 +8,18 @@ Tetromino::Tetromino(const Tetromino& tetrominoCopy)
     color = tetrominoCopy.color;
 }
 
+Tetromino& Tetromino::operator=(const Tetromino& other)
+{
+    if (this != &other)
+    {
+        shape = other.shape;
+        shapeMatrix = other.shapeMatrix;
+        squares = other.squares;
+        color = other.color;
+    }
+    return *this;
+}
+
 std::vector<std::vector<int>> Tetromino::rotateShapeMatrix() 
 {
     std::vector<std::vector<int>> rotatedMatrix(shapeMatrix.size(), std::vector<int>(shapeMatrix.size()));
@@ -152,7 +164,7 @@ void Tetromino::setSquares(const std::vector<Square>& squares)
     this->squares = squares;
 }
 
-void Tetromino::hardDrop(Board* board)
+void Tetromino::hardDrop(std::function<bool(const std::vector<Square>&)> isValidPosition)
 {
     std::vector<Square> nextPosition = squares;
 
@@ -163,7 +175,7 @@ void Tetromino::hardDrop(Board* board)
             nextPosition[i].setY(squares[i].getY() + 1);
         }
 
-        if (board->isValidPosition(nextPosition))
+        if (isValidPosition(nextPosition))
         {
             audioMovement.getSfxHardDrop().play();
             squares = nextPosition;

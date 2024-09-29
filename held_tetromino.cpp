@@ -2,6 +2,8 @@
 
 HeldTetromino::HeldTetromino()
 {
+    this->tetromino = nullptr;
+
     texture.loadFromFile("Resources/Sprites/tetromino.png");
     sprite.setTexture(texture);
     sprite.setTextureRect(sf::IntRect(0, 0, 30, 30));
@@ -81,7 +83,7 @@ void HeldTetromino::draw(sf::RenderWindow& window)
                 {
 
                     if (tetromino->getShape() == TetrominoShape::Shape_I)
-                    {
+                    {   
                         additionalOffsetY -= 15;
                     }
                     else if (tetromino->getShape() == TetrominoShape::Shape_O)
@@ -140,5 +142,10 @@ void HeldTetromino::setLockDelayRectangle(float t, float currentLockDelaySizeInc
 
 void HeldTetromino::setTetromino(Tetromino* tetromino)
 {
+    if (this->tetromino != nullptr)
+    {
+        delete this->tetromino;
+    }
+
     this->tetromino = tetromino;
 }
