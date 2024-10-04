@@ -1,6 +1,6 @@
 #include "observer_difficulty.h"
 
-ObserverDifficulty::ObserverDifficulty(ManagerDifficulty& manager) : managerDifficulty(manager)
+ObserverDifficulty::ObserverDifficulty(ManagerDifficulty& manager) : managerDifficulty(manager) , lockDelay(150.0f, 150.0f)
 {
     scoreDifficulty = 1;
     timeDifficulty = 1;
@@ -58,12 +58,12 @@ ObserverDifficulty::ObserverDifficulty(ManagerDifficulty& manager) : managerDiff
     textLabel3.setPosition(textLabel3InnerRectangle.getPosition().x + textLabel3InnerRectangle.getLocalBounds().left + textLabel3InnerRectangle.getLocalBounds().width / 2.0f,
         textLabel3InnerRectangle.getPosition().y + textLabel3InnerRectangle.getLocalBounds().top + textLabel3InnerRectangle.getLocalBounds().height / 2.0f);
 
-    lockDelayRectangleStartX = textLabel1InnerRectangle.getPosition().x;
-    lockDelayRectangleStartY = textLabel1InnerRectangle.getPosition().y;
-    lockDelayRectangleEndX = outerRectangle.getPosition().x;
-    lockDelayRectangleEndY = outerRectangle.getPosition().y;
-    lockDelayRectangle.setPosition(sf::Vector2f(lockDelayRectangleStartX, lockDelayRectangleStartY));
-    lockDelayRectangle.setSize(sf::Vector2f(textLabel1InnerRectangle.getLocalBounds().width, textLabel1InnerRectangle.getLocalBounds().height + textLabel2InnerRectangle.getLocalBounds().height));
+    lockDelay.start.x = textLabel1InnerRectangle.getPosition().x;
+    lockDelay.start.y = textLabel1InnerRectangle.getPosition().y;
+    lockDelay.end.x = outerRectangle.getPosition().x;
+    lockDelay.end.y = outerRectangle.getPosition().y;
+    lockDelay.rectangle.setPosition(sf::Vector2f(lockDelay.start.x, lockDelay.start.y));
+    lockDelay.rectangle.setSize(sf::Vector2f(lockDelay.DEFAULT_WIDTH, lockDelay.DEFAULT_HEIGHT));
 }
 
 void ObserverDifficulty::draw(sf::RenderWindow& window)
@@ -71,7 +71,7 @@ void ObserverDifficulty::draw(sf::RenderWindow& window)
     if (clockForDrawing.getElapsedTime().asSeconds() <= duration && (isScoreDifficultyIncreased || isTimeDifficultyIncreased))
     {
         window.draw(outerRectangle);
-        window.draw(lockDelayRectangle);
+        window.draw(lockDelay.rectangle);
         window.draw(textLabel1InnerRectangle);
         window.draw(textLabel2InnerRectangle);
         window.draw(textLabel3InnerRectangle);
@@ -136,27 +136,6 @@ void ObserverDifficulty::draw(sf::RenderWindow& window)
     }
 }
 
-void ObserverDifficulty::resetLockDelayRectangle()
-{
-    lockDelayRectangle.setPosition(sf::Vector2f(lockDelayRectangleStartX, lockDelayRectangleStartY));
-    lockDelayRectangle.setSize(sf::Vector2f(textLabel1InnerRectangle.getLocalBounds().width, textLabel1InnerRectangle.getLocalBounds().height + textLabel2InnerRectangle.getLocalBounds().height));
-}
-
-void ObserverDifficulty::setLockDelayColor(sf::Color color)
-{
-    lockDelayRectangle.setFillColor(color);
-}
-
-void ObserverDifficulty::setLockDelayRectangle(float t, float currentLockDelaySizeIncreaseValue)
-{
-    float currentLockDelayRectangleSizeX = lockDelayRectangleStartX + t * (lockDelayRectangleEndX - lockDelayRectangleStartX);
-    float currentLockDelayRectangleSizeY = lockDelayRectangleStartY + t * (lockDelayRectangleEndY - lockDelayRectangleStartY);
-
-    lockDelayRectangle.setSize(sf::Vector2f(textLabel1InnerRectangle.getLocalBounds().width + currentLockDelaySizeIncreaseValue,
-        textLabel1InnerRectangle.getLocalBounds().height + textLabel2InnerRectangle.getLocalBounds().height + textLabel3InnerRectangle.getLocalBounds().height + currentLockDelaySizeIncreaseValue));
-    lockDelayRectangle.setPosition(currentLockDelayRectangleSizeX, currentLockDelayRectangleSizeY);
-}
-
 void ObserverDifficulty::setTextColor(sf::Text* text)
 {
     float elapsedTime = clockForChangingColor.getElapsedTime().asSeconds();
@@ -219,4 +198,19 @@ void ObserverDifficulty::updateDifficultyBasedOnTime(float timeValue)
         clockForDrawing.restart();
         clockForChangingColor.restart();
     }
+}
+
+void ObserverDifficulty::resetLockDelayRectangle()
+{
+    lockDelay.resetRectangle();
+}
+
+void ObserverDifficulty::setLockDelayRectangle(float t, float currentValue)
+{
+    lockDelay.setRectangle(t, currentValue);
+}
+
+void ObserverDifficulty::setLockDelayColor(sf::Color color)
+{
+    lockDelay.setColor(color);
 }

@@ -1,6 +1,6 @@
 #include "observer_combo.h"
 
-ObserverCombo::ObserverCombo()
+ObserverCombo::ObserverCombo() : lockDelay(150.0f, 120.0f)
 {
     combo = 0;
 
@@ -40,12 +40,12 @@ ObserverCombo::ObserverCombo()
     value.setPosition(valueInnerRectangle.getPosition().x + valueInnerRectangle.getLocalBounds().left + valueInnerRectangle.getLocalBounds().width / 2.0f,
         valueInnerRectangle.getPosition().y + valueInnerRectangle.getLocalBounds().top + valueInnerRectangle.getLocalBounds().height / 2.0f);
 
-    lockDelayRectangleStartX = textLabelInnerRectangle.getPosition().x;
-    lockDelayRectangleStartY = textLabelInnerRectangle.getPosition().y;
-    lockDelayRectangleEndX = outerRectangle.getPosition().x;
-    lockDelayRectangleEndY = outerRectangle.getPosition().y;
-    lockDelayRectangle.setPosition(sf::Vector2f(lockDelayRectangleStartX, lockDelayRectangleStartY));
-    lockDelayRectangle.setSize(sf::Vector2f(textLabelInnerRectangle.getLocalBounds().width, textLabelInnerRectangle.getLocalBounds().height + valueInnerRectangle.getLocalBounds().height));
+    lockDelay.start.x = textLabelInnerRectangle.getPosition().x;
+    lockDelay.start.y = textLabelInnerRectangle.getPosition().y;
+    lockDelay.end.x = outerRectangle.getPosition().x;
+    lockDelay.end.y = outerRectangle.getPosition().y;
+    lockDelay.rectangle.setPosition(sf::Vector2f(lockDelay.start.x, lockDelay.start.y));
+    lockDelay.rectangle.setSize(sf::Vector2f(lockDelay.DEFAULT_WIDTH, lockDelay.DEFAULT_HEIGHT));
 }
 
 void ObserverCombo::draw(sf::RenderWindow& window)
@@ -53,7 +53,7 @@ void ObserverCombo::draw(sf::RenderWindow& window)
     if (combo >= 2)
     {
         window.draw(outerRectangle);
-        window.draw(lockDelayRectangle);
+        window.draw(lockDelay.rectangle);
         window.draw(textLabelInnerRectangle);
         window.draw(valueInnerRectangle);
 
@@ -98,12 +98,6 @@ void ObserverCombo::playComboSound()
     }
 }
 
-void ObserverCombo::resetLockDelayRectangle()
-{
-    lockDelayRectangle.setPosition(sf::Vector2f(lockDelayRectangleStartX, lockDelayRectangleStartY));
-    lockDelayRectangle.setSize(sf::Vector2f(textLabelInnerRectangle.getLocalBounds().width, textLabelInnerRectangle.getLocalBounds().height + valueInnerRectangle.getLocalBounds().height));
-}
-
 void ObserverCombo::setTextColor(sf::Text* text) 
 {
     float elapsedTime = clockForChangingColor.getElapsedTime().asSeconds();
@@ -112,22 +106,22 @@ void ObserverCombo::setTextColor(sf::Text* text)
     text->setFillColor(color);
 }
 
-void ObserverCombo::setLockDelayColor(sf::Color color)
-{
-    lockDelayRectangle.setFillColor(color);
-}
-
-void ObserverCombo::setLockDelayRectangle(float t, float currentLockDelaySizeIncreaseValue)
-{
-    float currentLockDelayRectangleSizeX = lockDelayRectangleStartX + t * (lockDelayRectangleEndX - lockDelayRectangleStartX);
-    float currentLockDelayRectangleSizeY = lockDelayRectangleStartY + t * (lockDelayRectangleEndY - lockDelayRectangleStartY);
-
-    lockDelayRectangle.setSize(sf::Vector2f(textLabelInnerRectangle.getLocalBounds().width + currentLockDelaySizeIncreaseValue,
-        textLabelInnerRectangle.getLocalBounds().height + valueInnerRectangle.getLocalBounds().height + currentLockDelaySizeIncreaseValue));
-    lockDelayRectangle.setPosition(currentLockDelayRectangleSizeX, currentLockDelayRectangleSizeY);
-}
-
 void ObserverCombo::update(std::pair<std::string, int> updateData)
 {
     combo = updateData.second;
+}
+
+void ObserverCombo::resetLockDelayRectangle()
+{
+    lockDelay.resetRectangle();
+}
+
+void ObserverCombo::setLockDelayRectangle(float t, float currentValue)
+{
+    lockDelay.setRectangle(t, currentValue);
+}
+
+void ObserverCombo::setLockDelayColor(sf::Color color)
+{
+    lockDelay.setColor(color);
 }

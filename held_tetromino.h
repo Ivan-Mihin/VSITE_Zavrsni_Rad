@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "lock_delay.h"
 #include "Tetromino.h"
 
 class HeldTetromino
@@ -19,8 +20,7 @@ private:
 	sf::Text noHeldTetromino;
 	sf::Clock clock;
 
-	float lockDelayRectangleStartX, lockDelayRectangleStartY, lockDelayRectangleEndX, lockDelayRectangleEndY;
-	sf::RectangleShape lockDelayRectangle;
+	LockDelay lockDelay;
 
 public:
 	HeldTetromino();
@@ -31,8 +31,9 @@ public:
 	void draw(sf::RenderWindow& window);
 	void drawNoHeldTetrominoText();
 	Tetromino* getTetromino();
-	void resetLockDelayRectangle();
-	void setLockDelayColor(sf::Color color);
-	void setLockDelayRectangle(float t, float currentLockDelaySizeIncreaseValue);
 	void setTetromino(Tetromino* tetromino);
+
+	void resetLockDelayRectangle();
+	void setLockDelayRectangle(float t, float currentValue);
+	void setLockDelayColor(sf::Color color);
 };

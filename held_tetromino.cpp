@@ -1,6 +1,6 @@
 #include "held_tetromino.h"
 
-HeldTetromino::HeldTetromino()
+HeldTetromino::HeldTetromino() : lockDelay(150.0f, 150.0f)
 {
     this->tetromino = nullptr;
 
@@ -42,12 +42,12 @@ HeldTetromino::HeldTetromino()
     noHeldTetromino.setPosition(tetrominoInnerRectangle.getPosition().x + tetrominoInnerRectangle.getLocalBounds().left + tetrominoInnerRectangle.getLocalBounds().width / 2.0f,
         tetrominoInnerRectangle.getPosition().y + tetrominoInnerRectangle.getLocalBounds().top + tetrominoInnerRectangle.getLocalBounds().height / 2.0f);
 
-    lockDelayRectangleStartX = textLabelInnerRectangle.getPosition().x;
-    lockDelayRectangleStartY = textLabelInnerRectangle.getPosition().y;
-    lockDelayRectangleEndX = outerRectangle.getPosition().x;
-    lockDelayRectangleEndY = outerRectangle.getPosition().y;
-    lockDelayRectangle.setPosition(sf::Vector2f(lockDelayRectangleStartX, lockDelayRectangleStartY));
-    lockDelayRectangle.setSize(sf::Vector2f(textLabelInnerRectangle.getLocalBounds().width, textLabelInnerRectangle.getLocalBounds().height + tetrominoInnerRectangle.getLocalBounds().height));
+    lockDelay.start.x = textLabelInnerRectangle.getPosition().x;
+    lockDelay.start.y = textLabelInnerRectangle.getPosition().y;
+    lockDelay.end.x = outerRectangle.getPosition().x;
+    lockDelay.end.y = outerRectangle.getPosition().y;
+    lockDelay.rectangle.setPosition(sf::Vector2f(lockDelay.start.x, lockDelay.start.y));
+    lockDelay.rectangle.setSize(sf::Vector2f(lockDelay.DEFAULT_WIDTH, lockDelay.DEFAULT_HEIGHT));
 
     isTetrominoHeld = false;
 }
@@ -60,7 +60,7 @@ HeldTetromino::~HeldTetromino()
 void HeldTetromino::draw(sf::RenderWindow& window)
 {
     window.draw(outerRectangle);
-    window.draw(lockDelayRectangle);
+    window.draw(lockDelay.rectangle);
     window.draw(textLabelInnerRectangle);
     window.draw(tetrominoInnerRectangle);
     window.draw(textLabel);
@@ -119,27 +119,6 @@ Tetromino* HeldTetromino::getTetromino()
     return tetromino;
 }
 
-void HeldTetromino::resetLockDelayRectangle()
-{
-    lockDelayRectangle.setPosition(sf::Vector2f(lockDelayRectangleStartX, lockDelayRectangleStartY));
-    lockDelayRectangle.setSize(sf::Vector2f(textLabelInnerRectangle.getLocalBounds().width, textLabelInnerRectangle.getLocalBounds().height + tetrominoInnerRectangle.getLocalBounds().height));
-}
-
-void HeldTetromino::setLockDelayColor(sf::Color color)
-{
-    lockDelayRectangle.setFillColor(color);
-}
-
-void HeldTetromino::setLockDelayRectangle(float t, float currentLockDelaySizeIncreaseValue)
-{
-    float currentLockDelayRectangleSizeX = lockDelayRectangleStartX + t * (lockDelayRectangleEndX - lockDelayRectangleStartX);
-    float currentLockDelayRectangleSizeY = lockDelayRectangleStartY + t * (lockDelayRectangleEndY - lockDelayRectangleStartY);
-
-    lockDelayRectangle.setSize(sf::Vector2f(textLabelInnerRectangle.getLocalBounds().width + currentLockDelaySizeIncreaseValue,
-        textLabelInnerRectangle.getLocalBounds().height + tetrominoInnerRectangle.getLocalBounds().height + currentLockDelaySizeIncreaseValue));
-    lockDelayRectangle.setPosition(currentLockDelayRectangleSizeX, currentLockDelayRectangleSizeY);
-}
-
 void HeldTetromino::setTetromino(Tetromino* tetromino)
 {
     if (this->tetromino != nullptr)
@@ -148,4 +127,19 @@ void HeldTetromino::setTetromino(Tetromino* tetromino)
     }
 
     this->tetromino = tetromino;
+}
+
+void HeldTetromino::resetLockDelayRectangle()
+{
+    lockDelay.resetRectangle();
+}
+
+void HeldTetromino::setLockDelayRectangle(float t, float currentValue)
+{
+    lockDelay.setRectangle(t, currentValue);
+}
+
+void HeldTetromino::setLockDelayColor(sf::Color color)
+{
+    lockDelay.setColor(color);
 }

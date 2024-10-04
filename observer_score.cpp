@@ -1,6 +1,6 @@
 #include "observer_score.h"
 
-ObserverScore::ObserverScore()
+ObserverScore::ObserverScore() : lockDelay(150.0f, 120.0f)
 {
     score = 0;
 
@@ -41,18 +41,18 @@ ObserverScore::ObserverScore()
     value.setPosition(valueInnerRectangle.getPosition().x + valueInnerRectangle.getLocalBounds().left + valueInnerRectangle.getLocalBounds().width / 2.0f,
         valueInnerRectangle.getPosition().y + valueInnerRectangle.getLocalBounds().top + valueInnerRectangle.getLocalBounds().height / 2.0f);
 
-    lockDelayRectangleStartX = textLabelInnerRectangle.getPosition().x;
-    lockDelayRectangleStartY = textLabelInnerRectangle.getPosition().y;
-    lockDelayRectangleEndX = outerRectangle.getPosition().x;
-    lockDelayRectangleEndY = outerRectangle.getPosition().y;
-    lockDelayRectangle.setPosition(sf::Vector2f(lockDelayRectangleStartX, lockDelayRectangleStartY));
-    lockDelayRectangle.setSize(sf::Vector2f(textLabelInnerRectangle.getLocalBounds().width, textLabelInnerRectangle.getLocalBounds().height + valueInnerRectangle.getLocalBounds().height));
+    lockDelay.start.x = textLabelInnerRectangle.getPosition().x;
+    lockDelay.start.y = textLabelInnerRectangle.getPosition().y;
+    lockDelay.end.x = outerRectangle.getPosition().x;
+    lockDelay.end.y = outerRectangle.getPosition().y;
+    lockDelay.rectangle.setPosition(sf::Vector2f(lockDelay.start.x, lockDelay.start.y));
+    lockDelay.rectangle.setSize(sf::Vector2f(lockDelay.DEFAULT_WIDTH, lockDelay.DEFAULT_HEIGHT));
 }
 
 void ObserverScore::draw(sf::RenderWindow& window)
 {
     window.draw(outerRectangle);
-    window.draw(lockDelayRectangle);
+    window.draw(lockDelay.rectangle);
     window.draw(textLabelInnerRectangle);
     window.draw(valueInnerRectangle);
     window.draw(textLabel);
@@ -64,28 +64,22 @@ void ObserverScore::draw(sf::RenderWindow& window)
     window.draw(value);
 }
 
+void ObserverScore::update(std::pair<std::string, int> updateData)
+{
+    score = updateData.second;
+}
+
 void ObserverScore::resetLockDelayRectangle()
 {
-    lockDelayRectangle.setPosition(sf::Vector2f(lockDelayRectangleStartX, lockDelayRectangleStartY));
-    lockDelayRectangle.setSize(sf::Vector2f(textLabelInnerRectangle.getLocalBounds().width, textLabelInnerRectangle.getLocalBounds().height + valueInnerRectangle.getLocalBounds().height));
+    lockDelay.resetRectangle();
+}
+
+void ObserverScore::setLockDelayRectangle(float t, float currentValue)
+{
+    lockDelay.setRectangle(t, currentValue);
 }
 
 void ObserverScore::setLockDelayColor(sf::Color color)
 {
-    lockDelayRectangle.setFillColor(color);
-}
-
-void ObserverScore::setLockDelayRectangle(float t, float currentLockDelaySizeIncreaseValue)
-{
-    float currentLockDelayScoreRectangleSizeX = lockDelayRectangleStartX + t * (lockDelayRectangleEndX - lockDelayRectangleStartX);
-    float currentLockDelayScoreRectangleSizeY = lockDelayRectangleStartY + t * (lockDelayRectangleEndY - lockDelayRectangleStartY);
-
-    lockDelayRectangle.setSize(sf::Vector2f(textLabelInnerRectangle.getLocalBounds().width + currentLockDelaySizeIncreaseValue,
-        textLabelInnerRectangle.getLocalBounds().height + valueInnerRectangle.getLocalBounds().height + currentLockDelaySizeIncreaseValue));
-    lockDelayRectangle.setPosition(currentLockDelayScoreRectangleSizeX, currentLockDelayScoreRectangleSizeY);
-}
-
-void ObserverScore::update(std::pair<std::string, int> updateData)
-{
-    score = updateData.second;
+    lockDelay.setColor(color);
 }
