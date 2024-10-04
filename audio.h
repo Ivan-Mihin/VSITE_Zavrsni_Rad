@@ -20,22 +20,6 @@ private:
 	sf::SoundBuffer bufferCombo_14;
 	sf::SoundBuffer bufferCombo_15;
 	sf::SoundBuffer bufferCombo_16;
-	sf::SoundBuffer bufferPowerCombo_1;
-	sf::SoundBuffer bufferPowerCombo_2;
-	sf::SoundBuffer bufferPowerCombo_3;
-	sf::SoundBuffer bufferPowerCombo_4;
-	sf::SoundBuffer bufferPowerCombo_5;
-	sf::SoundBuffer bufferPowerCombo_6;
-	sf::SoundBuffer bufferPowerCombo_7;
-	sf::SoundBuffer bufferPowerCombo_8;
-	sf::SoundBuffer bufferPowerCombo_9;
-	sf::SoundBuffer bufferPowerCombo_10;
-	sf::SoundBuffer bufferPowerCombo_11;
-	sf::SoundBuffer bufferPowerCombo_12;
-	sf::SoundBuffer bufferPowerCombo_13;
-	sf::SoundBuffer bufferPowerCombo_14;
-	sf::SoundBuffer bufferPowerCombo_15;
-	sf::SoundBuffer bufferPowerCombo_16;
 	sf::SoundBuffer bufferComboBreak;
 
 	sf::Sound sfxCombo_1;
@@ -54,22 +38,6 @@ private:
 	sf::Sound sfxCombo_14;
 	sf::Sound sfxCombo_15;
 	sf::Sound sfxCombo_16;
-	sf::Sound sfxPowerCombo_1;
-	sf::Sound sfxPowerCombo_2;
-	sf::Sound sfxPowerCombo_3;
-	sf::Sound sfxPowerCombo_4;
-	sf::Sound sfxPowerCombo_5;
-	sf::Sound sfxPowerCombo_6;
-	sf::Sound sfxPowerCombo_7;
-	sf::Sound sfxPowerCombo_8;
-	sf::Sound sfxPowerCombo_9;
-	sf::Sound sfxPowerCombo_10;
-	sf::Sound sfxPowerCombo_11;
-	sf::Sound sfxPowerCombo_12;
-	sf::Sound sfxPowerCombo_13;
-	sf::Sound sfxPowerCombo_14;
-	sf::Sound sfxPowerCombo_15;
-	sf::Sound sfxPowerCombo_16;
 	sf::Sound sfxComboBreak;
 
 public:
@@ -91,22 +59,6 @@ public:
 	sf::Sound& getSfxCombo_14();
 	sf::Sound& getSfxCombo_15();
 	sf::Sound& getSfxCombo_16();
-	sf::Sound& getSfxPowerCombo_1();
-	sf::Sound& getSfxPowerCombo_2();
-	sf::Sound& getSfxPowerCombo_3();
-	sf::Sound& getSfxPowerCombo_4();
-	sf::Sound& getSfxPowerCombo_5();
-	sf::Sound& getSfxPowerCombo_6();
-	sf::Sound& getSfxPowerCombo_7();
-	sf::Sound& getSfxPowerCombo_8();
-	sf::Sound& getSfxPowerCombo_9();
-	sf::Sound& getSfxPowerCombo_10();
-	sf::Sound& getSfxPowerCombo_11();
-	sf::Sound& getSfxPowerCombo_12();
-	sf::Sound& getSfxPowerCombo_13();
-	sf::Sound& getSfxPowerCombo_14();
-	sf::Sound& getSfxPowerCombo_15();
-	sf::Sound& getSfxPowerCombo_16();
 	sf::Sound& getSfxComboBreak();
 };
 
@@ -115,30 +67,24 @@ class AudioMovement
 private:
 	sf::SoundBuffer bufferFloor;
 	sf::SoundBuffer bufferHardDrop;
-	sf::SoundBuffer bufferHit;
 	sf::SoundBuffer bufferHold;
 	sf::SoundBuffer bufferMove;
 	sf::SoundBuffer bufferRotate;
-	sf::SoundBuffer bufferSideHit;
 
 	sf::Sound sfxFloor;
 	sf::Sound sfxHardDrop;
-	sf::Sound sfxHit;
 	sf::Sound sfxHold;
 	sf::Sound sfxMove;
 	sf::Sound sfxRotate;
-	sf::Sound sfxSideHit;
 
 public:
 	AudioMovement();
 
 	sf::Sound& getSfxFloor();
 	sf::Sound& getSfxHardDrop();
-	sf::Sound& getSfxHit();
 	sf::Sound& getSfxHold();
 	sf::Sound& getSfxMove();
 	sf::Sound& getSfxRotate();
-	sf::Sound& getSfxSideHit();
 };
 
 class AudioBoard
