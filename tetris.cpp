@@ -2,8 +2,6 @@
 
 Tetris::Tetris() : observerDifficulty(managerDifficulty)
 {
-    audioThemeSong.getSfxTetrisThemeSong().setLoop(true);
-    audioThemeSong.getSfxTetrisThemeSong().setVolume(15);
     audioThemeSong.getSfxTetrisThemeSong().play();
 
     innerRectangleColor.r = 25;
@@ -32,7 +30,7 @@ Tetris::Tetris() : observerDifficulty(managerDifficulty)
     setTetrominoPosition(fallingTetromino, 0, 4);
     setTetrominoPosition(ghostTetromino, 0, 4);
 
-    board.setColor(colorPicker(fallingTetromino->getColor()));
+    board.setLockDelayColor(colorPicker(fallingTetromino->getColor()));
 
     tetrominoTexture.loadFromFile("Resources/Sprites/tetromino.png");
     tetrominoSprite.setTexture(tetrominoTexture);
@@ -153,7 +151,7 @@ bool Tetris::isGameOver()
 {
     for (int column = 0; column < board.BOARD_COLUMNS; ++column)
     {
-        if (board.getBoard()[board.getGameOverRow()][column])
+        if (board.getBoard()[board.getGameOverLineRow()][column])
         {
             return true;
         }
@@ -196,7 +194,7 @@ void Tetris::lockTetromino()
 
 void Tetris::resetColors()
 {
-    board.setColor(colorPicker(fallingTetromino->getColor()));
+    board.setLockDelayColor(colorPicker(fallingTetromino->getColor()));
     observerScore.setLockDelayColor(colorPicker(fallingTetromino->getColor()));
     heldTetromino->setLockDelayColor(colorPicker(fallingTetromino->getColor()));
     observerDifficulty.setLockDelayColor(colorPicker(fallingTetromino->getColor()));
@@ -362,7 +360,24 @@ void Tetris::handleInput(sf::Event event)
                         }
                         else
                         {
-                            board.clearFullLines(&managerScore, &managerCombo, &observerCombo);
+                            board.clearFullLines(&managerScore);
+
+                            if (board.noLinesCleared)
+                            {
+                                if (managerCombo.getCombo() >= 2)
+                                {
+                                    managerScore.increaseScore(100 * managerCombo.getCombo() * managerCombo.getCombo() / 2);
+                                    managerCombo.resetCombo();
+                                    audioCombo.getSfxComboBreak().play();
+                                }
+                            }
+                            else
+                            {
+                                managerCombo.increaseCombo(1);
+                            }
+
+                            observerCombo.playComboSound();
+                            board.allClearCheck(&managerScore);
                             resetFallingTetromino();
                         }
                     }
@@ -492,7 +507,24 @@ void Tetris::update(float deltaTime)
                         }
                         else
                         {
-                            board.clearFullLines(&managerScore, &managerCombo, &observerCombo);
+                            board.clearFullLines(&managerScore);
+
+                            if (board.noLinesCleared)
+                            {
+                                if (managerCombo.getCombo() >= 2)
+                                {
+                                    managerScore.increaseScore(100 * managerCombo.getCombo() * managerCombo.getCombo() / 2);
+                                    managerCombo.resetCombo();
+                                    audioCombo.getSfxComboBreak().play();
+                                }
+                            }
+                            else
+                            {
+                                managerCombo.increaseCombo(1);
+                            }
+
+                            observerCombo.playComboSound();
+                            board.allClearCheck(&managerScore);
                             resetFallingTetromino();
                         }
                     }
@@ -569,7 +601,7 @@ void Tetris::update(float deltaTime)
         if (gameTime.didOneSecondElapse())
         {
             observerDifficulty.updateDifficultyBasedOnTime(gameTime.getTimeAsFloat());
-            board.setGameOverRowBasedOnTime(&managerDifficulty);
+            board.setGameOverLineRow(&managerDifficulty);
         }
     }
 }

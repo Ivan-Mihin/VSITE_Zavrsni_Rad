@@ -1,6 +1,22 @@
 #include "board.h"
 
-Board::Board()
+int GameOverLine::getRow() const
+{
+    return row;
+}
+
+void GameOverLine::setRow(ManagerDifficulty* managerDifficulty)
+{
+    switch (managerDifficulty->getTimeDifficulty())
+    {
+    case 2: { row = 3; break; }
+    case 3: { row = 4; break; }
+    case 4: { row = 5; break; }
+    case 5: { row = 6; break; }
+    }
+}
+
+Board::Board() : lockDelay(360.0f, 750.0f)
 {
     board.assign(BOARD_ROWS, std::vector<int>(BOARD_COLUMNS, 0));
 
@@ -8,37 +24,28 @@ Board::Board()
     outerRectangle.setSize(sf::Vector2f(380, 770));
     outerRectangle.setFillColor(sf::Color::Black);
 
-    texture.loadFromFile("Resources/Sprites/board.png");
-    sprite.setTexture(texture);
-    sprite.setPosition(220, 25);
+    texture_Board.loadFromFile("Resources/Sprites/board.png");
+    sprite_Board.setTexture(texture_Board);
+    sprite_Board.setPosition(220, 25);
 
-    gameOverLineTexture.loadFromFile("Resources/Sprites/game_over_line.png");
-    gameOverLineSprite.setTexture(gameOverLineTexture);
-    gameOverLineSprite.setPosition(220, 25);
+    lockDelay.start.x = sprite_Board.getPosition().x;
+    lockDelay.start.y = sprite_Board.getPosition().y;
+    lockDelay.end.x = outerRectangle.getPosition().x;
+    lockDelay.end.y = outerRectangle.getPosition().y;
+    lockDelay.rectangle.setPosition(sf::Vector2f(lockDelay.start.x, lockDelay.start.y));
+    lockDelay.rectangle.setSize(sf::Vector2f(lockDelay.DEFAULT_WIDTH, lockDelay.DEFAULT_HEIGHT));
 
-    lockDelayRectangleStartX = sprite.getPosition().x;
-    lockDelayRectangleStartY = sprite.getPosition().y;
-    lockDelayRectangleEndX = outerRectangle.getPosition().x;
-    lockDelayRectangleEndY = outerRectangle.getPosition().y;
-    lockDelayRectangle.setPosition(sf::Vector2f(lockDelayRectangleStartX, lockDelayRectangleStartY));
-    lockDelayRectangle.setSize(sf::Vector2f(sprite.getLocalBounds().width, sprite.getLocalBounds().height));
+    gameOverLine.row = 2;
+    gameOverLine.texture.loadFromFile("Resources/Sprites/game_over_line.png");
+    gameOverLine.sprite.setTexture(gameOverLine.texture);
+    gameOverLine.sprite.setPosition(220, 25);
 
-    gameOverRow = 2;
+    noLinesCleared = true;
 }
 
 std::vector<std::vector<int>>& Board::getBoard()
 {
     return board;
-}
-
-int Board::getGameOverRow() const
-{
-    return gameOverRow;
-}
-
-void Board::setGameOverRow(int value)
-{
-    gameOverRow = value;
 }
 
 void Board::allClearCheck(ManagerScore* managerScore)
@@ -64,14 +71,14 @@ void Board::allClearCheck(ManagerScore* managerScore)
 
     if (isAllCleared)
     {
-        audioBoard.getSfxAllClear().play();
+        audio_Board.getSfxAllClear().play();
         managerScore->increaseScore(3000);
     }
 }
 
-void Board::clearFullLines(ManagerScore* managerScore, ManagerCombo* managerCombo, ObserverCombo* observerCombo)
+void Board::clearFullLines(ManagerScore* managerScore)
 {
-    bool noLinesCleared = true;
+    noLinesCleared = true;
 
     for (int row = 0; row < BOARD_ROWS; ++row)
     {
@@ -90,7 +97,7 @@ void Board::clearFullLines(ManagerScore* managerScore, ManagerCombo* managerComb
         {
             noLinesCleared = false;
 
-            audioBoard.getSfxClearLine().play();
+            audio_Board.getSfxClearLine().play();
             managerScore->increaseScore(100);
 
             for (int i = row; i > 0; --i)
@@ -102,33 +109,16 @@ void Board::clearFullLines(ManagerScore* managerScore, ManagerCombo* managerComb
             --row;
         }
     }
-
-    if (noLinesCleared)
-    {
-        if (managerCombo->getCombo() >= 2)
-        {
-            managerScore->increaseScore(100 * managerCombo->getCombo() * managerCombo->getCombo() / 2);
-            managerCombo->resetCombo();
-            audioCombo.getSfxComboBreak().play();
-        }  
-    }
-    else
-    {
-        managerCombo->increaseCombo(1);
-    }
-
-    observerCombo->playComboSound();
-    allClearCheck(managerScore);
 }
 
 void Board::draw(sf::RenderWindow& window)
 {
     window.draw(outerRectangle);
-    window.draw(lockDelayRectangle);
-    window.draw(sprite);
+    window.draw(lockDelay.rectangle);
+    window.draw(sprite_Board);
 
-    gameOverLineSprite.setPosition(220, 25 + 30 * gameOverRow);
-    window.draw(gameOverLineSprite);
+    gameOverLine.sprite.setPosition(220, 25 + 30 * gameOverLine.row);
+    window.draw(gameOverLine.sprite);
 }
 
 bool Board::isValidPosition(std::vector<Square> nextPosition)
@@ -148,34 +138,27 @@ bool Board::isValidPosition(std::vector<Square> nextPosition)
     return true;
 }
 
+int Board::getGameOverLineRow() const
+{
+    return gameOverLine.getRow();
+}
+
+void Board::setGameOverLineRow(ManagerDifficulty* managerDifficulty)
+{
+    gameOverLine.setRow(managerDifficulty);
+}
+
 void Board::resetLockDelayRectangle()
 {
-    lockDelayRectangle.setPosition(sf::Vector2f(lockDelayRectangleStartX, lockDelayRectangleStartY));
-    lockDelayRectangle.setSize(sf::Vector2f(sprite.getLocalBounds().width, sprite.getLocalBounds().height));
+    lockDelay.resetRectangle();
 }
 
-void Board::setColor(sf::Color color)
+void Board::setLockDelayRectangle(float t, float currentValue)
 {
-    lockDelayRectangle.setFillColor(color);
+    lockDelay.setRectangle(t, currentValue);
 }
 
-void Board::setLockDelayRectangle(float t, float currentLockDelaySizeIncreaseValue)
+void Board::setLockDelayColor(sf::Color color)
 {
-    float currentLockDelayRectangleSizeX = lockDelayRectangleStartX + t * (lockDelayRectangleEndX - lockDelayRectangleStartX);
-    float currentLockDelayRectangleSizeY = lockDelayRectangleStartY + t * (lockDelayRectangleEndY - lockDelayRectangleStartY);
-
-    lockDelayRectangle.setSize(sf::Vector2f(sprite.getLocalBounds().width + currentLockDelaySizeIncreaseValue,
-        sprite.getLocalBounds().height + currentLockDelaySizeIncreaseValue));
-    lockDelayRectangle.setPosition(currentLockDelayRectangleSizeX, currentLockDelayRectangleSizeY);
-}
-
-void Board::setGameOverRowBasedOnTime(ManagerDifficulty* managerDifficulty)
-{
-    switch (managerDifficulty->getTimeDifficulty())
-    {
-    case 2: { setGameOverRow(3); break; }
-    case 3: { setGameOverRow(4); break; }
-    case 4: { setGameOverRow(5); break; }
-    case 5: { setGameOverRow(6); break; }
-    }
+    lockDelay.setColor(color);
 }

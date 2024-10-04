@@ -161,6 +161,7 @@
     <ClCompile Include="board.cpp" />
     <ClCompile Include="game_time.cpp" />
     <ClCompile Include="held_tetromino.cpp" />
+    <ClCompile Include="lock_delay.cpp" />
     <ClCompile Include="manager_combo.cpp" />
     <ClCompile Include="manager_difficulty.cpp" />
     <ClCompile Include="observer_combo.cpp" />
@@ -183,6 +184,7 @@
     <ClInclude Include="board.h" />
     <ClInclude Include="game_time.h" />
     <ClInclude Include="held_tetromino.h" />
+    <ClInclude Include="lock_delay.h" />
     <ClInclude Include="manager_combo.h" />
     <ClInclude Include="manager_difficulty.h" />
     <ClInclude Include="observer.h" />

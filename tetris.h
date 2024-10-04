@@ -28,6 +28,7 @@ private:
 	// Audio
 	AudioThemeSong audioThemeSong;
 	AudioMovement audioMovement;
+	AudioCombo audioCombo;
 
 	// Tetromino
 	TetrominoDirector director;
