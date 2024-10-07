@@ -85,6 +85,10 @@ private:
 	sf::Clock clockForFallingTetromino;
 	float tetrominoDropDelay;
 
+	bool isDownKeyHeld = false;
+	sf::Clock clockForHoldingDown;
+	float tapThreshold = 0.2f;
+
 public:
 	Tetris();
 	~Tetris();

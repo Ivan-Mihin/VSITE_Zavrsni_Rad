@@ -261,13 +261,14 @@ void Tetris::handleInput(sf::Event event)
 {
     if (!isGameOver())
     {
-        if (event.type == sf::Event::KeyPressed)
+        switch (event.type)
+        {
+        case sf::Event::KeyPressed:
         {
             switch (event.key.code)
             {
             case sf::Keyboard::Left:
-            case sf::Keyboard::A:
-            {        
+            {
                 CommandMoveLeft* commandMoveLeft = new CommandMoveLeft(fallingTetromino);
                 std::vector<Square> nextPosition;
                 nextPosition = fallingTetromino->getSquares();
@@ -292,7 +293,6 @@ void Tetris::handleInput(sf::Event event)
                 break;
             }
             case sf::Keyboard::Right:
-            case sf::Keyboard::D:
             {
                 CommandMoveRight* commandMoveRight = new CommandMoveRight(fallingTetromino);
                 std::vector<Square> nextPosition;
@@ -318,7 +318,6 @@ void Tetris::handleInput(sf::Event event)
                 break;
             }
             case sf::Keyboard::Up:
-            case sf::Keyboard::W:
             {
                 Tetromino* temporaryTetromino = new Tetromino(*fallingTetromino);
                 CommandRotate* temporaryCommandRotate = new CommandRotate(temporaryTetromino);
@@ -337,53 +336,13 @@ void Tetris::handleInput(sf::Event event)
                 break;
             }
             case sf::Keyboard::Down:
-            case sf::Keyboard::S:
             {
-                CommandHardDrop* commandHardDrop = new CommandHardDrop(fallingTetromino, &board);
-                commandHardDrop->execute();
-
-                if (!isLockDelayActive)
+                if (!isDownKeyHeld)
                 {
-                    lockDelayClock.restart();
-                    isLockDelayActive = true;
-                }
-                else
-                {
-                    if (lockDelayClock.getElapsedTime().asSeconds() >= lockDelayDuration)
-                    {
-                        lockTetromino();
-                        lockDelayRectangleReset();
-
-                        if (isGameOver())
-                        {
-                            gameOver = true;
-                        }
-                        else
-                        {
-                            board.clearFullLines(&managerScore);
-
-                            if (board.noLinesCleared)
-                            {
-                                if (managerCombo.getCombo() >= 2)
-                                {
-                                    managerScore.increaseScore(100 * managerCombo.getCombo() * managerCombo.getCombo() / 2);
-                                    managerCombo.resetCombo();
-                                    audioCombo.getSfxComboBreak().play();
-                                }
-                            }
-                            else
-                            {
-                                managerCombo.increaseCombo(1);
-                            }
-
-                            observerCombo.playComboSound();
-                            board.allClearCheck(&managerScore);
-                            resetFallingTetromino();
-                        }
-                    }
+                    isDownKeyHeld = true;
+                    clockForHoldingDown.restart();
                 }
 
-                delete commandHardDrop;
                 break;
             }
             case sf::Keyboard::Space:
@@ -438,6 +397,75 @@ void Tetris::handleInput(sf::Event event)
             }
             }
         }
+        }
+
+        switch (event.type)
+        {
+        case sf::Event::KeyReleased:
+        {
+            switch (event.key.code)
+            {
+            case sf::Keyboard::Left:
+            {
+                break;
+            }
+            case sf::Keyboard::Right:
+            {
+                break;
+            }
+            case sf::Keyboard::Up:
+            {
+                break;
+            }
+            case sf::Keyboard::Down:
+            {
+                isDownKeyHeld = false;
+
+                if (clockForHoldingDown.getElapsedTime().asSeconds() < tapThreshold)
+                {
+                    CommandHardDrop* commandHardDrop = new CommandHardDrop(fallingTetromino, &board);
+                    commandHardDrop->execute();
+                    lockTetromino();
+
+                    if (isGameOver())
+                    {
+                        gameOver = true;
+                    }
+                    else
+                    {
+                        board.clearFullLines(&managerScore);
+
+                        if (board.noLinesCleared)
+                        {
+                            if (managerCombo.getCombo() >= 2)
+                            {
+                                managerScore.increaseScore(100 * managerCombo.getCombo() * managerCombo.getCombo() / 2);
+                                managerCombo.resetCombo();
+                                audioCombo.getSfxComboBreak().play();
+                            }
+                        }
+                        else
+                        {
+                            managerCombo.increaseCombo(1);
+                        }
+
+                        observerCombo.playComboSound();
+                        board.allClearCheck(&managerScore);
+                        resetFallingTetromino();
+                    }
+
+                    delete commandHardDrop;
+                }
+
+                break;
+            }
+            case sf::Keyboard::Space:
+            {
+                break;
+            }
+            }
+        }
+        }
     }
 }
 
@@ -461,6 +489,18 @@ void Tetris::update(float deltaTime)
             {
                 ghostTetromino->getSquares()[j].setY(ghostTetromino->getSquares()[j].getY() - 1);
             }
+        }
+
+        if (isDownKeyHeld)
+        {
+            if (clockForHoldingDown.getElapsedTime().asSeconds() > tapThreshold)
+            {
+                tetrominoDropDelay = 0.05;
+            }
+        }
+        else
+        {
+            tetrominoDropDelay = 0.5;
         }
 
         if (clockForFallingTetromino.getElapsedTime().asSeconds() >= tetrominoDropDelay)
