@@ -29,9 +29,9 @@ public:
 	bool isTetrominoHeld;
 
 	void draw(sf::RenderWindow& window);
-	void drawNoHeldTetrominoText();
 	Tetromino* getTetromino();
 	void setTetromino(Tetromino* tetromino);
+	void showNoHeldTetrominoText();
 
 	void resetLockDelayRectangle();
 	void setLockDelayRectangle(float t, float currentValue);

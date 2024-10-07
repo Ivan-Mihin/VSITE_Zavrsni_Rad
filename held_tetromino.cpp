@@ -64,6 +64,7 @@ void HeldTetromino::draw(sf::RenderWindow& window)
     window.draw(textLabelInnerRectangle);
     window.draw(tetrominoInnerRectangle);
     window.draw(textLabel);
+
     if (!isTetrominoHeld)
     {
         window.draw(noHeldTetromino);
@@ -105,15 +106,6 @@ void HeldTetromino::draw(sf::RenderWindow& window)
     }
 }
 
-void HeldTetromino::drawNoHeldTetrominoText()
-{
-    sf::Time elapsed = clock.getElapsedTime();
-    float time = elapsed.asSeconds();
-    float intensity = (std::sin(time * 2.0f) + 1.0f) / 2.0f * 230.0f + 25.0f;
-    sf::Color color(intensity, intensity, intensity);
-    noHeldTetromino.setFillColor(color);
-}
-
 Tetromino* HeldTetromino::getTetromino()
 {
     return tetromino;
@@ -127,6 +119,15 @@ void HeldTetromino::setTetromino(Tetromino* tetromino)
     }
 
     this->tetromino = tetromino;
+}
+
+void HeldTetromino::showNoHeldTetrominoText()
+{
+    sf::Time elapsed = clock.getElapsedTime();
+    float time = elapsed.asSeconds();
+    float intensity = (std::sin(time * 2.0f) + 1.0f) / 2.0f * 230.0f + 25.0f;
+    sf::Color color(intensity, intensity, intensity);
+    noHeldTetromino.setFillColor(color);
 }
 
 void HeldTetromino::resetLockDelayRectangle()

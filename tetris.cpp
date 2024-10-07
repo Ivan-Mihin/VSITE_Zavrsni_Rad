@@ -117,6 +117,8 @@ Tetris::Tetris() : observerDifficulty(managerDifficulty)
     inventoryNextTetrominoInnerRectangleEndColor.b = 75;
 
     tetrominoDropDelay = 0.5f;
+    isDownKeyHeld = false;
+    tapThreshold = 0.2f;
 
     gameOver = false;
 }
@@ -254,6 +256,174 @@ void Tetris::setTetrominoSpeed()
     case 3: { tetrominoDropDelay = 0.3; break; }
     case 4: { tetrominoDropDelay = 0.2; break; }
     case 5: { tetrominoDropDelay = 0.1; break; }
+    }
+}
+
+void Tetris::updateDownMovement()
+{
+    if (isDownKeyHeld)
+    {
+        if (clockForHoldingDown.getElapsedTime().asSeconds() > tapThreshold)
+        {
+            tetrominoDropDelay = 0.05;
+        }
+    }
+    else
+    {
+        tetrominoDropDelay = 0.5;
+    }
+
+    if (clockForFallingTetromino.getElapsedTime().asSeconds() >= tetrominoDropDelay)
+    {
+        std::vector<Square> nextPosition;
+        nextPosition = fallingTetromino->getSquares();
+
+        for (int i = 0; i < 4; ++i)
+        {
+            nextPosition[i].setY(fallingTetromino->getSquares()[i].getY() + 1);
+        }
+
+        if (board.isValidPosition(nextPosition))
+        {
+            for (int i = 0; i < 4; ++i)
+            {
+                fallingTetromino->getSquares()[i].setY(fallingTetromino->getSquares()[i].getY() + 1);
+            }
+
+            if (isLockDelayActive)
+            {
+                lockDelayRectangleReset();
+            }
+
+            clockForFallingTetromino.restart();
+        }
+        else
+        {
+            if (!isLockDelayActive)
+            {
+                lockDelayClock.restart();
+                isLockDelayActive = true;
+            }
+            else
+            {
+                if (lockDelayClock.getElapsedTime().asSeconds() >= lockDelayDuration)
+                {
+                    lockTetromino();
+                    lockDelayRectangleReset();
+
+                    if (isGameOver())
+                    {
+                        gameOver = true;
+                    }
+                    else
+                    {
+                        board.clearFullLines(&managerScore);
+
+                        if (board.noLinesCleared)
+                        {
+                            if (managerCombo.getCombo() >= 2)
+                            {
+                                managerScore.increaseScore(100 * managerCombo.getCombo() * managerCombo.getCombo() / 2);
+                                managerCombo.resetCombo();
+                                audioCombo.getSfxComboBreak().play();
+                            }
+                        }
+                        else
+                        {
+                            managerCombo.increaseCombo(1);
+                        }
+
+                        observerCombo.playComboSound();
+                        board.allClearCheck(&managerScore);
+                        resetFallingTetromino();
+                    }
+                }
+            }
+        }
+    }
+}
+
+void Tetris::updateGhostTetrominoPosition()
+{
+    ghostTetromino->setSquares(fallingTetromino->getSquares());
+
+    for (int i = 0; i < 4; ++i)
+    {
+        while (board.isValidPosition(ghostTetromino->getSquares()))
+        {
+            for (int i = 0; i < 4; ++i)
+            {
+                ghostTetromino->getSquares()[i].setY(ghostTetromino->getSquares()[i].getY() + 1);
+            }
+        }
+
+        for (int j = 0; j < 4; ++j)
+        {
+            ghostTetromino->getSquares()[j].setY(ghostTetromino->getSquares()[j].getY() - 1);
+        }
+    }
+}
+
+void Tetris::updateLockDelay()
+{
+    if (isLockDelayActive)
+    {
+        float elapsed = lockDelayClock.getElapsedTime().asSeconds();
+
+        if (elapsed <= lockDelayDuration)
+        {
+            float t = (1 - std::cos((elapsed / lockDelayDuration) * 3.14159265358979323846)) / 2;
+
+            float currentLockDelayInventoryTextLabelRectangleSizeX = lockDelayInventoryTextLabelRectangleStartX + t * (lockDelayInventoryTextLabelRectangleEndX - lockDelayInventoryTextLabelRectangleStartX);
+            float currentLockDelayInventoryTextLabelRectangleSizeY = lockDelayInventoryTextLabelRectangleStartY + t * (lockDelayInventoryTextLabelRectangleEndY - lockDelayInventoryTextLabelRectangleStartY);
+
+            float currentLockDelayInventoryRectangleSizeX = lockDelayInventoryRectangleStartX + t * (lockDelayInventoryRectangleEndX - lockDelayInventoryRectangleStartX);
+            float currentLockDelayInventoryRectangleSizeY = lockDelayInventoryRectangleStartY + t * (lockDelayInventoryRectangleEndY - lockDelayInventoryRectangleStartY);
+
+            float currentLockDelaySizeIncreaseValue = lockDelaySizeIncreaseStartValue + t * (lockDelaySizeIncreaseEndValue - lockDelaySizeIncreaseStartValue);
+
+            board.setLockDelayRectangle(t, currentLockDelaySizeIncreaseValue);
+            observerScore.setLockDelayRectangle(t, currentLockDelaySizeIncreaseValue);
+            heldTetromino->setLockDelayRectangle(t, currentLockDelaySizeIncreaseValue);
+            observerDifficulty.setLockDelayRectangle(t, currentLockDelaySizeIncreaseValue);
+            observerCombo.setLockDelayRectangle(t, currentLockDelaySizeIncreaseValue);
+            gameTime.setLockDelayRectangle(t, currentLockDelaySizeIncreaseValue);
+
+            lockDelayInventoryTextLabelRectangle.setSize(sf::Vector2f(inventoryTextLabelInnerRectangle.getLocalBounds().width + currentLockDelaySizeIncreaseValue,
+                inventoryTextLabelInnerRectangle.getLocalBounds().height + currentLockDelaySizeIncreaseValue));
+            lockDelayInventoryTextLabelRectangle.setPosition(currentLockDelayInventoryTextLabelRectangleSizeX, currentLockDelayInventoryTextLabelRectangleSizeY);
+
+            lockDelayInventoryRectangle.setSize(sf::Vector2f(inventoryNextTetrominoInnerRectangle.getLocalBounds().width + currentLockDelaySizeIncreaseValue,
+                inventoryNextTetrominoInnerRectangle.getLocalBounds().height + inventoryInnerRectangle.getLocalBounds().height + currentLockDelaySizeIncreaseValue));
+            lockDelayInventoryRectangle.setPosition(currentLockDelayInventoryRectangleSizeX, currentLockDelayInventoryRectangleSizeY);
+        }
+        else
+        {
+            isLockDelayActive = false;
+        }
+    }
+}
+
+void Tetris::updateNextTetrominoColor()
+{
+    float elapsed = colorClock.getElapsedTime().asSeconds();
+    float progress = fmod(elapsed, colorChangeCycle) / colorChangeCycle;
+
+    if (progress < 0.5f)
+    {
+        float t = progress * 2;
+        sf::Uint8 r = static_cast<sf::Uint8>(inventoryNextTetrominoInnerRectangleStartColor.r + t * (inventoryNextTetrominoInnerRectangleEndColor.r - inventoryNextTetrominoInnerRectangleStartColor.r));
+        sf::Uint8 g = static_cast<sf::Uint8>(inventoryNextTetrominoInnerRectangleStartColor.g + t * (inventoryNextTetrominoInnerRectangleEndColor.g - inventoryNextTetrominoInnerRectangleStartColor.g));
+        sf::Uint8 b = static_cast<sf::Uint8>(inventoryNextTetrominoInnerRectangleStartColor.b + t * (inventoryNextTetrominoInnerRectangleEndColor.b - inventoryNextTetrominoInnerRectangleStartColor.b));
+        inventoryNextTetrominoInnerRectangle.setFillColor(sf::Color(r, g, b));
+    }
+    else
+    {
+        float t = (progress - 0.5f) * 2;
+        sf::Uint8 r = static_cast<sf::Uint8>(inventoryNextTetrominoInnerRectangleEndColor.r - t * (inventoryNextTetrominoInnerRectangleEndColor.r - inventoryNextTetrominoInnerRectangleStartColor.r));
+        sf::Uint8 g = static_cast<sf::Uint8>(inventoryNextTetrominoInnerRectangleEndColor.g - t * (inventoryNextTetrominoInnerRectangleEndColor.g - inventoryNextTetrominoInnerRectangleStartColor.g));
+        sf::Uint8 b = static_cast<sf::Uint8>(inventoryNextTetrominoInnerRectangleEndColor.b - t * (inventoryNextTetrominoInnerRectangleEndColor.b - inventoryNextTetrominoInnerRectangleStartColor.b));
+        inventoryNextTetrominoInnerRectangle.setFillColor(sf::Color(r, g, b));
     }
 }
 
@@ -473,171 +643,21 @@ void Tetris::update(float deltaTime)
 {
     if (!isGameOver())
     {
-        ghostTetromino->setSquares(fallingTetromino->getSquares());
+        updateGhostTetrominoPosition();
+        updateDownMovement();
+        updateLockDelay();
+        updateNextTetrominoColor();
 
-        for (int i = 0; i < 4; ++i)
-        {
-            while (board.isValidPosition(ghostTetromino->getSquares()))
-            {
-                for (int i = 0; i < 4; ++i)
-                {
-                    ghostTetromino->getSquares()[i].setY(ghostTetromino->getSquares()[i].getY() + 1);
-                }
-            }
+        // Shows "Empty" in held tetromino's window in no tetromino is held
+        if (!heldTetromino->isTetrominoHeld) heldTetromino->showNoHeldTetrominoText();
 
-            for (int j = 0; j < 4; ++j)
-            {
-                ghostTetromino->getSquares()[j].setY(ghostTetromino->getSquares()[j].getY() - 1);
-            }
-        }
-
-        if (isDownKeyHeld)
-        {
-            if (clockForHoldingDown.getElapsedTime().asSeconds() > tapThreshold)
-            {
-                tetrominoDropDelay = 0.05;
-            }
-        }
-        else
-        {
-            tetrominoDropDelay = 0.5;
-        }
-
-        if (clockForFallingTetromino.getElapsedTime().asSeconds() >= tetrominoDropDelay)
-        {
-            std::vector<Square> nextPosition;
-            nextPosition = fallingTetromino->getSquares();
-
-            for (int i = 0; i < 4; ++i)
-            {
-                nextPosition[i].setY(fallingTetromino->getSquares()[i].getY() + 1);
-            }
-
-            if (board.isValidPosition(nextPosition))
-            {
-                for (int i = 0; i < 4; ++i)
-                {
-                    fallingTetromino->getSquares()[i].setY(fallingTetromino->getSquares()[i].getY() + 1);
-                }
-
-                if (isLockDelayActive)
-                {
-                    lockDelayRectangleReset();
-                }
-
-                clockForFallingTetromino.restart();
-            }
-            else
-            {
-                if (!isLockDelayActive)
-                {
-                    lockDelayClock.restart();
-                    isLockDelayActive = true;
-                }
-                else
-                {
-                    if (lockDelayClock.getElapsedTime().asSeconds() >= lockDelayDuration)
-                    {
-                        lockTetromino();
-                        lockDelayRectangleReset();
-
-                        if (isGameOver())
-                        {
-                            gameOver = true;
-                        }
-                        else
-                        {
-                            board.clearFullLines(&managerScore);
-
-                            if (board.noLinesCleared)
-                            {
-                                if (managerCombo.getCombo() >= 2)
-                                {
-                                    managerScore.increaseScore(100 * managerCombo.getCombo() * managerCombo.getCombo() / 2);
-                                    managerCombo.resetCombo();
-                                    audioCombo.getSfxComboBreak().play();
-                                }
-                            }
-                            else
-                            {
-                                managerCombo.increaseCombo(1);
-                            }
-
-                            observerCombo.playComboSound();
-                            board.allClearCheck(&managerScore);
-                            resetFallingTetromino();
-                        }
-                    }
-                }
-            }
-        }
-
-        if (isLockDelayActive)
-        {
-            float elapsed = lockDelayClock.getElapsedTime().asSeconds();
-
-            if (elapsed <= lockDelayDuration)
-            {
-                float t = (1 - std::cos((elapsed / lockDelayDuration) * 3.14159265358979323846)) / 2;
-
-                float currentLockDelayInventoryTextLabelRectangleSizeX = lockDelayInventoryTextLabelRectangleStartX + t * (lockDelayInventoryTextLabelRectangleEndX - lockDelayInventoryTextLabelRectangleStartX);
-                float currentLockDelayInventoryTextLabelRectangleSizeY = lockDelayInventoryTextLabelRectangleStartY + t * (lockDelayInventoryTextLabelRectangleEndY - lockDelayInventoryTextLabelRectangleStartY);
-
-                float currentLockDelayInventoryRectangleSizeX = lockDelayInventoryRectangleStartX + t * (lockDelayInventoryRectangleEndX - lockDelayInventoryRectangleStartX);
-                float currentLockDelayInventoryRectangleSizeY = lockDelayInventoryRectangleStartY + t * (lockDelayInventoryRectangleEndY - lockDelayInventoryRectangleStartY);
-
-                float currentLockDelaySizeIncreaseValue = lockDelaySizeIncreaseStartValue + t * (lockDelaySizeIncreaseEndValue - lockDelaySizeIncreaseStartValue);
-
-                board.setLockDelayRectangle(t, currentLockDelaySizeIncreaseValue);
-                observerScore.setLockDelayRectangle(t, currentLockDelaySizeIncreaseValue);
-                heldTetromino->setLockDelayRectangle(t, currentLockDelaySizeIncreaseValue);
-                observerDifficulty.setLockDelayRectangle(t, currentLockDelaySizeIncreaseValue);
-                observerCombo.setLockDelayRectangle(t, currentLockDelaySizeIncreaseValue);
-                gameTime.setLockDelayRectangle(t, currentLockDelaySizeIncreaseValue);
-
-                lockDelayInventoryTextLabelRectangle.setSize(sf::Vector2f(inventoryTextLabelInnerRectangle.getLocalBounds().width + currentLockDelaySizeIncreaseValue,
-                    inventoryTextLabelInnerRectangle.getLocalBounds().height + currentLockDelaySizeIncreaseValue));
-                lockDelayInventoryTextLabelRectangle.setPosition(currentLockDelayInventoryTextLabelRectangleSizeX, currentLockDelayInventoryTextLabelRectangleSizeY);
-
-                lockDelayInventoryRectangle.setSize(sf::Vector2f(inventoryNextTetrominoInnerRectangle.getLocalBounds().width + currentLockDelaySizeIncreaseValue,
-                    inventoryNextTetrominoInnerRectangle.getLocalBounds().height + inventoryInnerRectangle.getLocalBounds().height + currentLockDelaySizeIncreaseValue));
-                lockDelayInventoryRectangle.setPosition(currentLockDelayInventoryRectangleSizeX, currentLockDelayInventoryRectangleSizeY);
-            }
-            else
-            {
-                isLockDelayActive = false;
-            }
-        }
-
-        float elapsed = colorClock.getElapsedTime().asSeconds();
-        float progress = fmod(elapsed, colorChangeCycle) / colorChangeCycle;
-
-        if (progress < 0.5f)
-        {
-            float t = progress * 2;
-            sf::Uint8 r = static_cast<sf::Uint8>(inventoryNextTetrominoInnerRectangleStartColor.r + t * (inventoryNextTetrominoInnerRectangleEndColor.r - inventoryNextTetrominoInnerRectangleStartColor.r));
-            sf::Uint8 g = static_cast<sf::Uint8>(inventoryNextTetrominoInnerRectangleStartColor.g + t * (inventoryNextTetrominoInnerRectangleEndColor.g - inventoryNextTetrominoInnerRectangleStartColor.g));
-            sf::Uint8 b = static_cast<sf::Uint8>(inventoryNextTetrominoInnerRectangleStartColor.b + t * (inventoryNextTetrominoInnerRectangleEndColor.b - inventoryNextTetrominoInnerRectangleStartColor.b));
-            inventoryNextTetrominoInnerRectangle.setFillColor(sf::Color(r, g, b));
-        }
-        else
-        {
-            float t = (progress - 0.5f) * 2;
-            sf::Uint8 r = static_cast<sf::Uint8>(inventoryNextTetrominoInnerRectangleEndColor.r - t * (inventoryNextTetrominoInnerRectangleEndColor.r - inventoryNextTetrominoInnerRectangleStartColor.r));
-            sf::Uint8 g = static_cast<sf::Uint8>(inventoryNextTetrominoInnerRectangleEndColor.g - t * (inventoryNextTetrominoInnerRectangleEndColor.g - inventoryNextTetrominoInnerRectangleStartColor.g));
-            sf::Uint8 b = static_cast<sf::Uint8>(inventoryNextTetrominoInnerRectangleEndColor.b - t * (inventoryNextTetrominoInnerRectangleEndColor.b - inventoryNextTetrominoInnerRectangleStartColor.b));
-            inventoryNextTetrominoInnerRectangle.setFillColor(sf::Color(r, g, b));
-        }
-
-        if (!heldTetromino->isTetrominoHeld)
-        {
-            heldTetromino->drawNoHeldTetrominoText();
-        }
-
+        // Sets current time as string and centres it
         gameTime.setTimeAsString();
 
+        // Changes falling tetromino speed based on elapsed time
         setTetrominoSpeed();
 
+        // Updates difficulty based on elapsed time
         if (gameTime.didOneSecondElapse())
         {
             observerDifficulty.updateDifficultyBasedOnTime(gameTime.getTimeAsFloat());
